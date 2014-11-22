@@ -1,0 +1,14 @@
+{
+    "plugins": [
+        "disqus",
+        "richquotes"
+    ],
+    "pluginsConfig": {
+        "disqus": {
+            "shortName": "foundblog2"
+        },
+        "richquotes": {
+            "todos": true
+        }
+    }
+}

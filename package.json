@@ -1,0 +1,16 @@
+{
+    "name": "foundblog",
+    "version": "1.0.0",
+    "description": "FoundBlog 따라하기",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LuciusChoi/foundblog.git"
+
+    },
+    "author": "LuciusChoi <lucius.choi@gmail.com>",
+    "dependencies": {
+      "gitbook-plugin-autocover": "0.0.5",
+      "gitbook-plugin-disqus": "0.0.1",
+      "gitbook-plugin-richquotes": "0.0.3"
+    }
+}
