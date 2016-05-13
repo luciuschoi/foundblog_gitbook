@@ -97,6 +97,7 @@ Running via Spring preloader in process 93974
 ```ruby
 Rails.application.routes.draw do
   root 'home#index'
+  # get 'home/index'
 end
 ```
 
