@@ -161,7 +161,7 @@
 
 `devise_layout.html.erb`와 `general_layout.html.erb`에서와 같이 `flash` 메시지를 표시하기 위해 `app/helpers/application_helper.rb` 파일을 열고 아래와 같이 헬퍼 메소드를 추가한다. 레일스는 이러한 헬퍼 메소드를 작성해서 뷰 파일을 리팩토링할 수 있도록 지원한다. 전체 어플리케이션내의 모든 뷰 파일에서 사용하고자 할 때는 헬퍼 메소드를 `app/helpers/application_helper.rb` 파일에 정의해 두면 된다
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 module ApplicationHelper
   def bootstrap_class_for(flash_type)
     case flash_type
@@ -190,7 +190,7 @@ module ApplicationHelper
     user.roles.map(&:name).join(', ').titleize
   end
 end
-```
+{%endace%}
 
 그리고 `app/views/shared/` 디렉토리에 `partial` 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다. 이 때 `Foundation`의 커스텀 data 속성(data-alert)과 클래스(alert-box radius...)를 사용한다.
 
