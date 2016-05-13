@@ -2,7 +2,9 @@
 
 [`foundation-rails`](https://github.com/zurb/foundation-rails)젬은   `Foundation`을 레일스에서 사용하기 편리하게 만들어 놓은 젬이다. 현재 이 젬은 `Foundation`의 최선버전인 `5`를 지원한다.
 
-> **Info** `Sublime Text Editor`에서 [`foundation-5-sublime-snippets`](https://github.com/zurb/foundation-5-sublime-snippets) 패키지를 사용하면 `Foundation`에서 사용하는 전용 컴포넌트를 손쉽게 추가할 수 있어 도움이 된다.
+> #### Note::노트
+> 
+> `Sublime Text Editor`에서 [`foundation-5-sublime-snippets`](https://github.com/zurb/foundation-5-sublime-snippets) 패키지를 사용하면 `Foundation`에서 사용하는 전용 컴포넌트를 손쉽게 추가할 수 있어 도움이 된다.
 
 이제 `Foundation 5`를 프로젝트에 추가하는 작업이 필요한다. 이것은 레일스의 `asset pipeline`에서 사용할 수 있도록 하는 조치이며 아래와 같은 명령으로 인스톨한다.
 
