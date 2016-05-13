@@ -54,6 +54,20 @@ class CreateCategories < ActiveRecord::Migration
 end
 ```
 
+{%ace edit=false, lang='ruby'%}
+class CreateCategories < ActiveRecord::Migration
+  def change
+    create_table :categories do |t|
+      t.references :user, index: true
+      t.string :name, null: false
+
+      t.timestamps
+    end
+  end
+end
+{%endace%}
+
+
 이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 만들도록 하자.
 
 ```bash
