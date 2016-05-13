@@ -126,10 +126,11 @@ config.assets.initialize_on_precompile = false
 **[5번 조치사항]**  5번 조치사항은 `devise`에서 제공해는 다양한 폼을 개발자의 의도에 맞게 수정하기 위해서 `app/views/` 디렉토리에 `devise`라는 하위디렉토리를 생성하고 관련 폼 뷰 템플릿 파일들을 생성한다.
 
 ```bash
-$ bin/rails g devise:views
+$ bin/rails g devise:views                                                                     
+Running via Spring preloader in process 94426
       invoke  Devise::Generators::SharedViewsGenerator
       create    app/views/devise/shared
-      create    app/views/devise/shared/_links.erb
+      create    app/views/devise/shared/_links.html.erb
       invoke  simple_form_for
       create    app/views/devise/confirmations
       create    app/views/devise/confirmations/new.html.erb
@@ -146,6 +147,7 @@ $ bin/rails g devise:views
       invoke  erb
       create    app/views/devise/mailer
       create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/password_change.html.erb
       create    app/views/devise/mailer/reset_password_instructions.html.erb
       create    app/views/devise/mailer/unlock_instructions.html.erb
 ```
