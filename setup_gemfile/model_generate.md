@@ -54,7 +54,7 @@ class CreateCategories < ActiveRecord::Migration
 end
 ```
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=true, lang='ruby'%}
 class CreateCategories < ActiveRecord::Migration
   def change
     create_table :categories do |t|
