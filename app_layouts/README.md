@@ -102,40 +102,40 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <nav class="top-bar" data-topbar>
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="/"><strong>Found<i>Blog</i></strong></a></h1>
-        </li>
-         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-      </ul>
-      <section class="top-bar-section">
-        <!-- Right Nav Section -->
-        <ul class="right">
-          <% if user_signed_in? %>
-          <li class="has-dropdown">
-            <a href="#"><%= current_user.email %></a>
-            <ul class="dropdown">
-              <li><%= link_to "My Profile", edit_user_registration_path %></li>
-              <li><%= link_to "Roles : " + user_roles(current_user), '#' %></li>
-              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
-            </ul>
-          </li>
-        <% else %>
-            <li><%= link_to "Sign in", new_user_session_path %></li>
-            <li><%= link_to "Sign up", new_user_registration_path %></li>
-          <% end %>
-        </ul>
-
-        <!-- Left Nav Section -->
-        <ul class="left">
-          <li><a href="/">HOME</a></li>
-          <li><%= link_to "Archives", '#' %></li>
-          <li><%= link_to "Readme", '#' %></li>
-        </ul>
-      </section>
-    </nav>
+    <div class="top-bar">
+      <div class="top-bar-title">
+        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+          <button class="menu-icon dark" type="button" data-toggle></button>
+        </span>
+        <strong>FoundblogApp</strong>
+      </div>
+      <div id="responsive-menu">
+        <div class="top-bar-left">
+          <ul class="menu">
+            <li><a href="/">HOME</a></li>
+            <li><%= link_to "Archives", '#' %></li>
+            <li><%= link_to "Readme", '#' %></li>
+          </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <% if user_signed_in? %>
+              <li>
+                <a href="#"><%= current_user.email %></a>
+                <ul class="menu vertical">
+                  <li><%= link_to "My Profile", edit_user_registration_path %></li>
+                  <li><%= link_to "Roles : " + user_roles(current_user), '#' %></li>
+                  <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
+                </ul>
+              </li>
+            <% else %>
+              <li><%= link_to "Sign in", new_user_session_path %></li>
+              <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <div id="blog-banner">
       <%= image_tag 'blog_header.png', width: '100%' %>
@@ -145,7 +145,7 @@
 
     <div id='footer'>
       <div class='row'>
-      <p>Copyright&reg; 2014, FoundBlog, ROR Lab., All rights reserved.</p>
+      <p>Copyright&reg; 2016, FoundblogApp, RORLAB, All rights reserved.</p>
       </div>
     </div>
 
