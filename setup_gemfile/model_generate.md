@@ -53,6 +53,7 @@ class CreatePosts < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+    add_foreign_key :posts, :catetories, column: category_id
   end
 end
 ```
@@ -61,8 +62,9 @@ end
 
 ```bash
 $ bin/rails g resource Comment user:references post:references body:text
+Running via Spring preloader in process 96900
       invoke  active_record
-      create    db/migrate/20140609094246_create_comments.rb
+      create    db/migrate/20160513085339_create_comments.rb
       create    app/models/comment.rb
       invoke    test_unit
       create      test/models/comment_test.rb
@@ -76,12 +78,11 @@ $ bin/rails g resource Comment user:references post:references body:text
       invoke    helper
       create      app/helpers/comments_helper.rb
       invoke      test_unit
-      create        test/helpers/comments_helper_test.rb
       invoke    assets
       invoke      coffee
-      create        app/assets/javascripts/comments.js.coffee
+      create        app/assets/javascripts/comments.coffee
       invoke      scss
-      create        app/assets/stylesheets/comments.css.scss
+      create        app/assets/stylesheets/comments.scss
       invoke  resource_route
        route    resources :comments
 ```
@@ -93,8 +94,9 @@ $ bin/rails g resource Comment user:references post:references body:text
 
 ```bash
 $ bin/rails g scaffold Category user:references name
+Running via Spring preloader in process 97019
       invoke  active_record
-      create    db/migrate/20140609053323_create_categories.rb
+      create    db/migrate/20160513085505_create_categories.rb
       create    app/models/category.rb
       invoke    test_unit
       create      test/models/category_test.rb
@@ -115,20 +117,19 @@ $ bin/rails g scaffold Category user:references name
       invoke    helper
       create      app/helpers/categories_helper.rb
       invoke      test_unit
-      create        test/helpers/categories_helper_test.rb
       invoke    jbuilder
       create      app/views/categories/index.json.jbuilder
       create      app/views/categories/show.json.jbuilder
       invoke  assets
       invoke    coffee
-      create      app/assets/javascripts/categories.js.coffee
+      create      app/assets/javascripts/categories.coffee
       invoke    scss
-      create      app/assets/stylesheets/categories.css.scss
+      create      app/assets/stylesheets/categories.scss
       invoke  scss
-   identical    app/assets/stylesheets/scaffolds.css.scss
+   identical    app/assets/stylesheets/scaffolds.scss
 ```
 
-그리고 `db/migrate/20140609053323_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정하고,
+그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정하고,
 
 ```ruby
 class CreateCategories < ActiveRecord::Migration
