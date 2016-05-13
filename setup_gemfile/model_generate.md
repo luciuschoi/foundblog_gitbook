@@ -192,4 +192,4 @@ class PostsController < ApplicationController
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제2.5장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.5장
