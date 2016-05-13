@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
      :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  def confirm!
+  def confirm
     super
     add_role :user
   end
