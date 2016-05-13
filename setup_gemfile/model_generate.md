@@ -1,6 +1,6 @@
 # Category/Post/Comment 모델의 생성
 
-이제 추가로 `Category` 리소스를 생성하고 `Post` 모델과 `has_many`, `belongs_to` 메소드로 관계선언을 한다.
+먼저 `Category` 리소스를 생성하고 다음에 생성할 `Post` 모델과는 `has_many`, `belongs_to` 메소드로 관계선언을 할 것이다.
 
 ```bash
 $ bin/rails g scaffold Category user:references name
@@ -39,7 +39,7 @@ Running via Spring preloader in process 97019
    identical    app/assets/stylesheets/scaffolds.scss
 ```
 
-그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정하고,
+그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정한다.
 
 ```ruby
 class CreateCategories < ActiveRecord::Migration
@@ -53,7 +53,6 @@ class CreateCategories < ActiveRecord::Migration
   end
 end
 ```
-
 
 이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 만들도록 하자.
 
@@ -112,7 +111,7 @@ class CreatePosts < ActiveRecord::Migration
 end
 ```
 
-글에 대한 댓글을 달기 위해서 `Comment` 리소스를 생성한다. 이때는 `resource` 제너레이터를 사용한다. `scaffold` 제너레이터와의 차이점은 뷰 템플릿 파일과 관련 레이아웃과 css 파일을 생성하지 않는다는 것이다. 이에 대한 자세한 내용은 [`여기`](http://www.question-defense.com/2009/12/29/rails-resource-vs-rails-scaffold)를 참고하기 바란다.
+다음으로, 글에 대한 댓글을 달기 위해서 `Comment` 리소스를 생성한다. 이때는 `resource` 제너레이터를 사용한다. `scaffold` 제너레이터와의 차이점은 뷰 템플릿 파일과 관련 레이아웃과 css 파일을 생성하지 않는다는 것이다. 이에 대한 자세한 내용은 [`여기`](http://www.question-defense.com/2009/12/29/rails-resource-vs-rails-scaffold)를 참고하기 바란다.
 
 ```bash
 $ bin/rails g resource Comment user:references post:references body:text
@@ -143,8 +142,7 @@ Running via Spring preloader in process 96900
 
 `Post` 모델 클래스에서 `has_many :comments, dependent: :destroy`를 추가한다. 그러나 `User` 모델 클래스에서 `has_many :comments, dependent: :destroy` 관계선언은 생략해도 된다. 왜냐하면 `Post` 모델 객체가 삭제될 때 이미 `Comment` 객체들도 삭제될 것이기 때문이다.
 
-
-이제 이 두 모델에서 대해서 마이그레이션 작업을 수행한다.
+이제 지금까지 생성한 모델에서 대해서 마이그레이션 작업을 수행한다.
 
 ```bash
 $ bin/rake db:migrate
