@@ -1,15 +1,15 @@
 {
     "plugins": [
         "disqus",
-        "callouts"
+        "callouts",
+        "ace"
     ],
     "pluginsConfig": {
         "disqus": {
             "shortName": "foundblog2"
         },
-        "callouts":
-        {
+        "callouts": {
             "showTypeInHeader": false
-        }        
+        }
     }
 }
