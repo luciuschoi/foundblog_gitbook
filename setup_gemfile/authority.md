@@ -97,7 +97,7 @@ class CommentAuthorizer < ApplicationAuthorizer
 end
 ```
 
-`Category` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/category_authroizer.rb` 파일을 생성하고 아래와 같이 작성한다.
+`Category` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/category_authroizer.rb` 파일을 생성하고 아래와 같이 작성한다. `Category` 모델은 `admin` 권한이 있는 경우에만 객체를 생성/수정/삭제할 수 있도록 한다. 그러나 이미 디폴트 상태에서 `admin` 권한만이 모든 모델에 대한 권한을 가지기 때문에 별도로 권한을 지정할 필요는 없다. 따라서 `CategoryAuthroizer` 클래스는 작성하지 않아도 된다.
 
 ```ruby
 class CategoryAuthorizer < ApplicationAuthorizer
@@ -224,7 +224,7 @@ end
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제2.6장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.6장
 
 ---
 
