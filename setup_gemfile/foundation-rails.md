@@ -112,7 +112,7 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제2.1장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.1장
 
 ---
 
