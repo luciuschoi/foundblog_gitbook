@@ -40,19 +40,20 @@ is user.rb), rolify method has been inserted to provide rolify methods.
 이제 아래와 같이 마이그레이션 작업을 진행한다.
 
 ```bash
-$ bin/rake db:migrate
-== 20140609050742 RolifyCreateRoles: migrating ================================
+$ bin/rake db:migrate                                                                           
+Running via Spring preloader in process 94895
+== 20160513065619 RolifyCreateRoles: migrating ================================
 -- create_table(:roles)
-   -> 0.0042s
+   -> 0.0287s
 -- create_table(:users_roles, {:id=>false})
-   -> 0.0003s
+   -> 0.0095s
 -- add_index(:roles, :name)
-   -> 0.0005s
+   -> 0.0147s
 -- add_index(:roles, [:name, :resource_type, :resource_id])
-   -> 0.0006s
+   -> 0.0134s
 -- add_index(:users_roles, [:user_id, :role_id])
-   -> 0.0003s
-== 20140609050742 RolifyCreateRoles: migrated (0.0061s) =======================
+   -> 0.0171s
+== 20160513065619 RolifyCreateRoles: migrated (0.0838s) =======================
 ```
 
 이 프로젝트에서 정의할 `Role`은 크게 세가지로 구분해 볼 수 있다.
