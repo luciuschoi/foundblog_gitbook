@@ -1,4 +1,4 @@
-# FoundBlog 따라하기 (v1.0.1)
+# FoundBlog 따라하기 (v2.0.0)
 
 
 
