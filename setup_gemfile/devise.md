@@ -10,8 +10,44 @@
 
 ```bash
 $ bin/rails g devise:install
+Running via Spring preloader in process 93749
       create  config/initializers/devise.rb
       create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root to: "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================
 ```
 
 실행 결과 안내문에서 5가지의 추가조치 사항을 알려주는데, 이중에서 1, 2, 5번 내용을 반영하도록 한다.
@@ -37,7 +73,8 @@ config.action_mailer.delivery_method = :letter_opener
 **[2번 조치사항]** `home` 컨트롤러 및 `index` 액션을 추가해 주어야 하며 아래와 같이 실행한 후,
 
 ```bash
-$ bin/rails g controller home index
+$ bin/rails g controller home index                                                                             master
+Running via Spring preloader in process 93974
       create  app/controllers/home_controller.rb
        route  get 'home/index'
       invoke  erb
@@ -48,12 +85,11 @@ $ bin/rails g controller home index
       invoke  helper
       create    app/helpers/home_helper.rb
       invoke    test_unit
-      create      test/helpers/home_helper_test.rb
       invoke  assets
       invoke    coffee
-      create      app/assets/javascripts/home.js.coffee
+      create      app/assets/javascripts/home.coffee
       invoke    scss
-      create      app/assets/stylesheets/home.css.scss
+      create      app/assets/stylesheets/home.scss
 ```
 
 `config/routes.rb` 파일에 `root`를 지정한다.
