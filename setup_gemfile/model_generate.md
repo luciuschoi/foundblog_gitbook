@@ -2,7 +2,7 @@
 
 먼저 `Category` 리소스를 생성하고 다음에 생성할 `Post` 모델과는 `has_many`, `belongs_to` 메소드로 관계선언을 할 것이다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/rails g scaffold Category user:references name
 Running via Spring preloader in process 97019
       invoke  active_record
@@ -37,22 +37,9 @@ Running via Spring preloader in process 97019
       create      app/assets/stylesheets/categories.scss
       invoke  scss
    identical    app/assets/stylesheets/scaffolds.scss
-```
+{%endace%}
 
 그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정한다.
-
-```ruby
-class CreateCategories < ActiveRecord::Migration
-  def change
-    create_table :categories do |t|
-      t.references :user, index: true
-      t.string :name, null: false
-
-      t.timestamps
-    end
-  end
-end
-```
 
 {%ace edit=true, lang='ruby'%}
 class CreateCategories < ActiveRecord::Migration
