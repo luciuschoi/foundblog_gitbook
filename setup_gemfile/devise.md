@@ -107,8 +107,14 @@ end
 **[3번 조치사항]** `flash` 메시지를 어플리케이션 레이아웃 파일에 추가하기 위해서 `app/views/layouts/application.html.erb` 파일을 열고 `<body></body>` 태그 사이에 아래와 같이 임시로 작성해 둔다. 이것은 나중에 다시 구체적으로 작업을 할 예정이다.
 
 ```html
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <body>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    
+    <%= yield %>
+
+  </body>
 ```
 
 **[4번 조치사항]** 사실 4번째 조치사항은 레일스 3.2 프로젝트를 허로쿠에 배포할 경우에만 국한 된 사항이므로 여기서는 적용을 하지 않을 것이다. 그러나, 필요한 상황에서는 `config/application.rb` 파일을 열고 아래와 같이 옵션을 추가한다.
