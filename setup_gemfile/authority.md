@@ -26,7 +26,7 @@ class ApplicationAuthorizer < Authority::Authorizer
 end
 ```
 
-`authority` 젬을 사용할 때, 어플리케이션에서의 최종 "fallback" 권한 메소드는 `ApplicationAuthorizer` 클래스의 `default`라는 클래스 메소드이다. 보는 바와 같이 이 메소드의 반환값은 항상 `false`이다. 즉, 이와 같은 디폴트 상태에서는 어플리케이션 내의 모든 모델에 대해서 권한 체크 메소드(`updateable_by` 또는 `can_update?`)를 호출할 때 항상 `false` 값을 반환하여 접근권한이 없게 되고, 또한, 모델과 연결되는 컨트롤러의 모든 액션들에 대해서 `authorize_action_for`와 같은 권한체크 메소드를 호출하게 될 때 역시 `false` 값을 반환하여 접근권한이 없게 된다.
+`authority` 젬을 사용할 때, 어플리케이션에서의 최종 권한 메소드는 `ApplicationAuthorizer` 클래스의 `default` 클래스 메소드다. 이 메소드의 반환값은 항상 `false`다. 즉, 이와 같은 디폴트 상태에서는 어플리케이션 내의 모든 모델에 대해서 권한 체크 메소드(`updateable_by` 또는 `can_update?`)를 호출할 때 항상 `false` 값을 반환하여 접근권한이 없게 되고, 또한, 모델과 연결되는 컨트롤러의 모든 액션들에 대해서 `authorize_action_for`와 같은 권한체크 메소드를 호출하게 될 때 역시 `false` 값을 반환하여 접근권한이 없게 된다.
 
 언급했던 바와 같이 모델 클래스나 모델 클래스 객체에 대해서 권한체크를 할 때 뷰 파일내에서는 동사형과 형용사형의 메소드를 사용할 수 있다. 예를 들어 모델 클래스나 객체에 대해서 `update` 메소드에 대해서 권한을 물을 때 동사형인 `can_update?` 메소드나 형용사형인 `updatable_by?` 메소드 중에 아무거나 사용해도 된다. 단, 동사형의 메소드를 사용할 때는 인증용 모델인 `User` 클래스내에 `include Authority:UserAbilities`를 추가하고 형용사형의 메소드를 사용할 때는 대상 모델들의 클래스내에 `include Authority::Abilities`를 추가해야 한다.
 
