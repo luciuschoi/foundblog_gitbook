@@ -157,9 +157,10 @@ Running via Spring preloader in process 94426
 다음으로는 `devise` 제너레이터를 이용하여 `User` 모델 리소스를 생성한다.
 
 ```bash
-$ bin/rails g devise User
+$ bin/rails g devise User  
+Running via Spring preloader in process 94459
       invoke  active_record
-      create    db/migrate/20140609040948_devise_create_users.rb
+      create    db/migrate/20160513064912_devise_create_users.rb
       create    app/models/user.rb
       invoke    test_unit
       create      test/models/user_test.rb
