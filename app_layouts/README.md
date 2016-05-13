@@ -91,65 +91,66 @@
 {%ace edit=true, lang='rhtml'%}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
 
-    <title><%= content_for?(:title) ? yield(:title) : "FoundblogApp" %></title>
+  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
-  </head>
-  <body>
-    <div class="top-bar">
-      <div class="top-bar-title">
-        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
-          <button class="menu-icon dark" type="button" data-toggle></button>
-        </span>
-        <strong>FoundblogApp</strong>
-      </div>
-      <div id="responsive-menu">
-        <div class="top-bar-left">
-          <ul class="menu">
-            <li><a href="/">HOME</a></li>
-            <li><%= link_to "Archives", '#' %></li>
-            <li><%= link_to "Readme", '#' %></li>
-          </ul>
-        </div>
-        <div class="top-bar-right">
-          <ul class="dropdown menu" data-dropdown-menu>
-            <% if user_signed_in? %>
-              <li>
-                <a href="#"><%= current_user.email %></a>
-                <ul class="menu vertical">
-                  <li><%= link_to "My Profile", edit_user_registration_path %></li>
-                  <li><%= link_to "Roles : " + user_roles(current_user), '#' %></li>
-                  <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
-                </ul>
-              </li>
-            <% else %>
-              <li><%= link_to "Sign in", new_user_session_path %></li>
-              <li><%= link_to "Sign up", new_user_registration_path %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
+  <div class="top-bar" id="example-menu">
+    <div class="top-bar-left">
+      <ul class="vertical medium-horizontal menu">
+        <li class="menu-text">Found<i>Blog</i>
+        </li>
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        <li><%= link_to "Archives", '#' %></li>
+        <li><%= link_to "Readme", '#' %></li>
+      </ul>
     </div>
+    <div class="top-bar-right">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <% if user_signed_in? %>
+          <li>
+            <a href="#"><%= current_user.email %></a>
+            <ul class="vertical medium-horizontal menu">
+                <li><%= link_to "My Profile", edit_user_registration_path %></li>
+                <li><%= link_to "Roles : " + user_roles(current_user), '#' %></li>
+                <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li><%= link_to "Sign in", new_user_session_path %></li>
+          <li><%= link_to "Sign up", new_user_registration_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 
-    <div id="blog-banner">
+  <div id="blog-banner">
       <%= image_tag 'blog_header.png', width: '100%' %>
-    </div>
+  </div>
 
-    <%= content_for?(:devise) ? yield(:devise) : yield(:general) %>
+  <%= content_for?(:devise) ? yield(:devise) : yield(:general) %>
 
+  <div class='row column'>
     <div id='footer'>
-      <div class='row'>
-      <p>Copyright&reg; 2016, FoundblogApp, RORLAB, All rights reserved.</p>
-      </div>
+      <p>Copyright&reg; 2016, FoundBlog, RORLAB, All rights reserved.</p>
     </div>
+  </div>
 
-  </body>
+</body>
 </html>
 {%endace%}
 
