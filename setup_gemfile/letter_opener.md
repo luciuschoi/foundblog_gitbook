@@ -2,7 +2,7 @@
 
 [`letter_opener`](https://github.com/ryanb/letter_opener) 젬은 개발환경에서 실제로 이메일을 보내는 대신에 브라우저에서 이메일을 볼 수 있도록 해 준다.
 
-셋업을 하기 위해서는 `config/environments/development.rb` 파일을 열고 아래와 같이 추가한다.
+셋업을 하기 위해서는 `config/environments/development.rb` 파일을 열고 아래와 같이 추가한다. (이미 앞 장에서 추가해 놓은 상태다)
 
 ```ruby
 config.action_mailer.delivery_method = :letter_opener
