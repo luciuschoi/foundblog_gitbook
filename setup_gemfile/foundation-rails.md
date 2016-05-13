@@ -90,7 +90,15 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 </html>
 ```
 
-레일스에서는 디폴트로 `Sass`를 사용하므로 추가적인 작업이 필요한다. 즉, 다른 `.scss` 파일에서도 `Foundation 5`의 클래스, mixin, 변수들을 사용할 수 있도록 하기 위해서는 `application.css` 파일을 `application.scss`로 이름을 변경하고 아래와 같이 설치시 생성된 `foundation_and_overrides.scss` 파일을 임포트한다.
+`Motion UI`은 `UI` 트랜지션과 애니메이션을 만들어주는 Sass 라이브러인데, 이를 사용할 경우에는 `foundation_and_overrides.scss` 파일에서 아래의 코드라인을 찾아 코멘트 문자를 제거해 준다. 
+
+```css
+// @import 'motion-ui/motion-ui';
+// @include motion-ui-transitions;
+// @include motion-ui-animations;
+```
+
+레일스에서는 디폴트로 `Sass`를 사용하므로 추가적인 작업이 필요한다. 즉, 다른 `.scss` 파일에서도 `Foundation 6`의 클래스, mixin, 변수들을 사용할 수 있도록 하기 위해서는 `application.css` 파일을 `application.scss`로 이름을 변경하고 아래와 같이 설치시 생성된 `foundation_and_overrides.scss` 파일을 임포트한다.
 
 ```html
 @import 'foundation_and_overrides';
@@ -100,7 +108,6 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 
 ```html
 @import 'foundation_and_overrides';
-@import 'posts';
 ```
 
 ---
