@@ -46,8 +46,8 @@ Database adapter     mysql2
 $ spring status
 Spring is running:
 
- 7649 spring server | FoundBlog | started 9 secs ago
- 7650 spring app    | FoundBlog | started 9 secs ago | development mode
+92346 spring server | foundblog_app | started 1 min ago
+92347 spring app    | foundblog_app | started 1 min ago | development mode
 ```
 
 이제는 `spring server`가 실행 중에 있는 것을 확인할 수 있다.
