@@ -2,7 +2,7 @@
     "plugins": [
         "disqus",
         "callouts",
-        "-ace"
+        "ace"
     ],
     "pluginsConfig": {
         "disqus": {
