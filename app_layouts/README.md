@@ -1,8 +1,8 @@
 # 다이나믹 레이아웃의 작성
 
-레일스에서는 일반적으로 특정 컨트롤러의 액션을 호출할 때, `app/views/layouts/` 디렉토리에서 컨트롤러 이름에 `.html.erb` 확장자를 붙인 레이아웃 파일이 없으면(디폴트 상태), 해당 액션의 뷰 템플릿에 대한 렌더링 결과를 어플리케이션 레이아웃 파일(`application.html.erb`)에 삽입(`<%= yield %>`)하여 만든 후 응답결과로 사용자에게 보내게 된다. 
+레일스는 디폴트 상태에서 특정 컨트롤러의 액션이 호출될 때, 해당 액션의 뷰 템플릿에 대한 렌더링 결과를 어플리케이션 레이아웃 파일(`application.html.erb`)에 삽입(`<%= yield %>`)하여 응답결과로 사용자의 브라우저로 보낸다. 
 
-그러나, 특정 컨트롤러에 해당하는 레이아웃 파일이 존재하면, 액션의 렌더링 결과를 컨트롤러용 레이아웃 파일에 삽입하여 응답결과로 보내게 된다.
+그러나, `app/views/layouts/` 디렉토리에 특정 컨트롤러에 해당하는 레이아웃 파일이 존재(컨트롤러 이름에 `.html.erb` 확장자를 붙인 파일)할 경우, 액션의 렌더링 결과를 컨트롤러용 레이아웃 파일에 삽입하여 응답결과로 보내게 된다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts1001_zpsf5ab6d22.jpg)
 
@@ -10,15 +10,15 @@
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts001_zpsb5d385ca.jpg)
 
-`header` 구역은 다시 `topbar`와 `blog image` 구역으로 나누었으며 `topbar` 구역에는 메뉴바가 위치하게 되고 `blog image` 구역에는 데커레이션용 블로그 이미지를 위치하도록 한다.
+`header` 구역은 다시 `topbar`와 `blog image` 구역으로 나누었으며 `topbar` 구역에는 메뉴바가 위치하게 되고 `blog image` 구역에는 블로그 헤더 이미지를 위치하도록 한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts002_zps05876dd8.jpg)
 
-두개의 컨트롤러(`devise` 컨트롤러 및 `posts` 컨트롤러) 각각에 대해서 전용 레이아웃 파일을 생성하기로 한다. 여기서 중첩 레이아웃 기법을 이용한다. 즉, 특정 컨트롤러 전용 레이아웃에 삽입할 컨텐츠를 `content_for` 메소드로 작성하여 어플리케이션 레이아웃에 추가한다. 결과적으로 어플리케이션 레이아웃에서 `<%= content_for?(:devise) ? content_for(:devise) : content_for(:general) %>`와 같은 erb 표현식이 실행된 결과가 삽입된다.
+두개의 컨트롤러(`devise` 컨트롤러 및 `posts` 컨트롤러) 각각에 대해서 컨트롤러 전용 레이아웃 파일을 생성하기로 한다. 이 때 중첩 레이아웃 기법을 이용한다. 즉, 특정 컨트롤러 전용 레이아웃에 삽입할 내용을 `content_for` 메소드로 작성하여 어플리케이션 레이아웃에 추가한다. 결과적으로 어플리케이션 레이아웃에 `<%= content_for?(:devise) ? content_for(:devise) : content_for(:general) %>`와 같은 `ERB` 표현식 실행된 결과가 삽입된다.
 
 [devise 컨트롤러 전용 레이아웃] (`app/views/layouts/devise_layout.html.erb`)
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- Section for Devise layouts -->
 <%= content_for :devise do %>
 <div class='row'>
@@ -33,7 +33,7 @@
 
 <!-- Section for Applictiona Layout -->
 <%= render template: 'layouts/application' %>
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts003_zps4aa80265.jpg)
 
