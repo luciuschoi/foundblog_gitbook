@@ -199,21 +199,30 @@ end
 
 이제 마이그레이션 작업을 한다.
 
+먼저 데이터베이스를 먼저 생성해 주어야 한다. 
 ```bash
-$ bin/rake db:migrate
-== 20140609040948 DeviseCreateUsers: migrating ================================
--- create_table(:users)
-   -> 0.0036s
--- add_index(:users, :email, {:unique=>true})
-   -> 0.0010s
--- add_index(:users, :reset_password_token, {:unique=>true})
-   -> 0.0006s
--- add_index(:users, :confirmation_token, {:unique=>true})
-   -> 0.0007s
-== 20140609040948 DeviseCreateUsers: migrated (0.0061s) =======================
+$ bin/rake db:create                                                                            
+Running via Spring preloader in process 94740
 ```
 
-이제 어플리케이션내의 모든 컨트롤러와 뷰 파일에서 아래의 헬퍼 메소드를 사요할 수 있게 된다.
+그리고 `db:migrate` 작업을 실행한다. 
+
+```bash
+$ bin/rake db:migrate                                                                           
+Running via Spring preloader in process 94767
+== 20160513064912 DeviseCreateUsers: migrating ================================
+-- create_table(:users)
+   -> 0.0275s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0112s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0123s
+-- add_index(:users, :confirmation_token, {:unique=>true})
+   -> 0.0112s
+== 20160513064912 DeviseCreateUsers: migrated (0.0624s) =======================
+```
+
+이제 어플리케이션내의 모든 컨트롤러와 뷰 파일에서 아래의 헬퍼 메소드를 사용할 수 있게 된다.
 
 * `authenticate_user!`
 * `current_user`
@@ -222,7 +231,7 @@ $ bin/rake db:migrate
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제2.3장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.3장
 
 ---
 
