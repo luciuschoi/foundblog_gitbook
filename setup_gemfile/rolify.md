@@ -5,17 +5,18 @@
 우선 `Role`이라는 모델을 아래와 같이 생성한다. 이 때 `User` 모델이 이미 생성되어 있는 것으로 간주한다.
 
 ```bash
-$ bin/rails g rolify Role
+$ bin/rails g rolify Role                                                                       
+Running via Spring preloader in process 94799
       invoke  active_record
       create    app/models/role.rb
       invoke    test_unit
       create      test/models/role_test.rb
       create      test/fixtures/roles.yml
       insert    app/models/role.rb
-      create    db/migrate/20140609050742_rolify_create_roles
+      create    db/migrate/20160513065619_rolify_create_roles.rb
       insert  app/models/user.rb
       create  config/initializers/rolify.rb
-=================================================================
+===============================================================================
 
 An initializer file has been created here: config/initializers/rolify.rb, you
 can change rolify settings to match your needs.
@@ -34,7 +35,7 @@ is user.rb), rolify method has been inserted to provide rolify methods.
 > #### Caution::주의
 > 
 > 마이그레이션 작업을 하기 전에 한가지 주의해야 할 사항이 있다.
-현재 설치된 `rolify`젬의 버전은 가장 최근 버전인 `3.4.0`이지만, 약간의 버그로 인하여 생성된 마이그레이션 파일의 파일명에서 `.rb`확장자가 누락되어 있어 마이그레이션 파일로 레일스가 인식하지 못한다. 따라서 파일명에 `.rb` 확장자을 붙이면 간단하게 문제를 해결할 수 있다.
+현재 설치된 `rolify`젬의 버전은 가장 최근 버전인 `5.1.0`이다. 그러나 버전 `3.4.0`을 사용할 경우에는 약간의 버그로 인하여 생성된 마이그레이션 파일의 파일명에서 `.rb`확장자가 누락되어 있어 마이그레이션 파일로 레일스가 인식하지 못한다. 따라서 파일명에 `.rb` 확장자을 붙이면 간단하게 문제를 해결할 수 있다.
 
 이제 아래와 같이 마이그레이션 작업을 진행한다.
 
