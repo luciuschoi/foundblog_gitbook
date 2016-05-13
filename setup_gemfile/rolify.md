@@ -84,6 +84,10 @@ end
 
 ```bash
 $ bin/rails console -s
+Running via Spring preloader in process 95548
+Loading development environment in sandbox (Rails 4.2.6)
+Any modifications you make will be rolled back on exit
+irb(main):001:0>
 ```
 
 > #### Note::노트
@@ -98,6 +102,10 @@ $ bin/rails console -s
 ```bash
 irb(main):001:0> User.create! email: "user1@email.com", password: "12345678"
 ```
+
+> #### Caution::주의 
+>
+> `sand` 모드에서는 확인메일이 발송되지 않는다. 따라서 아래와 같이 확인메일을 테스트하기 위해서 `rails console`과 같이 일반 모드의 콘솔을 실행해야 한다. 
 
 사용자가 추가되면서 확인 이메일이 브라우저상에 보여지게 된다. 그리고 아래의 화면과 같이 브라우저상의 이메일 내용 중에 보이는 `Confirm my account`(1번) 링크를 가입했던 사용자가 클릭하게 되면,
 
@@ -116,6 +124,24 @@ irb(main):001:0> User.create! email: "user1@email.com", password: "12345678"
 SQL (0.2ms)  INSERT INTO "roles" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-06-12 01:39:21.166149"], ["name", "user"], ["updated_at", "2014-06-12 01:39:21.166149"]]
 ...
 
+```
+
+> #### Caution::주의
+>
+> 레일스 4.2.6에서는 `role` 추가시 `ArgumentError: Unknown key: :optional.` 에러가 발생할 수 있다. 이 때는 아래와 같이 `:optional => true` 코드라인을 삭제한다. 
+> ```ruby
+class Role < ActiveRecord::Base
+  has_and_belongs_to_many :users, :join_table => :users_roles
+>
+  belongs_to :resource, 
+             :polymorphic => true
+>             
+  validates :resource_type,
+            :inclusion => { :in => Rolify.resource_types },
+            :allow_nil => true
+>
+  scopify
+end
 ```
 
 이제 방금전에 가입했던 이메일로 로그인하면 `Home#index` 뷰 페이지가 브라우저상에 보여야 한다.
