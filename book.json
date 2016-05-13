@@ -1,15 +1,11 @@
 {
     "plugins": [
         "disqus",
-        "richquotes",
         "callouts"
     ],
     "pluginsConfig": {
         "disqus": {
             "shortName": "foundblog2"
-        },
-        "richquotes": {
-            "todos": true
         }
     }
 }
