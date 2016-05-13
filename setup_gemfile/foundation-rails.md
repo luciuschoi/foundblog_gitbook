@@ -1,6 +1,6 @@
 # foundation-rails 젬
 
-[`foundation-rails`](https://github.com/zurb/foundation-rails)젬은   `Foundation`을 레일스에서 사용하기 편리하게 만들어 놓은 젬이다. 현재 이 젬은 `Foundation`의 최선버전인 `5`를 지원한다.
+[`foundation-rails`](https://github.com/zurb/foundation-rails)젬은   `Foundation`을 레일스에서 사용하기 편리하게 만들어 놓은 젬이다. 현재 이 젬은 `Foundation`의 최선버전인 `6`를 지원한다.
 
 > #### Note::노트
 > 
