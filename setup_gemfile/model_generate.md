@@ -169,10 +169,10 @@ end
 
 `User` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가해 준다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 has_many :categories, dependent: :nullify
 has_many :posts, dependent: :destroy
-```
+{%endace%}
 
 이 메소드에서 사용한 `:dependent` 옵션으로 `:nullify` 값을 지정하면, 부모 클래스 객체가 삭제될 때 자식 클래스 모델도 함께 삭제(`:destroy`)하지 않고 단지 자식 모델의 `foreign key`를 `null` 값으로 지정하게 된다.
 
@@ -181,11 +181,11 @@ has_many :posts, dependent: :destroy
 
 `posts_controller.rb` 파일의 상단에 아래와 같이 추가한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 ...
-```
+{%endace%}
 
 여기서 사용한 `authentiate_user!` 메소드는 `User` 모델을 `devise` 제너레이터로 생성하면 디폴트로 제공되는 인증 메소드이다.
 
