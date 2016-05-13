@@ -1,23 +1,26 @@
 # foundation-rails 젬
 
-[`foundation-rails`](https://github.com/zurb/foundation-rails)젬은   `Foundation`을 레일스에서 사용하기 편리하게 만들어 놓은 젬이다. 현재 이 젬은 `Foundation`의 최선버전인 `6`를 지원한다.
+[`foundation-rails`](https://github.com/zurb/foundation-rails)젬은 `Foundation`을 레일스에서 사용하기 편리하게 만들어 놓은 젬이다. 현재 이 젬은 `Foundation`의 최선버전인 `6`를 지원한다.
 
 > #### Note::노트
 > 
-> `Sublime Text Editor`에서 [`foundation-5-sublime-snippets`](https://github.com/zurb/foundation-5-sublime-snippets) 패키지를 사용하면 `Foundation`에서 사용하는 전용 컴포넌트를 손쉽게 추가할 수 있어 도움이 된다.
+> `Atom` 에디터를 사용할 경우 관련 플로그인([Zurb Foundation for sites support for Atom.io](https://atom.io/packages/atom-zurb-foundation))을 설치하면 편리하게 코딩할 수 있다. 
 
-이제 `Foundation 5`를 프로젝트에 추가하는 작업이 필요한다. 이것은 레일스의 `asset pipeline`에서 사용할 수 있도록 하는 조치이며 아래와 같은 명령으로 인스톨한다.
+이제 `Foundation 6`를 프로젝트에 추가하는 작업이 필요한다. 이것은 레일스의 `asset pipeline`에서 사용할 수 있도록 하는 조치이며 아래와 같은 명령으로 인스톨한다.
 
 ```bash
 $ bin/rails g foundation:install
+Running via Spring preloader in process 92906
       insert  app/assets/javascripts/application.js
       append  app/assets/javascripts/application.js
       create  app/assets/stylesheets/foundation_and_overrides.scss
-      append  app/assets/stylesheets/foundation_and_overrides.scss
+      create  app/assets/stylesheets/_settings.scss
       insert  app/assets/stylesheets/application.css
     conflict  app/views/layouts/application.html.erb
-Overwrite /Users/hyo/prj/r4/FoundBlog/app/views/layouts/application.html.erb? (enter "h" for help) [Ynaqdh] Y
+Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb? (enter "h" for help) [Ynaqdh] Y
        force  app/views/layouts/application.html.erb
+   identical  app/assets/stylesheets/foundation_and_overrides.scss
+   identical  app/assets/stylesheets/_settings.scss
 ```
 
 [기존의 디폴트 어플리케이션 레이아웃 파일]
@@ -26,7 +29,7 @@ Overwrite /Users/hyo/prj/r4/FoundBlog/app/views/layouts/application.html.erb? (e
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FoundBlog</title>
+  <title>FoundblogApp</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -48,17 +51,17 @@ Overwrite /Users/hyo/prj/r4/FoundBlog/app/views/layouts/application.html.erb? (e
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
 
     <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
   <body>
 
     <%= yield %>
-    <%= javascript_include_tag "application" %>
+
   </body>
 </html>
 ```
