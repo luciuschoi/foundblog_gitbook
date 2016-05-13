@@ -6,13 +6,14 @@
 
 ```bash
 $ bin/rails g authority:install
+Running via Spring preloader in process 98936
       create  app/authorizers
       create  app/authorizers/application_authorizer.rb
       create  config/initializers/authority.rb
       create  public/403.html
 
-Install complete! See the README on Github for instructions on getting your
-app running with Authority.
+Install complete! See the README on Github for instructions 
+on getting your app running with Authority.
 ```
 
 생성된 파일 중 `app/authorizers` 디렉토리에 있는 `application_authroizer.rb` 파일에는 `ApplicationAuthorizer` 클래스가 있는데, 이것은 어플리케이션 전체에 대해서 영향을 미치는 최상위 레벨의 권한을 정의하는 곳이다.
