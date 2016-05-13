@@ -6,6 +6,10 @@
     "pluginsConfig": {
         "disqus": {
             "shortName": "foundblog2"
-        }
+        },
+        "callouts":
+        {
+            "showTypeInHeader": false
+        }        
     }
 }
