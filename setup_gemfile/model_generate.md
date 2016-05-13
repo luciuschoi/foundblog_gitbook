@@ -1,5 +1,60 @@
 # Category/Post/Comment 모델의 생성
 
+이제 추가로 `Category` 리소스를 생성하고 `Post` 모델과 `has_many`, `belongs_to` 메소드로 관계선언을 한다.
+
+```bash
+$ bin/rails g scaffold Category user:references name
+Running via Spring preloader in process 97019
+      invoke  active_record
+      create    db/migrate/20160513085505_create_categories.rb
+      create    app/models/category.rb
+      invoke    test_unit
+      create      test/models/category_test.rb
+      create      test/fixtures/categories.yml
+      invoke  resource_route
+       route    resources :categories
+      invoke  scaffold_controller
+      create    app/controllers/categories_controller.rb
+      invoke    erb
+      create      app/views/categories
+      create      app/views/categories/index.html.erb
+      create      app/views/categories/edit.html.erb
+      create      app/views/categories/show.html.erb
+      create      app/views/categories/new.html.erb
+      create      app/views/categories/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/categories_controller_test.rb
+      invoke    helper
+      create      app/helpers/categories_helper.rb
+      invoke      test_unit
+      invoke    jbuilder
+      create      app/views/categories/index.json.jbuilder
+      create      app/views/categories/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/categories.coffee
+      invoke    scss
+      create      app/assets/stylesheets/categories.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.scss
+```
+
+그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정하고,
+
+```ruby
+class CreateCategories < ActiveRecord::Migration
+  def change
+    create_table :categories do |t|
+      t.references :user, index: true
+      t.string :name, null: false
+
+      t.timestamps
+    end
+  end
+end
+```
+
+
 이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 만들도록 하자.
 
 ```bash
@@ -88,60 +143,6 @@ Running via Spring preloader in process 96900
 
 `Post` 모델 클래스에서 `has_many :comments, dependent: :destroy`를 추가한다. 그러나 `User` 모델 클래스에서 `has_many :comments, dependent: :destroy` 관계선언은 생략해도 된다. 왜냐하면 `Post` 모델 객체가 삭제될 때 이미 `Comment` 객체들도 삭제될 것이기 때문이다.
 
-
-이제 추가로 `Category` 리소스를 생성하고 `Post` 모델과 `has_many`, `belongs_to` 메소드로 관계선언을 한다.
-
-```bash
-$ bin/rails g scaffold Category user:references name
-Running via Spring preloader in process 97019
-      invoke  active_record
-      create    db/migrate/20160513085505_create_categories.rb
-      create    app/models/category.rb
-      invoke    test_unit
-      create      test/models/category_test.rb
-      create      test/fixtures/categories.yml
-      invoke  resource_route
-       route    resources :categories
-      invoke  scaffold_controller
-      create    app/controllers/categories_controller.rb
-      invoke    erb
-      create      app/views/categories
-      create      app/views/categories/index.html.erb
-      create      app/views/categories/edit.html.erb
-      create      app/views/categories/show.html.erb
-      create      app/views/categories/new.html.erb
-      create      app/views/categories/_form.html.erb
-      invoke    test_unit
-      create      test/controllers/categories_controller_test.rb
-      invoke    helper
-      create      app/helpers/categories_helper.rb
-      invoke      test_unit
-      invoke    jbuilder
-      create      app/views/categories/index.json.jbuilder
-      create      app/views/categories/show.json.jbuilder
-      invoke  assets
-      invoke    coffee
-      create      app/assets/javascripts/categories.coffee
-      invoke    scss
-      create      app/assets/stylesheets/categories.scss
-      invoke  scss
-   identical    app/assets/stylesheets/scaffolds.scss
-```
-
-그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정하고,
-
-```ruby
-class CreateCategories < ActiveRecord::Migration
-  def change
-    create_table :categories do |t|
-      t.references :user, index: true
-      t.string :name, null: false
-
-      t.timestamps
-    end
-  end
-end
-```
 
 이제 이 두 모델에서 대해서 마이그레이션 작업을 수행한다.
 
