@@ -1,6 +1,8 @@
 # devise 젬
 
-> **Note** 사용자 인증과 권한 설정에 대해서는 [`Devise젬 파헤치기`](https://www.gitbook.io/book/luciuschoi/exploring_devise) 온라인 책을 참고하면 도움이 된다.
+> #### Note::노트
+> 
+> 사용자 인증과 권한 설정에 대해서는 [`Devise젬 파헤치기`](https://www.gitbook.io/book/luciuschoi/exploring_devise) 온라인 책을 참고하면 도움이 된다.
 
 `devise` 젬은 사용자의 인증 서비스를 쉽게 구현할 수 있도록 도와준다.
 
@@ -27,7 +29,9 @@ config.action_mailer.default_url_options = { host: 'localhost:3000' }
 config.action_mailer.delivery_method = :letter_opener
 ```
 
-> **Caution** `production` 환경(`production.rb`)에서는 어플리케이션의 실제 호스트의 이름으로 `:host`를 변경해 주어야 한다.
+> #### Caution::주의
+> 
+> `production` 환경(`production.rb`)에서는 어플리케이션의 실제 호스트의 이름으로 `:host`를 변경해 주어야 한다.
 
 
 **[2번 조치사항]** `home` 컨트롤러 및 `index` 액션을 추가해 주어야 하며 아래와 같이 실행한 후,
