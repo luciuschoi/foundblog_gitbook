@@ -84,7 +84,7 @@ class PostAuthorizer < ApplicationAuthorizer
 end
 ```
 
-`Comment` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/comment_authorizer.rb` 파일을 생성하고 아래와 같이 작성한다. (`Comment` 리소스는 아직 작성하지 않은 상태)
+`Comment` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/comment_authorizer.rb` 파일을 생성하고 아래와 같이 작성한다.
 
 ```ruby
 class CommentAuthorizer < ApplicationAuthorizer
@@ -103,9 +103,9 @@ end
 class CategoryAuthorizer < ApplicationAuthorizer
 
   # :admin 권한이 있는 사용자만 카테고리를 작성/수정/삭제할 수 있음.
-  def self.default(adjective, user)
-    user.has_role?(:admin)
-  end
+  # def self.default(adjective, user)
+  #  user.has_role?(:admin)
+  # end
 
 end
 ```
