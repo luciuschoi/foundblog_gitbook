@@ -194,7 +194,7 @@ end
 
 그리고 `app/views/shared/` 디렉토리에 `partial` 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다. 이 때 `Foundation`의 커스텀 data 속성(data-alert)과 클래스(alert-box radius...)를 사용한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div class='row'>
   <% flash.each do |type, message| %>
     <div data-alert class="alert-box radius <%= bootstrap_class_for(type) %>">
@@ -203,11 +203,11 @@ end
     </div>
   <% end %>
 </div>
-```
+{%endace%}
 
 이제 컨트롤러에 따라 레이아웃을 변경하기 위해서 `application_controller.rb` 파일에 아래와 같이 `layout` 메소드를 추가한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
@@ -218,7 +218,7 @@ class ApplicationController < ActionController::Base
     devise_controller? ? 'devise_layout' : 'general_layout'
   end
 end
-```
+{%endace%}
 
 `devise` 젬에서 제공하는 `devise_controller?` 라는 `predicate` 메소드(끝에 `?`표시가 붙은 메소드로 true/false 값을 반환함)를 이용하면 우리가 목적하는 바를 쉽게 구현할 수 있다.
 
