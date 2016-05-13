@@ -4,8 +4,9 @@
 
 ```bash
 $ bin/rails g scaffold Post category:references user:references title content:text published:boolean
+Running via Spring preloader in process 96447
       invoke  active_record
-      create    db/migrate/20140609052247_create_posts.rb
+      create    db/migrate/20160513085038_create_posts.rb
       create    app/models/post.rb
       invoke    test_unit
       create      test/models/post_test.rb
@@ -26,32 +27,31 @@ $ bin/rails g scaffold Post category:references user:references title content:te
       invoke    helper
       create      app/helpers/posts_helper.rb
       invoke      test_unit
-      create        test/helpers/posts_helper_test.rb
       invoke    jbuilder
       create      app/views/posts/index.json.jbuilder
       create      app/views/posts/show.json.jbuilder
       invoke  assets
       invoke    coffee
-      create      app/assets/javascripts/posts.js.coffee
+      create      app/assets/javascripts/posts.coffee
       invoke    scss
-      create      app/assets/stylesheets/posts.css.scss
+      create      app/assets/stylesheets/posts.scss
       invoke  scss
-      create    app/assets/stylesheets/scaffolds.css.scss
+      create    app/assets/stylesheets/scaffolds.scss
 ```
 
-여기서 `Post` 모델은 카테고리별로 분류할 수 있어야 한다. 따라서 `category:referenes` 파라미터를 추가했다. `published:boolean`은 작성한 글을 다른 사람들이 보지 못하게 할 목적으로 추가했다. 그리고 디폴트 값은 `false`로 지정하고, `title`과 `content` 속성은 `null: false`로 옵션을 추가하여 필수항목으로 지정하기 위해서 `db/migrate/20140609052247_create_posts.rb` 파일을 열어서 아래와 같이 변경한다.
+여기서 `Post` 모델은 카테고리별로 분류할 수 있어야 한다. 따라서 `category:referenes` 파라미터를 추가했다. `published:boolean`은 작성한 글을 다른 사람들이 보지 못하게 할 목적으로 추가했다. 그리고 디폴트 값은 `false`로 지정하고, `title`과 `content` 속성은 `null: false`로 옵션을 추가하여 필수항목으로 지정하기 위해서 `db/migrate/20160513085038_create_posts.rb` 파일을 열어서 아래와 같이 변경한다.
 
 ```ruby
 class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
-      t.references :category, index: true
-      t.references :user, index: true
+      t.references :category, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :title, null: false
       t.text :content, null: false
       t.boolean :published, default: false
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
