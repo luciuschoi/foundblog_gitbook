@@ -39,7 +39,7 @@
 
 [devise를 제외한 모든 컨트롤러를 위한 레이아웃] (`app/views/layouts/general_layout.html.erb`)
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- Section for General layouts -->
 <% if @posts.nil? %>
   <% @posts = Post.all %>
@@ -79,7 +79,7 @@
 <% end %>
 
 <%= render template: 'layouts/application' %>
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts004_zps4b30e862.jpg)
 
@@ -88,7 +88,7 @@
 
 [어플리케이션 레이아웃]
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -151,7 +151,7 @@
 
   </body>
 </html>
-```
+{%endace%}
 
 이와 같이 컨트롤러 전용 레이아웃을 작성할 때 중첩 레이아웃 기법을 이용하면 어플리케이션 레이아웃을 포함하면서 컨트롤러별 레이아웃을 중첩해서 작성할 수 있게 된다.
 
