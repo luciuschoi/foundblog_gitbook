@@ -240,4 +240,4 @@ end
 ---
 
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제3장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제03장
