@@ -155,7 +155,7 @@
 
 이와 같이 컨트롤러 전용 레이아웃을 작성할 때 중첩 레이아웃 기법을 이용하면 어플리케이션 레이아웃을 포함하면서 컨트롤러별 레이아웃을 중첩해서 작성할 수 있게 된다.
 
- 레이아웃에 사용할 이미지는 아래의 이미지를 다운로드 받아 `app/assets/images/` 디렉토리에 `blog_header.png` 파일명으로 저장하면 된다. [![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)
+레이아웃에 사용할 이미지는 아래의 이미지를 다운로드 받아 `app/assets/images/` 디렉토리에 `blog_header.png` 파일명으로 저장하면 된다. [![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)
 
 아래의 예를 보자. `devise` 컨트롤러를 사용할 때는 하나의 컬럼으로 레이아웃를 구성할 것이고, 나머지 모든 컨트롤러에 대해서는 `sidebar` 컬럼을 추가해서 2개의 컬럼을 가지도록 디자인한다고 가정할 때,  `app/views/layouts/` 디렉토리에 `devise_layout.html.erb` 파일과 `general_layout.html.erb` 파일을 생성하여 각각 아래와 같이 작성한다.
 
@@ -209,15 +209,24 @@ end
 
 {%ace edit=true, lang='ruby'%}
 class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   layout :dynamic_layout
+
+  def authority_forbidden(error)
+    Authority.logger.warn(error.message)
+    redirect_to request.referrer.presence || root_path, :alert => 'You are not authorized to complete that action.'
+  end
 
   private
   def dynamic_layout
     devise_controller? ? 'devise_layout' : 'general_layout'
   end
+
 end
+
 {%endace%}
 
 `devise` 젬에서 제공하는 `devise_controller?` 라는 `predicate` 메소드(끝에 `?`표시가 붙은 메소드로 true/false 값을 반환함)를 이용하면 우리가 목적하는 바를 쉽게 구현할 수 있다.
