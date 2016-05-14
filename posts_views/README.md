@@ -6,7 +6,7 @@
 
 이를 위해서 우선 `_post.htmlerb`이라는 `partial` 템플릿 파일을 `app/views/posts/` 디렉토리에 생성하고 아래와 같이 추가한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div class='post'>
   <div class='title'>
     <h2>
@@ -37,7 +37,7 @@
   </div>
   <% end %>
 </div>
-```
+{%endace%}
 
 그리고 `index.html.erb` 파일을 아래와 같이 변경한다.
 
