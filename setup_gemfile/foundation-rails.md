@@ -104,7 +104,7 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 @import 'foundation_and_overrides';
 {%endace%}
 
-이제부터는 추가로 작성하는 `.scss` 파일은 이 파일에 `@import` 해 주어야 한다. 예를 들어 `posts.css.scss`파일에 내용을 추가한 후 반영하기 위해서는 아래와 같이 임포트해 주어야 한다.
+이제부터는 추가로 작성하는 `.scss` 파일은 이 파일에 `@import` 해 주어야 한다. 예를 들어 `posts.scss`파일에 내용을 추가한 후 반영하기 위해서는 아래와 같이 임포트해 주어야 한다.
 
 {%ace edit=true, lang='rhtml'%}
 @import 'foundation_and_overrides';
