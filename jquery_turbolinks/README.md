@@ -6,18 +6,18 @@
 
 이부분에 대한 자세한 내용은 이 책의 범주를 벗어나는 것이므로 여기서는 위에서 언급한 문제를 해결하기 위해서 `jquery.turbolinks` 젬을 사용하기로 한다. `Gemfile` 파일에 아래와 같이 젬을 추가하고,
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 gem 'jquery-turbolinks'
-```
+{%endace%}
 
 그리고 아래와 같이 번들 인스톨한 후, 어플리케이션을 다시 실행한다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/bundle install
-```
+{%endace%}
 `juqery.turbolinks`는 `application.js` 파일에서 추가하는 위치가 중요한다. 즉, 상단의 `//= require jquery` 바로 아래에 추가해 주어야 하고, `//= require turbolinks`는 제일 아래로 위치시키야 한다. 그리고 기타 다른 자바스크립트들은 그 사이에 두어야 한다.
 
-```js
+{%ace edit=true, lang='js'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
@@ -25,11 +25,11 @@ $ bin/bundle install
 // ... your other scripts here ...
 //
 //= require turbolinks
-```
+{%endace%}
 
 따라서 `app/assets/javascripts/application.js` 파일을 열고 아래와 같은 순서로 변경한다.
 
-```js
+{%ace edit=true, lang='js'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
@@ -38,7 +38,7 @@ $ bin/bundle install
 //= require turbolinks
 
 $(function(){ $(document).foundation(); });
-```
+{%endace%}
 
 
 
@@ -46,9 +46,9 @@ $(function(){ $(document).foundation(); });
 이제 제대로 동작해야 한다.
 그러나 아직도 브라우저 콘솔창에서 보면 가끔씩 아래와 같은 에러가 발생하는 것을 볼 수 있지만, 전체적으로 작동하는데는 크게 문제가 없는 것 같다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 TypeError: 'null' is not an object (evaluating 'currentState.url')
-```
+{%endace%}
 
 ---
 
