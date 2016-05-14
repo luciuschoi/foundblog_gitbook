@@ -17,13 +17,13 @@
 
 {%ace edit=true, lang='ruby'%}
 gem 'attr_searchable'
-```
+{%endace%}
 
 번들 인스톨한다.
 
 {%ace edit=true, lang='sh'%}
 $ bin/bundle install
-```
+{%endace%}
 
 `Post` 모델 파일을 열고 아래와 같이 검색을 위한 모듈을 추가하고 검색할 속성을 지정한다.
 
@@ -37,7 +37,7 @@ class Post < ActiveRecord::Base
 
   ...
 end
-```
+{%endace%}
 
 `posts#index` 액션에 검색기능을 추가하기 위해서 `app/controllers/posts_controller.rb` 파일을 열고 아래와 같이 변경한다.
 
@@ -61,7 +61,7 @@ def index
   end
 end
 ...
-```
+{%endace%}
 
 그리고 `app/views/layouts/general.html.erb` 파일을 열고 해당 위치에 아래와 같이 검색 `partial`을 추가한다.
 
@@ -77,7 +77,7 @@ end
         <p><%= link_to "My Posts <small>( #{Post.myposts(current_user).size} )</small>".html_safe, list_my_posts_path %></p>
       <% end %>
 ...
-```
+{%endace%}
 
 그리고 `app/views/layouts/_search.html.erb` 파일(`partial`)을 생성하고 아래와 같이 추가한다.
 
@@ -96,7 +96,7 @@ end
   </div>
 </div>
 <% end %>
-```
+{%endace%}
 
 이제 로컬 서버를 다시 실행하고 브라우저에서 확인한다.
 
