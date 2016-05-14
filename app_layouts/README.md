@@ -109,7 +109,7 @@
 
   <div class="top-bar" id="example-menu">
     <div class="top-bar-left">
-      <ul class="vertical medium-horizontal menu">
+      <ul class="menu">
         <li class="menu-text">Found<i>Blog</i>
         </li>
         <li>
@@ -124,7 +124,7 @@
         <% if user_signed_in? %>
           <li>
             <a href="#"><%= current_user.email %></a>
-            <ul class="vertical medium-horizontal menu">
+            <ul class="menu">
                 <li><%= link_to "My Profile", edit_user_registration_path %></li>
                 <li><%= link_to "Roles : " + user_roles(current_user), '#' %></li>
                 <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
@@ -158,7 +158,7 @@
 
 레이아웃에 사용할 이미지는 아래의 이미지를 다운로드 받아 `app/assets/images/` 디렉토리에 `blog_header.png` 파일명으로 저장하면 된다. [![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)
 
-아래의 예를 보자. `devise` 컨트롤러를 사용할 때는 하나의 컬럼으로 레이아웃를 구성할 것이고, 나머지 모든 컨트롤러에 대해서는 `sidebar` 컬럼을 추가해서 2개의 컬럼을 가지도록 디자인한다고 가정할 때,  `app/views/layouts/` 디렉토리에 `devise_layout.html.erb` 파일과 `general_layout.html.erb` 파일을 생성하여 각각 아래와 같이 작성한다.
+아래의 예를 보자. `devise` 컨트롤러를 사용할 때는 하나의 컬럼으로 레이아웃를 구성할 것이고, 나머지 모든 컨트롤러에 대해서는 `sidebar` 컬럼을 추가해서 2개의 컬럼을 가지도록 디자인할 때,  `app/views/layouts/` 디렉토리에 `devise_layout.html.erb` 파일과 `general_layout.html.erb` 파일을 생성하여 각각 아래와 같이 작성한다.
 
 `devise_layout.html.erb`와 `general_layout.html.erb`에서와 같이 `flash` 메시지를 표시하기 위해 `app/helpers/application_helper.rb` 파일을 열고 아래와 같이 헬퍼 메소드를 추가한다. 레일스는 이러한 헬퍼 메소드를 작성해서 뷰 파일을 리팩토링할 수 있도록 지원한다. 전체 어플리케이션내의 모든 뷰 파일에서 사용하고자 할 때는 헬퍼 메소드를 `app/helpers/application_helper.rb` 파일에 정의해 두면 된다
 
@@ -227,7 +227,6 @@ class ApplicationController < ActionController::Base
   end
 
 end
-
 {%endace%}
 
 `devise` 젬에서 제공하는 `devise_controller?` 라는 `predicate` 메소드(끝에 `?`표시가 붙은 메소드로 true/false 값을 반환함)를 이용하면 우리가 목적하는 바를 쉽게 구현할 수 있다.
