@@ -2,7 +2,7 @@
 
 이 프로젝트에서 추가할 젬은 아래와 같다. `Gemfile`에 추가하고,
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 # Added for this project
 gem 'foundation-rails'
 gem 'simple_form'
@@ -10,13 +10,13 @@ gem 'devise'
 gem 'rolify'
 gem 'authority'
 gem "letter_opener", :group => :development
-```
+{%endace%}
 
 번들 인스톨한다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/bundle install
-```
+{%endace%}
 
 `bin/bundle` 명령을 사용하면 `spring` 서버에서 관리하는 `bundle` 명령을 사용하게 되고, 그냥 `bundle` 명령을 사용하면 `spring`과 무관하게 실행된다. 따라서 `bin/bundle` 명령을 사용하여 실행속도가 빨라진 것을 체감하기 바란다.
 
