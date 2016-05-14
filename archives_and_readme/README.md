@@ -4,27 +4,27 @@
 
 이를 위해서 우선 `posts` 컨트롤러(`app/controllers/posts_controller.rb`)에 아래와 같이 `archive` 액션을 추가하고,
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def archive
   @posts = Post.published_posts
 end
-```
+{%endace%}
 
 `routes.rb` 파일에서 아래와 같이 `resources :posts`에 `:collection`으로 등록한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 resources :posts do
   get 'archive', on: :collection
   get 'list_my', on: :collection
   resources :comments
 end
-```
+{%endace%}
 
 위와 같이 등록하면 `archive_posts_path` 메소드로 `posts#archive` 액션을 호출할 수 있는 `URI`를 지정할 수 있게 된다.
 
 이제 이 액션에 대한 뷰 템플릿 파일(`app/views/posts/archive.html.erb`)을 생성하고 아래와 같이 작성한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <h2>Archives</h2>
 <table id='archives'>
   <% archive_year_month = "" %>
@@ -46,11 +46,11 @@ end
     </tr>
   <% end %>
 </table>
-```
+{%endace%}
 
 그리고 여기서 사용한 `CSS` 클래스를 작성하기 위해 `app/assets/posts.css.scss` 파일에 아래와 같이 추가한다.
 
-```css
+{%ace edit=true, lang='scss'%}
 table#archives {
   color:#d9d9d9;
   margin-bottom:1em;
@@ -77,13 +77,13 @@ table#archives {
     background-color: #f7f7f7;
   }
 }
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-26_19-12-40_zpsfa97002a.png)
 
 자, 이제 상단 메뉴에 있는 `Readme` 항목의 뷰 파일을 만들기 위해서 `welcome` 컨트롤러와 `readme` 액션을 생성하자.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/rails g controller welcome readme
       create  app/controllers/welcome_controller.rb
        route  get 'welcome/readme'
@@ -101,11 +101,11 @@ $ bin/rails g controller welcome readme
       create      app/assets/javascripts/welcome.js.coffee
       invoke    scss
       create      app/assets/stylesheets/welcome.css.scss
-```
+{%endace%}
 
 그리고 `readme` 액션에서는 특별한 작업이 필요없기 때문에 이 액션에 대한 뷰 파일(`app/views/welcome/readme.html.erb`)을 열고 아래와 같이 추가한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <h2>Readme</h2>
 <br />
 
@@ -118,23 +118,23 @@ $ bin/rails g controller welcome readme
 <blockquote>
   $ git clone https://github.com/LuciusChoi/foundblog.git
 </blockquote>
-```
+{%endace%}
 
 물론 이 뷰 파일의 내용은 각자 원하는 내용으로 변경할 수 있다.
 
 이제 관련 `CSS`를 추가하기 위해서 `app/assets/stylesheets/welcome.css.scss` 파일을 열고 아래와 같이 추가한다.
 
-```css
+{%ace edit=true, lang='scss'%}
 .emblem {
   float:left;
   width:30%;
   margin-right:1em;
 }
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-26_19-16-58_zps96d40a36.png)
 
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제11장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제11장
