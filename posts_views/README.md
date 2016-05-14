@@ -6,7 +6,7 @@
 
 이를 위해서 우선 `_post.htmlerb`이라는 `partial` 템플릿 파일을 `app/views/posts/` 디렉토리에 생성하고 아래와 같이 추가한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=true, lang="html_ruby"%}
 <div class='post'>
   <div class='title'>
     <h2>
@@ -29,10 +29,10 @@
   </div>
   <% if action_name == 'index' %>
   <div class='actions' style='text-align:right;'>
-    <%= link_to 'read more...', post, class: 'button tiny radius' %>
+    <%= link_to 'read more...', post, class: 'button tiny' %>
     <% if user_signed_in? %>
-      <%= link_to 'Edit', edit_post_path(post), class: 'button tiny radius' if post.updatable_by? current_user %>
-      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'}, class: 'button tiny radius'  if post.updatable_by? current_user %>
+      <%= link_to 'Edit', edit_post_path(post), class: 'button tiny' if post.updatable_by? current_user %>
+      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'}, class: 'button tiny'  if post.updatable_by? current_user %>
     <% end %>
   </div>
   <% end %>
