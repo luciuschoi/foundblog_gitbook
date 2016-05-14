@@ -424,24 +424,24 @@ end
 
 그리고 `app/helpers/application_helper.rb` 파일에 `icon()` 헬퍼메소드를 아래와 같이 추가한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def icon(shape)
-  "<i class='fi-#{shape}'></i>".html_safe
+  content_tag( :i, '', class: "fi-#{shape}")
 end
-```
+{%endace%}
 
 `posts` 컨틀로러의 `restful` 액션을 추가하기 위해서 `config/routes.rb` 파일을 열어 아래와 같이 `posts` 리소스 라우팅에 컬렉션 라우트를 등록한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 resources :posts do
   get 'list_my', on: :collection
   resources :comments
 end
-```
+{%endace%}
 
 자, 이 상태에서 라우팅 테이블을 보자.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/rake routes CONTROLLER=posts
        Prefix Verb   URI Pattern               Controller#Action
          root GET    /                         posts#index
@@ -454,24 +454,24 @@ list_my_posts GET    /posts/list_my(.:format)  posts#list_my
               PATCH  /posts/:id(.:format)      posts#update
               PUT    /posts/:id(.:format)      posts#update
               DELETE /posts/:id(.:format)      posts#destroy
-```
+{%endace%}
 
 두번째 줄에서 `list_my_posts`라는 경로 헬퍼메소드의 `prefix`를 확인할 수 있다. 그리고 이것은 `posts` 컨트롤러의 `list_my` 액션으로 라우팅된다. 즉, 위의 라우팅 정의가 제대로 동작하는 것이다.
 
 이제 `app/views/layouts/general_layout.html.erb` 파일을 열고 아래와 같이 `My Posts` 링크를 추가해 준다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- 내가 작성한 글목록 -->
 <% if user_signed_in? %>
   <p><%= link_to "My Posts <small>( #{Post.myposts(current_user).size} )</small>".html_safe, list_my_posts_path %></p>
 <% end %>
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-13_17-36-24_zpsb394749a.png)
 
 위의 화면에서 `1`번에 표시된 시간대(타임존)을 보면 `UTC`로 지정되어 있는 것을 알 수 있다. 이것은 레일스의 디폴트 타임존에 의하여 시간이 표시되기 때문이다. 여기는 대한민국! 시간대를 `서울`로 맞추기 위해서는 `config/application.rb` 파일을 열고 아래와 같이 변경한다. 즉, `config.time_zone = 'Seoul'`를 지정해 주면 된다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 module FoundBlog
   class Application < Rails::Application
     # config.time_zone = 'Central Time (US & Canada)'
@@ -479,11 +479,13 @@ module FoundBlog
     config.time_zone = 'Seoul'
   end
 end
-```
+{%endace%}
 
 반영된 결과를 보기 위해서는 어플리케이션을 다시 시작한 후에 확인해야 한다. 즉, `config` 디렉토리의 파일들을 변경한 후에는 반드시 어플리케이션을 다시 시작하는 습관을 들이는 것이 좋다. 또한 새로운 젬을 설치한 후 반영된 결과를 기대할 때도 마친가지다.
 
-> **Note** 물론, 위에서 보는 바와 같이 `i18n`을 디폴트값인 `:en` 대신에 한국어(`:ko`)로 사용하고자 할 경우는, `config.i18n.default_locale = :ko`와 같이 지정하면 된다.
+> #### Note::노트
+> 
+> 물론, 위에서 보는 바와 같이 `i18n`을 디폴트값인 `:en` 대신에 한국어(`:ko`)로 사용하고자 할 경우는, `config.i18n.default_locale = :ko`와 같이 지정하면 된다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-13_18-19-44_zpsfdb36985.png)
 
@@ -491,55 +493,55 @@ end
 
 `2`번의 표시 상태는 이미 헬퍼메소드로 정의해 놓은 `published_icon()`을 사용하였다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <td><%= published_icon post.published %></td>
-```
+{%endace%}
 
 `3`번의 `Actions` 표시 부분도 아래와 같이 `icon_button()` 헬퍼메소드를 정의하여 사용했고, 버튼같이 보이게 하기 위해서 `<span></span>` 태그로 감쌌다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def icon_button(shape)
   "<span class='label'><i class='fi-#{shape}'></i></span>".html_safe
 end
-```
+{%endace%}
 
 아래에서 사용한 `title` 속성은 해당 액션에 마우스 오버하면 보이는 문자를 지정한 것이다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <span class='secondary radius label' title='show'>
   <%= link_to icon_button('eye'), post %>
 </span>
-```
+{%endace%}
 
 `4`번 `My Posts:` 부분은 로그인할 경우만 보이도록 하고, URI로 접근할 경우에도 권한을 차단해야 한다. 이를 위해서 아래와 같이 `erb` 코드로 조건을 걸었고, 이미 `posts` 컨트롤러 클래스에는 `before_action :authenticate_user!, except: [ :index, :show ]`로 선언되어 있기 때문에 새로 추가한 `list_my`라는 어색한 이름의 액션은 자동으로 인증체크에서 걸러지게 된다.
 
 `5`번의 `Recent Posts:` 부분은 오른쪽 `sidebar`에 항상 보여야 하는데, 현재 컨트롤러와 액션에 무관하게 항상 값을 가지고 있어야 한다. 따라서 해당 섹션 부분에 `erb` 코드로 `@recent_posts = Post.recent`과 같이 작성해 주고, `Post` 모델에는 `recent`라는 `scope`를, 이미 정의되어 있는 `scope`인 `published_posts`를 사용해서 10개만 불러오도록, 정의하자.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 class Post < ActiveRecord::Base
   ...
   scope :recent, -> { published_posts.limit(10) }
   ...
 end
-```
+{%endace%}
 
 이와 같이 `scope`를 정의할 때 다른 `scope`를 불러다 쓸 수 있어서 매우 편리한다. 뷰 파일(`app/views/layouts/general_layout.html.erb`)에서는 기존의,
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% if @posts.nil? %>
   <% @posts = Post.all %>
 <% end %>
-```
+{%endace%}
 
 를 아래와 같이 변경하고,
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% @recent_posts = Post.recent %>
-```
+{%endace%}
 
 실제로 `Recent Posts`를 표시하는 곳에서도 아래와 같이 `@recent_posts`로 변경해 준다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- 최근 글목록 -->
 <p>Recent Posts :</p>
 <ul>
@@ -547,7 +549,7 @@ end
     <li><%= link_to truncate(post.title, length: 16), post_path(post) %></li>
   <% end %>
 </ul>
-```
+{%endace%}
 
 한가지 `My Posts` 뷰 페이지에서 상단에 체크박스를 하나(작성 중...) 두고 체크시 작성 중인 `post`만 표시할 수 있도록 하면 금상첨화일 것이다. 이것은 독자들에게 숙제로 남겨 둔다.
 
