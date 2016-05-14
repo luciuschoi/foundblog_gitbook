@@ -8,28 +8,28 @@
 
 `Gemfile`에 아래와 같이 젬을 추가하고,
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 gem 'acts-as-taggable-on'
-```
+{%endace%}
 
 번들 인스톨한다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/bundle install
-```
+{%endace%}
 
 관련 마이그레이션 파일을 생성하기 위해 아래와 같이 명령을 실행한다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ rake acts_as_taggable_on_engine:install:migrations
 Copied migration 20140619084755_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
 Copied migration 20140619084756_add_missing_unique_indices.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
 Copied migration 20140619084757_add_taggings_counter_cache_to_tags.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
-```
+{%endace%}
 
 3개의 마이그레이션 파일이 생성되었다. 이제 마이그레이션 작업을 아래와 같이 한다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/rake db:migrate
 == 20140619084755 ActsAsTaggableOnMigration: migrating ========================
 -- create_table(:tags)
@@ -57,13 +57,13 @@ $ bin/rake db:migrate
 -- add_column(:tags, :taggings_count, :integer, {:default=>0})
    -> 0.0017s
 == 20140619084757 AddTaggingsCounterCacheToTags: migrated (0.0048s) ===========
-```
+{%endace%}
 
 두개의 테이블이 생성된 이후 인덱스 파일들이 추가 삭제되고 `:taggings_count` 속성이 추가되었다.
 
 이 장에서 변경할 `app/assets/styleseets/posts.css.scss` 파일의 `.post` 클래스는 아래와 같다.
 
-```css
+{%ace edit=true, lang='css'%}
 .post {
   margin-bottom:2em;
   .category {
@@ -101,33 +101,33 @@ $ bin/rake db:migrate
   }
   .actions {  }
 }
-```
+{%endace%}
 
 이제 태그를 입력받기 위해서 `app/views/posts/_form.html.erb` 파일을 열고 아래와 같이 속성을 추가한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 ...
 <%= f.input :tag_list %>
 ...
-```
+{%endace%}
 
 그리고 `app/controllers/posts_controller.rb` 파일을 열고 하단의 `post_params` 메소드에서 `strong parameter`에 `tag_list` 속성을 등록하기 위해서 `.permit()` 목록에 추가해 준다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def post_params
   params.require(:post).permit(:category_id, :user_id, :title, :content, :published, :tag_list)
 end
-```
+{%endace%}
 
 `Post` 모델 클래스에는 `acts-as-taggable` 모듈을 추가해 준다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 class Post < ActiveRecord::Base
   ...
   acts_as_taggable
   ...
 end
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_09-44-56_zps85c1b94c.png)
 
@@ -138,7 +138,7 @@ end
 
 위의 캡쳐화면에서 `1`번 위치에 태그들이 보이게 될 것이다. 이 `tag` 각각에에 링크를 추가하기 위해서는 `<a>` 링크 태그를 사용하면 되는데, 아래와 같이 헬퍼 메소드를 작성하여 사용하면 편리하다. 아래의 메소드를 `app/helpers/application_helper.rb` 파일에 추가한다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def icon_tags(tags_array)
   label_tags = ""
   tags_array.each do |tag|
@@ -146,13 +146,13 @@ def icon_tags(tags_array)
   end
   icon('pricetag-multiple') + ' ' + label_tags.html_safe unless tags_array.blank?
 end
-```
+{%endace%}
 
 여기서 주목할 것은 `tag` 값을 URL 파라미터로 넘길 때 `CGI::escape()` 메소드를 이용하여 값을 `escaping`해야 한다. 예를 들어 `'C#'`와 같이 특수문자가 들어 있는 태그명일 경우 `'C'` 값만 파라미터로 넘겨지기 때문이다.
 
 이제 `app/views/posts/_post.html.erb` 파일을 열고 해당 위치에 아래와 같이 `erb` 코드를 추가한다. 이 때 카테고리 항목도 추가해 준다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 ...
 <div class='category'>
   <%= icon('folder') + ' ' + post.category.name %>
@@ -161,24 +161,24 @@ end
   <%= icon_tags(post.tag_list) %>
 </div>
 ...
-```
+{%endace%}
 
 이제 태그를 입력하고 저장한 후 작업한 내용이 제대로 반영되었는지 확인한다.
 
 이제, 각 태그를 클릭하면 아래와 같이 해당 태그가 상단에 표시되는데, `app/views/posts/index.html.erb` 파일을 열고 아래와 같이 추가한다
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% if params[:tag] %>
   <%= icon('pricetag-multiple') %> <span class='alert round label'><strong><%= params[:tag] %></strong></span> <small>( <%= @posts.size %> )</small>
 <% end %>
 ...
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_10-19-09_zps7cc6bcc0.png)
 
 `app/views/posts/show.html.erb` 파일을 열과 아래와 같이 변경한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div class='post'>
   <div class='title'>
     <H3><%= @post.title %></H3>
@@ -203,11 +203,11 @@ end
 
 <%= link_to 'Edit', edit_post_path(@post), class: 'button small radius' %>
 <%= link_to 'Back', posts_path, class: 'button small radius' %>
-```
+{%endace%}
 
 `app/controllers/posts_controller.rb` 파일을 열고,`posts#index` 액션에서 파라미터로 `:tag` 항목이 넘어올 경우 해당 태그로 검색을 하도록 하는 코드를 아래와 같이 추가해 준다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def index
   if @category
     @posts = @category.posts.published_posts
@@ -221,27 +221,27 @@ def index
   end
   @category_name = params[:category_id] == '0' ? "Uncategorized" : (@category ? @category.name : "")
 end
-```
+{%endace%}
 
 그리고 아래와 같이 `Tag Cloud` 만을 표시할 액션을 추가하면 필요시 이 액션에 대한 뷰 템플릿 파일을 생성하면 바로 사용할 수 있다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 def tag_cloud
   @tags = Post.tag_counts_on(:tags)
 end
-```
+{%endace%}
 
 그러나 여기서는 `Tag Cloud` 전용 페이지는 작성하고 않을 것이어서 이 부분은 독자들이 직접 구현해 보기 바란다.
 
 `Tag cloud`는 현재 사용되고 있는 태그들을 보여주고 각 태그의 빈도를 글자의 크기로 표시해 준다. `acts-as-taggable-on` 젬을 사용할 때 태그를 달고자 하는 모델 클래스에 `acts_as_taggable`을 선언해 주면 해당 모델 클래스에 대해서 `tag_counts_on(:tags)` 클래스 메소드를 사용할 수 있다. 레일스 콘솔에서 이 메소드의 실행결과를 확인할 수 있다.
 
-```bash
+{%ace edit=true, lang='sh'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> tags = Post.tag_counts_on :tags
   ActsAsTaggableOn::Tag Load (0.2ms)  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN posts ON posts.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Post' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT posts.id FROM "posts")) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
 => #<ActiveRecord::Relation [#<ActsAsTaggableOn::Tag id: 2, name: "ruby", taggings_count: 1>, #<ActsAsTaggableOn::Tag id: 3, name: "java", taggings_count: 1>, #<ActsAsTaggableOn::Tag id: 4, name: "C#", taggings_count: 2>, #<ActsAsTaggableOn::Tag id: 5, name: "ruby on rails", taggings_count: 1>]>
-```
+{%endace%}
 
 결과물을 정리하면 아래와 같다.
 
@@ -254,17 +254,17 @@ irb(main):001:0> tags = Post.tag_counts_on :tags
 
 즉, 태그별로 사용된 빈도수 정보를 담고 있는 개체 배열을 반환한다. `acts-as-taggable-on` 젬에서 제공해 주는  `ActsAsTaggableOn::TagsHelper` 모듈을 헬퍼 파일(여기서는 `app/helpers/posts_helper.rb` 파일에 인크루드하면 `tag_cloud`라는 모듈 메소드를 사용하여 이러한 `Tag Cloud` 기능을 쉽게 구현할 수 있다.
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 module PostsHelper
   include ActsAsTaggableOn::TagsHelper
 end
-```
+{%endace%}
 
 아래 캡쳐화면의 `1`번과 같이 `Tag Cloud` 표시하기 위해서는 `general_layout.html.erb` 파일을 열고 해당 위치에 아래와 같이 `erb` 코드를 삽입한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_08-56-48_zps3c8fa344.png)
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% @tags = Post.tag_counts_on(:tags) if @tags.blank? %>
 ...
 
@@ -272,25 +272,25 @@ end
 <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
   <%= link_to tag.name, posts_path(tag: tag.name), :class => css_class %>
 <% end %>
-```
+{%endace%}
 
 설명한 바와 같이 태그의 빈도수를 글자크기로 표시하기 위해서 이 젬이 내부적으로 사용하는 CSS 클래스들을 정의해 주어야 한다. `app/assets/stylesheets/posts.css.scss` 파일을 열고 아래와 같이 추가해 준다.
 
-```css
+{%ace edit=true, lang='css'%}
 .css1 { font-size: .6em; }
 .css2 { font-size: .8em; }
 .css3 { font-size: 1.0em; }
 .css4 { font-size: 1.2em; }
-```
+{%endace%}
 
 그러나 위의 캡쳐화면에서 보는 바와 같이 태그명에 박스를 표시하고 배경을 회색으로 처리하기 위해서 아래와 같이 수정해서 사용하였다.
 
-```css
+{%ace edit=true, lang='css'%}
 .css1 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: .6em; }
 .css2 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: .8em; }
 .css3 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: 1.0em; }
 .css4 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: 1.2em; }
-```
+{%endace%}
 
 이제 `1`번의 `Tag Cloud` 아래의 임의 태그를 클릭하면 `2`번의 위치에 현재 조회 중인 태그의 이름이 표시되고 해당 태그가 붙어 있는 모든 글을 보여주게 된다.
 
@@ -312,6 +312,3 @@ _**References:**_
 1. [www.ruby-toolbox.com](https://www.ruby-toolbox.com/categories/rails_tagging)
 2. [acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on)
 2. [encoding URL parameter in Ruby](http://stackoverflow.com/questions/9616747/encoding-url-parameter-in-ruby-and-correctly-decoding-it-with-php)
-
-
-
