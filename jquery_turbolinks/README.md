@@ -17,7 +17,7 @@ $ bin/bundle install
 {%endace%}
 `juqery.turbolinks`는 `application.js` 파일에서 추가하는 위치가 중요한다. 즉, 상단의 `//= require jquery` 바로 아래에 추가해 주어야 하고, `//= require turbolinks`는 제일 아래로 위치시키야 한다. 그리고 기타 다른 자바스크립트들은 그 사이에 두어야 한다.
 
-{%ace edit=true, lang='js'%}
+{%ace edit=true, lang='javascript'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
@@ -29,7 +29,7 @@ $ bin/bundle install
 
 따라서 `app/assets/javascripts/application.js` 파일을 열고 아래와 같은 순서로 변경한다.
 
-{%ace edit=true, lang='js'%}
+{%ace edit=true, lang='javascript'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
