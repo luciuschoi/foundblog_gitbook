@@ -4,9 +4,9 @@
 
 셋업을 하기 위해서는 `config/environments/development.rb` 파일을 열고 아래와 같이 추가한다. (이미 앞 장에서 추가해 놓은 상태다)
 
-```ruby
+{%ace edit=true, lang='ruby'%}
 config.action_mailer.delivery_method = :letter_opener
-```
+{%endace%}
 
 이제 회원 등록시 인증을 위한 이메일 브라우저에서 확인할 수 있을 것이다.
 
