@@ -501,7 +501,9 @@ end
 
 {%ace edit=true, lang='ruby'%}
 def icon_button(shape)
-  "<span class='label'><i class='fi-#{shape}'></i></span>".html_safe
+  content_tag(:span, class:'badge') do
+    content_tag( :i, '', class: "fi-#{shape}")
+  end
 end
 {%endace%}
 
@@ -555,7 +557,7 @@ end
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제5장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제05장
 
 ---
 
