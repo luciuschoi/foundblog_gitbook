@@ -1,9 +1,9 @@
 # 스타일시트 작성
 
-`posts.css.scss` 파일에 아래와 같이 추가한다.
+`posts.scss` 파일에 아래와 같이 추가한다.
 
 
-```css
+{%ace edit=true, lang='css'%}
 // devise 모든 뷰 파일에 포함되는 _links.erb 파일의 <a>를 블럭으로 표시함.
 .devise-links {
   a {
@@ -59,11 +59,11 @@ a.close {
 
   }
 }
-```
+{%endace%}
 
-그리고 `custom.css.scss` 파일을 생성하고 아래와 같이 작성한다.
+그리고 `custom.scss` 파일을 생성하고 아래와 같이 작성한다.
 
-```css
+{%ace edit=true, lang='css'%}
 .button {
   @include button;
   background-color: white;
@@ -92,11 +92,11 @@ a.close {
   padding: 1em 0;
   border-top:1px solid #eaeaea;
 }
-```
+{%endace%}
 
-방근 전에 작성한 `posts.css.scss`와 `custom.css.scss` 파일을  `application.scss` 파일에 임포트하고 아래와 같이 `media query` 부분을 추가한다.
+방근 전에 작성한 `posts.scss`와 `custom.scss` 파일을  `application.scss` 파일에 임포트하고 아래와 같이 `media query` 부분을 추가한다.
 
-```css
+{%ace edit=true, lang='css'%}
 @import 'foundation_and_overrides';
 @import 'custom';
 @import 'posts';
@@ -111,7 +111,7 @@ a.close {
     padding-right: 2em;
   }
 }
-```
+{%endace%}
 
 이제 이전보다 훨씬 깔끔하게 보이게 되었다. 화면의 크기변화에 따라 responsive하게 페이지가 변화는 것을 확인해 보자.
 
