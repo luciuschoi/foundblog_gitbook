@@ -6,7 +6,7 @@
 
 이를 위해서 우선 `_post.htmlerb`이라는 `partial` 템플릿 파일을 `app/views/posts/` 디렉토리에 생성하고 아래와 같이 추가한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div class='post'>
   <div class='title'>
     <h2>
@@ -37,19 +37,19 @@
   </div>
   <% end %>
 </div>
-```
+{%endace%}
 
 그리고 `index.html.erb` 파일을 아래와 같이 변경한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div id='posts'>
   <%= render @posts %>
 </div>
-```
+{%endace%}
 
 그러나 처음에는 작성된 글이 없기 때문에 이를 위한 안내 문구를 표시하는 것도 나쁘지 않다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div id='posts'>
   <% if @posts.size > 0 %>
     <%= render @posts %>
@@ -57,11 +57,11 @@
     <h3 id='no_posts'>아직 작성된 글이 없습니다.</h3>
   <% end %>
 </div>
-```
+{%endace%}
 
 그리고 `posts.css.scss` 파일에 `h3#no_posts` CSS를 추가해 준다.
 
-``` css
+{%ace edit=true, lang='css'%}
 #posts {
   margin-bottom: 4em;
   h3#no_posts {
@@ -73,11 +73,11 @@
     border-radius: 5px;
   }
 }
-```
+{%endace%}
 
 `config/routes.rb` 파일을 열어 루트 라우트를 `posts#index`로 변경하고 지금까지 추가된 내용을 보면 아래와 같다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 Rails.application.routes.draw do
 
   root 'posts#index'
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 end
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-10_11-42-38_zpsd335caee.png)
 
@@ -99,7 +99,7 @@ end
 
 우선 `custom.css.scss` 파일을 열어 아래와 같이 `#blog_banner`와 `#footer`를 `margin` 값을 변경한다.
 
-``` css
+{%ace edit=true, lang='css'%}
 #blog-banner {
   margin-bottom: 2em;
 }
@@ -111,22 +111,22 @@ end
   border-top:1px solid #eaeaea;
   margin-top:2em;
 }
-```
+{%endace%}
 
 그리고 `views/posts/new.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <h2>New post</h2>
 <%= render 'form' %>
 <hr>
 <%= link_to 'Back', posts_path, class: 'button small radius' %>
-```
+{%endace%}
 
 테스트 목적으로 현재 로그인한 사용자의 `Role`을 `:user`에서 `:author`로 변경하여 글을 작성할 수 권한을 가지도록 하자.
 
 이를 위해서 레일스 콘솔을 열고 아래와 같이 `:user` 권한을 삭제하고 `:author` 권한을 추가하자.
 
-``` sh
+{%ace edit=true, lang='sh'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> user = User.first
@@ -137,7 +137,7 @@ irb(main):004:0> user.add_role :author
 => #<Role id: 3, name: "author", resource_id: nil, resource_type: nil, created_at: "2014-06-26 03:08:50", updated_at: "2014-06-26 03:08:50">
 irb(main):005:0> user.roles.map(&:name)
 => ["author"]
-```
+{%endace%}
 
 이제 브라우저에서 로그인한 후 우측 `sidebar`에 있는 `New Post` 버튼을 클릭하면 아래와 같이 보이게 된다.
 
@@ -148,7 +148,7 @@ irb(main):005:0> user.roles.map(&:name)
 
 2번은 사실 여기서 보여 줄 필요가 없다. 이 글을 작성하는 사람의 정보, 즉, `@post.user_id` 값을 궂이 여기서 입력 받은 필요는 없다. 입력하더라도 `posts` 컨트롤러의 `create` 액션에서 하면 된다. 더 생각해 보면 이렇게 까지도 할 필요가 없는 것이다. `User` 모델과 `Post` 모델은 `has_many` 관계로 연결되어 있다. 즉, 아래와 같은 관계선언이 이미 되어 있다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
 end
@@ -156,24 +156,24 @@ end
 class Post < ActiveRecord::Base
   belongs_to :user
 end
-```
+{%endace%}
 
 새글을 작성하려면 로그인이 되어 인증된 상태여야 한다. 따라서 `devise`에서 제공해 주는 헬퍼 메소드인 `current_user`를 활용하면 더 간단하게 구현할 수 있다.
 
 자, 이제 posts 컨트롤러의 create 액션 코드를 보자.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def create
   @post = Post.new(post_params)
 
   ...
 
 end
-```
+{%endace%}
 
 이 상태에서 `@post.user`에 `current_user`를 할당해 줘야 하는데, 즉, 아래와 같이~
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def create
   @post = Post.new(post_params)
   @post.user = current_user
@@ -181,18 +181,18 @@ def create
   ...
 
 end
-```
+{%endace%}
 
 문제없이 데이터가 저장될 것이다. 그러나 사실 이렇게 두번의 작업에 나누어 할 필요가 없는 것이다. `current_user`를 이용하여 아래와 같이 한줄로 정리할 수도 있겠다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def create
   @post = current_user.posts.new(post_params)
 
   ...
 
 end
-```
+{%endace%}
 
 이제 `app/views/posts/_form.html.erb` 파일에서 `<%= f.association :user %>` 부분은 더 이상 필요없기 때문에 삭제한다.
 
@@ -202,7 +202,7 @@ end
 
 그러나 여기서 놀랍지 않을 수 없는 것은 위의 화면을 구성하는 `erb` 코드가 아래와 같이 너무도 간단하고 깔끔하다는 것이다. 과연 `simple`한 폼이다~.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <%= simple_form_for(@post) do |f| %>
   <%= f.error_notification %>
 
@@ -217,7 +217,7 @@ end
     <%= f.button :submit, class: 'button small radius' %>
   </div>
 <% end %>
-```
+{%endace%}
 
 `Title`과 `Content`에만 제목과 글 내용을 입력한 후 `Create Post` 버튼을 클릭하면 아래와 같은 `show` 뷰 템플릿 파일이 렌더링되어 보이게 된다.
 
@@ -229,25 +229,25 @@ end
 
 `Foundation`에서 제공하는 [`Foundation Font 3`](http://zurb.com/playground/foundation-icon-fonts-3)를 사용하기 위해서는 `Sass`용 만들어진 젬을 사용하면 된다. `Gemfile`에 아래와 같이 추가하고,
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 gem 'foundation-icons-sass-rails'
-```
+{%endace%}
 
 번들 인스톨한다.
 
-``` sh
+{%ace edit=true, lang='sh'%}
 $ bin/bundle install
-```
+{%endace%}
 
 `app/assets/stylesheets/application.scss` 파일을 열고 아래와 같이 추가해 준다.
 
-``` css
+{%ace edit=true, lang='css'%}
 @import 'foundation-icons';
-```
+{%endace%}
 
 그리고 `published` 속성을 아이콘으로 표시하기 위해서 `application_helper.rb` 파일에 `published_icon`이라는 헬퍼 메소드를 하나 추가하자.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def published_icon(boolean)
   if boolean
     "<i class='fi-check'></i> 작성완료".html_safe
@@ -255,11 +255,11 @@ def published_icon(boolean)
     "<i class='fi-pencil'></i> 작성중...".html_safe
   end
 end
-```
+{%endace%}
 
 이제 `posts#show` 뷰 템블릿은 아래와 같이 변신을 하게 되었다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <div class='post'>
   <div class='category'>
     <strong>Category:</strong>
@@ -283,11 +283,11 @@ end
 
 <%= link_to 'Edit', edit_post_path(@post), class: 'button small radius' %>
 <%= link_to 'Back', posts_path, class: 'button small radius' %>
-```
+{%endace%}
 
 그리고 `posts.css.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
 
-``` css
+{%ace edit=true, lang='css'%}
 .post {
   margin-bottom:2em;
   .category {
@@ -317,7 +317,7 @@ end
   }
   .actions {  }
 }
-```
+{%endace%}
 
 이제 어플리케이션을 다시 시작한 후, 브라우저를 다시 로딩하면  아래와 같이 보이게 될 것이다.
 
@@ -325,13 +325,13 @@ end
 
 이제 방금 작성한 글을 수정하기 위해서 아래에 있는 `Edit` 버튼을 클릭해 보자. `posts#edit` 뷰 템플릿 파일에서도 하단에 있는 `Show`와 `Back` 링크에 아래와 같이 클래스를 추가하면 아래와 같이 보이게 된다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <h2>Editing post</h2>
 <%= render 'form' %>
 <hr>
 <%= link_to 'Show', @post, class: 'button small radius' %>
 <%= link_to 'Back', posts_path, class: 'button small radius' %>
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_17-50-03_zpsf2c1e310.png)
 
@@ -344,12 +344,12 @@ end
 
 예를 들면,
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 class Post < ActiveRecord::Base
   scope :published_posts, -> { where( published: true ).order( created_at: :desc ) }
   ...
 end
-```
+{%endace%}
 
 와 같이 정의하고, `posts#index` 액션에서 `@posts = Post.published_posts`라고 변경하면 `published` 값이 `true`인 `posts`만 보이게 된다.
 
@@ -359,7 +359,7 @@ end
 
 우선, `current_user`의 `post` 객체만을 가져오기 위해서 `Post` 모델 클래스에 `mypost`라는 `scope`을 하나 추가하자.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 class Post < ActiveRecord::Base
   ...
 
@@ -367,11 +367,11 @@ class Post < ActiveRecord::Base
 
   ...
 end
-```
+{%endace%}
 
 그리고 `posts` 컨트롤러에는 `myposts`라는 액션을 하나 만들자.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 class PostsController < ApplicationController
   ...
 
@@ -382,11 +382,11 @@ class PostsController < ApplicationController
   ...
 
 end
-```
+{%endace%}
 
 다음은 `app/views/posts/list_my.html.erb` 뷰 템플릿 파일을 아래와 같이 작성한다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <h2>My Posts</h2>
 
 <table width='100%'>
@@ -420,28 +420,28 @@ end
 <hr>
 
 <%= link_to "Back", :back, class: 'button small radius' %>
-```
+{%endace%}
 
 그리고 `app/helpers/application_helper.rb` 파일에 `icon()` 헬퍼메소드를 아래와 같이 추가한다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def icon(shape)
   content_tag( :i, '', class: "fi-#{shape}")
 end
-```
+{%endace%}
 
 `posts` 컨틀로러의 `restful` 액션을 추가하기 위해서 `config/routes.rb` 파일을 열어 아래와 같이 `posts` 리소스 라우팅에 컬렉션 라우트를 등록한다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 resources :posts do
   get 'list_my', on: :collection
   resources :comments
 end
-```
+{%endace%}
 
 자, 이 상태에서 라우팅 테이블을 보자.
 
-``` sh
+{%ace edit=true, lang='sh'%}
 $ bin/rake routes CONTROLLER=posts
        Prefix Verb   URI Pattern               Controller#Action
          root GET    /                         posts#index
@@ -454,24 +454,24 @@ list_my_posts GET    /posts/list_my(.:format)  posts#list_my
               PATCH  /posts/:id(.:format)      posts#update
               PUT    /posts/:id(.:format)      posts#update
               DELETE /posts/:id(.:format)      posts#destroy
-```
+{%endace%}
 
 두번째 줄에서 `list_my_posts`라는 경로 헬퍼메소드의 `prefix`를 확인할 수 있다. 그리고 이것은 `posts` 컨트롤러의 `list_my` 액션으로 라우팅된다. 즉, 위의 라우팅 정의가 제대로 동작하는 것이다.
 
 이제 `app/views/layouts/general_layout.html.erb` 파일을 열고 아래와 같이 `My Posts` 링크를 추가해 준다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- 내가 작성한 글목록 -->
 <% if user_signed_in? %>
   <p><%= link_to "My Posts <small>( #{Post.myposts(current_user).size} )</small>".html_safe, list_my_posts_path %></p>
 <% end %>
-```
+{%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-13_17-36-24_zpsb394749a.png)
 
 위의 화면에서 `1`번에 표시된 시간대(타임존)을 보면 `UTC`로 지정되어 있는 것을 알 수 있다. 이것은 레일스의 디폴트 타임존에 의하여 시간이 표시되기 때문이다. 여기는 대한민국! 시간대를 `서울`로 맞추기 위해서는 `config/application.rb` 파일을 열고 아래와 같이 변경한다. 즉, `config.time_zone = 'Seoul'`를 지정해 주면 된다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 module FoundBlog
   class Application < Rails::Application
     # config.time_zone = 'Central Time (US & Canada)'
@@ -479,7 +479,7 @@ module FoundBlog
     config.time_zone = 'Seoul'
   end
 end
-```
+{%endace%}
 
 반영된 결과를 보기 위해서는 어플리케이션을 다시 시작한 후에 확인해야 한다. 즉, `config` 디렉토리의 파일들을 변경한 후에는 반드시 어플리케이션을 다시 시작하는 습관을 들이는 것이 좋다. 또한 새로운 젬을 설치한 후 반영된 결과를 기대할 때도 마친가지다.
 
@@ -493,57 +493,57 @@ end
 
 `2`번의 표시 상태는 이미 헬퍼메소드로 정의해 놓은 `published_icon()`을 사용하였다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <td><%= published_icon post.published %></td>
-```
+{%endace%}
 
 `3`번의 `Actions` 표시 부분도 아래와 같이 `icon_button()` 헬퍼메소드를 정의하여 사용했고, 버튼같이 보이게 하기 위해서 `<span></span>` 태그로 감쌌다.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 def icon_button(shape)
   content_tag(:span, class:'badge') do
     content_tag( :i, '', class: "fi-#{shape}")
   end
 end
-```
+{%endace%}
 
 아래에서 사용한 `title` 속성은 해당 액션에 마우스 오버하면 보이는 문자를 지정한 것이다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <span class='secondary radius label' title='show'>
   <%= link_to icon_button('eye'), post %>
 </span>
-```
+{%endace%}
 
 `4`번 `My Posts:` 부분은 로그인할 경우만 보이도록 하고, URI로 접근할 경우에도 권한을 차단해야 한다. 이를 위해서 아래와 같이 `erb` 코드로 조건을 걸었고, 이미 `posts` 컨트롤러 클래스에는 `before_action :authenticate_user!, except: [ :index, :show ]`로 선언되어 있기 때문에 새로 추가한 `list_my`라는 어색한 이름의 액션은 자동으로 인증체크에서 걸러지게 된다.
 
 `5`번의 `Recent Posts:` 부분은 오른쪽 `sidebar`에 항상 보여야 하는데, 현재 컨트롤러와 액션에 무관하게 항상 값을 가지고 있어야 한다. 따라서 해당 섹션 부분에 `erb` 코드로 `@recent_posts = Post.recent`과 같이 작성해 주고, `Post` 모델에는 `recent`라는 `scope`를, 이미 정의되어 있는 `scope`인 `published_posts`를 사용해서 10개만 불러오도록, 정의하자.
 
-``` ruby
+{%ace edit=true, lang='ruby'%}
 class Post < ActiveRecord::Base
   ...
   scope :recent, -> { published_posts.limit(10) }
   ...
 end
-```
+{%endace%}
 
 이와 같이 `scope`를 정의할 때 다른 `scope`를 불러다 쓸 수 있어서 매우 편리한다. 뷰 파일(`app/views/layouts/general_layout.html.erb`)에서는 기존의,
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% if @posts.nil? %>
   <% @posts = Post.all %>
 <% end %>
-```
+{%endace%}
 
 를 아래와 같이 변경하고,
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <% @recent_posts = Post.recent %>
-```
+{%endace%}
 
 실제로 `Recent Posts`를 표시하는 곳에서도 아래와 같이 `@recent_posts`로 변경해 준다.
 
-```html
+{%ace edit=true, lang='rhtml'%}
 <!-- 최근 글목록 -->
 <p>Recent Posts :</p>
 <ul>
@@ -551,7 +551,7 @@ end
     <li><%= link_to truncate(post.title, length: 16), post_path(post) %></li>
   <% end %>
 </ul>
-```
+{%endace%}
 
 한가지 `My Posts` 뷰 페이지에서 상단에 체크박스를 하나(작성 중...) 두고 체크시 작성 중인 `post`만 표시할 수 있도록 하면 금상첨화일 것이다. 이것은 독자들에게 숙제로 남겨 둔다.
 
