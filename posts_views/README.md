@@ -29,10 +29,10 @@
   </div>
   <% if action_name == 'index' %>
   <div class='actions' style='text-align:right;'>
-    <%= link_to 'read more...', post, class: 'button tiny radius' %>
+    <%= link_to 'read more...', post, class: 'button tiny' %>
     <% if user_signed_in? %>
-      <%= link_to 'Edit', edit_post_path(post), class: 'button tiny radius' if post.updatable_by? current_user %>
-      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'}, class: 'button tiny radius'  if post.updatable_by? current_user %>
+      <%= link_to 'Edit', edit_post_path(post), class: 'button tiny' if post.updatable_by? current_user %>
+      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'}, class: 'button tiny'  if post.updatable_by? current_user %>
     <% end %>
   </div>
   <% end %>
@@ -59,7 +59,7 @@
 </div>
 {%endace%}
 
-그리고 `posts.css.scss` 파일에 `h3#no_posts` CSS를 추가해 준다.
+그리고 `posts.scss` 파일에 `h3#no_posts` CSS를 추가해 준다.
 
 {%ace edit=true, lang='css'%}
 #posts {
@@ -97,7 +97,7 @@ end
 
 약간의 변경작업을 하면 아래와 같이 보이게 된다.
 
-우선 `custom.css.scss` 파일을 열어 아래와 같이 `#blog_banner`와 `#footer`를 `margin` 값을 변경한다.
+우선 `custom.scss` 파일을 열어 아래와 같이 `#blog_banner`와 `#footer`를 `margin` 값을 변경한다.
 
 {%ace edit=true, lang='css'%}
 #blog-banner {
@@ -119,7 +119,7 @@ end
 <h2>New post</h2>
 <%= render 'form' %>
 <hr>
-<%= link_to 'Back', posts_path, class: 'button small radius' %>
+<%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
 
 테스트 목적으로 현재 로그인한 사용자의 `Role`을 `:user`에서 `:author`로 변경하여 글을 작성할 수 권한을 가지도록 하자.
@@ -214,7 +214,7 @@ end
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, class: 'button small radius' %>
+    <%= f.button :submit, class: 'button small' %>
   </div>
 <% end %>
 {%endace%}
@@ -281,11 +281,11 @@ end
 </div>
 <hr>
 
-<%= link_to 'Edit', edit_post_path(@post), class: 'button small radius' %>
-<%= link_to 'Back', posts_path, class: 'button small radius' %>
+<%= link_to 'Edit', edit_post_path(@post), class: 'button small' %>
+<%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
 
-그리고 `posts.css.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
+그리고 `posts.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
 
 {%ace edit=true, lang='css'%}
 .post {
@@ -329,8 +329,8 @@ end
 <h2>Editing post</h2>
 <%= render 'form' %>
 <hr>
-<%= link_to 'Show', @post, class: 'button small radius' %>
-<%= link_to 'Back', posts_path, class: 'button small radius' %>
+<%= link_to 'Show', @post, class: 'button small' %>
+<%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_17-50-03_zpsf2c1e310.png)
@@ -391,10 +391,10 @@ end
 
 <table width='100%'>
 <tr>
-  <th width='200'>Date</td>
+  <th width='250'>Date</td>
   <th>Title</td>
   <th width='100'>Published</td>
-  <th width='100'>Actions</td>
+  <th width='120'>Actions</td>
 </tr>
 <% if @myposts.blank? %>
   <tr>
@@ -408,10 +408,10 @@ end
   <td><%= post.created_at %></td>
   <td><%= post.title %></td>
   <td><%= published_icon post.published %></td>
-  <td>
-    <span class='secondary radius label' title='show'><%= link_to icon('eye'), post %></span>
-    <span class='secondary radius label' title='edit'><%= link_to icon('pencil'), edit_post_path(post) %></span>
-    <span class='secondary radius label' title='destroy'><%= link_to icon('trash'), post, method: :delete, data: { confirm: "Are you sure?" } %></span>
+  <td class='text-center'>
+    <span class='action success badge' title='show'><%= link_to icon_button('eye'), post %></span>
+    <span class='action secondary badge' title='edit'><%= link_to icon_button('pencil'), edit_post_path(post) %></span>
+    <span class='action alert badge' title='destroy'><%= link_to icon_button('trash'), post, method: :delete, data: { confirm: "Are you sure?" } %></span>
   </td>
 </tr>
 <% end %>
@@ -419,8 +419,20 @@ end
 
 <hr>
 
-<%= link_to "Back", :back, class: 'button small radius' %>
+<%= link_to "Back", :back, class: 'button small' %>
 {%endace%}
+
+
+`custom.scss`에 아래와 같이 `action` 클래스를 추가한다.
+
+{%ace edit=true, lang='css'%}
+.action {
+  a {
+        color: $white !important;
+     }
+}
+{%endace%}
+
 
 그리고 `app/helpers/application_helper.rb` 파일에 `icon()` 헬퍼메소드를 아래와 같이 추가한다.
 
