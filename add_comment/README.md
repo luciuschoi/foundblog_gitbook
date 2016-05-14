@@ -248,4 +248,4 @@ ul.comments {
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제9장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제09장
