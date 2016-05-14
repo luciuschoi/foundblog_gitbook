@@ -61,7 +61,7 @@ $ bin/rake db:migrate
 
 두개의 테이블이 생성된 이후 인덱스 파일들이 추가 삭제되고 `:taggings_count` 속성이 추가되었다.
 
-이 장에서 변경할 `app/assets/styleseets/posts.css.scss` 파일의 `.post` 클래스는 아래와 같다.
+이 장에서 변경할 `app/assets/styleseets/posts.scss` 파일의 `.post` 클래스는 아래와 같다.
 
 {%ace edit=true, lang='css'%}
 .post {
@@ -274,7 +274,7 @@ end
 <% end %>
 {%endace%}
 
-설명한 바와 같이 태그의 빈도수를 글자크기로 표시하기 위해서 이 젬이 내부적으로 사용하는 CSS 클래스들을 정의해 주어야 한다. `app/assets/stylesheets/posts.css.scss` 파일을 열고 아래와 같이 추가해 준다.
+설명한 바와 같이 태그의 빈도수를 글자크기로 표시하기 위해서 이 젬이 내부적으로 사용하는 CSS 클래스들을 정의해 주어야 한다. `app/assets/stylesheets/posts.scss` 파일을 열고 아래와 같이 추가해 준다.
 
 {%ace edit=true, lang='css'%}
 .css1 { font-size: .6em; }
@@ -301,7 +301,7 @@ http://railscasts.com/episodes/258-token-fields-revised
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제8장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제08장
 
 
 ---
