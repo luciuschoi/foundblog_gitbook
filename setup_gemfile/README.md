@@ -4,7 +4,9 @@
 
 {%ace edit=true, lang='ruby'%}
 # Added for this project
+gem 'jquery-turbolinks'
 gem 'foundation-rails'
+gem 'foundation-icon-fonts-3'
 gem 'simple_form'
 gem 'devise'
 gem 'rolify'

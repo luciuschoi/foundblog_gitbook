@@ -225,39 +225,7 @@ end
 
 1번에서 보는 바와 같이, 방금 작성한 글의 제목이 오른쪽 `sidebar`의 `Recent Posts` 타이틀 아래에 위치하게 된다. 사실 2번의 경우는 레일스의 `scaffold` 제너레이터가 작성한 내용이기 때문에 우리는 어플리케이션 레이아웃에 어엿한 `flash` 메시지 표시 부분이 있기 때문에 여기서는 해당 `erb` 코드를 삭제하도록 하자. 3번은 현재로서는 `Category` 데이터가 없기 때문에 비어있는 상태이고 나중에 별도로 `Category`에 대해서는 언급하도록 하겠다. 4번은 그냥 `@post.user`와 같이 코딩되어 있는데, 이것도 제너레이터의 짓이다. ㅎㅎㅎ. 이것은 `@post.user.email`와 같이 수정만 해줘도 우리가 인식할 수 있는 글자가 보이게 된다.
 
-그리고 `show` 뷰 템플릿의 전반적인 변신을 해 보자.
-
-`Foundation`에서 제공하는 [`Foundation Font 3`](http://zurb.com/playground/foundation-icon-fonts-3)를 사용하기 위해서는 `Sass`용 만들어진 젬을 사용하면 된다. `Gemfile`에 아래와 같이 추가하고,
-
-{%ace edit=true, lang='ruby'%}
-gem 'foundation-icons-sass-rails'
-{%endace%}
-
-번들 인스톨한다.
-
-{%ace edit=true, lang='sh'%}
-$ bin/bundle install
-{%endace%}
-
-`app/assets/stylesheets/application.scss` 파일을 열고 아래와 같이 추가해 준다.
-
-{%ace edit=true, lang='css'%}
-@import 'foundation-icons';
-{%endace%}
-
-그리고 `published` 속성을 아이콘으로 표시하기 위해서 `application_helper.rb` 파일에 `published_icon`이라는 헬퍼 메소드를 하나 추가하자.
-
-{%ace edit=true, lang='ruby'%}
-def published_icon(boolean)
-  if boolean
-    "<i class='fi-check'></i> 작성완료".html_safe
-  else
-    "<i class='fi-pencil'></i> 작성중...".html_safe
-  end
-end
-{%endace%}
-
-이제 `posts#show` 뷰 템블릿은 아래와 같이 변신을 하게 되었다.
+이제 `posts#show` 뷰 템블릿은 아래와 같이 변경한다.
 
 {%ace edit=true, lang='rhtml'%}
 <div class='post'>
@@ -284,6 +252,10 @@ end
 <%= link_to 'Edit', edit_post_path(@post), class: 'button small' %>
 <%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
+
+> ####Note::노트
+>
+> `published_icon` 헬퍼에서 대해서 [foundation-icon-fonts-3](./foundation-icon-fonts-3.md)에서 이미 설명하였다.
 
 그리고 `posts.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
 

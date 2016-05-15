@@ -119,4 +119,4 @@ a.close {
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제4장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제05장

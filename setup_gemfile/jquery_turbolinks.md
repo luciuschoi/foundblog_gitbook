@@ -40,19 +40,11 @@ $ bin/bundle install
 $(function(){ $(document).foundation(); });
 {%endace%}
 
-
-
-
 이제 제대로 동작해야 한다.
-그러나 아직도 브라우저 콘솔창에서 보면 가끔씩 아래와 같은 에러가 발생하는 것을 볼 수 있지만, 전체적으로 작동하는데는 크게 문제가 없는 것 같다.
-
-{%ace edit=true, lang='sh'%}
-TypeError: 'null' is not an object (evaluating 'currentState.url')
-{%endace%}
 
 ---
 
-> **소스보기** https://github.com/LuciusChoi/foundblog/tree/제6장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제06장
 
 ---
 

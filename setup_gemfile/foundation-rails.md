@@ -121,3 +121,4 @@ _**References:**_
 
 1. [Foundation Tools - Text Editor Snippets](http://foundation.zurb.com/develop/tools.html)
 2. [zurb/foundation-5-sublime-snippets](https://github.com/zurb/foundation-5-sublime-snippets)
+3. [Zurb Foundation for sites support for Atom.io](https://atom.io/packages/atom-zurb-foundation)

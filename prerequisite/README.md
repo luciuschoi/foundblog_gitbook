@@ -1,6 +1,6 @@
 # 사전준비 작업
 
-이 책의 내용을 따라하라 하기 위해서는 [<<초보자를 위한 레일스 가이드북>>](https://www.gitbook.io/book/rorlab/railsguidebook) 내용 중의 ["환경준비"](http://rorlab.gitbooks.io/railsguidebook/contents/environments.html)와 ["레일스 설치"](http://rorlab.gitbooks.io/railsguidebook/contents/rails/install.html) 부분을 읽어 보기 바란다.
+이 책의 내용을 따라하라 하기 위해서는 [<<초보자를 위한 레일스 가이드북>>](https://www.gitbook.com/read/book/rorlab/railsguidebook) 내용 중의 ["환경준비"](http://rorlab.gitbooks.io/railsguidebook/content/contents/environments.html)와 ["레일스 설치"](http://rorlab.gitbooks.io/railsguidebook/content/contents/rails/install.html) 부분을 읽어 보기 바란다.
 
 위의 내용을 참고하여 현재 본인의 로컬 머신에 레일스 프로젝트를 개발하기 위한 제반 환경이 완료된 것으로 간주하고 시작하기로 한다.
 
