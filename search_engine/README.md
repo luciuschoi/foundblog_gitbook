@@ -65,7 +65,7 @@ end
 ...
 {%endace%}
 
-그리고 `app/views/layouts/general.html.erb` 파일을 열고 해당 위치에 아래와 같이 검색을 위한 파셜을 추가한다.
+그리고 `app/views/layouts/general_layout.html.erb` 파일을 열고 해당 위치에 아래와 같이 검색을 위한 파셜을 추가한다.
 
 {%ace edit=false, lang='rhtml'%}
 ...

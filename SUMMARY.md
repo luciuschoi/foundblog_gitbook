@@ -17,10 +17,9 @@
 * [categories 컨트롤러의 뷰 템블릿 파일](categories_controller/README.md)
 * [Post에 Tag 붙이기 ](act_as_taggable/README.md)
 * [Post에 Comment 붙이기](add_comment/README.md)
-* [블로그에 검색기능 추가하기](seach_engine/README.md)
+* [블로그에 검색기능 추가하기](search_engine/README.md)
 * [Archives와 Readme 작성](archives_and_readme/README.md)
 * [허로쿠에 배포하기](deploy_to_heroku/README.md)
 * [글을 마치며...](ending/README.md)
 * [참고자료](references/README.md)
 * [변경내역](change_logs/README.md)
-
