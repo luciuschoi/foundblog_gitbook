@@ -15,13 +15,11 @@
 데모 웹애플리케이션 `FoundBlog`
 
 * github 저장소 : https://github.com/luciuschoi/foundblog_app.git
-* demo site : http://foundblog_app.herokuapp.com
+* demo site : http://foundblog6.herokuapp.com
 
 ---
 
 2016년 05월 13일<br />
 2014년 06월 07일
 
-최 효성 (@luciuschoi) 
-
-
+최 효성 (@luciuschoi)
