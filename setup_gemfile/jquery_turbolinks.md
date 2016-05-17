@@ -13,19 +13,19 @@
 
 `Gemfile` 파일에 아래와 같이 젬을 추가하고,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'jquery-turbolinks'
 {%endace%}
 
 그리고 아래와 같이 번들 인스톨한 후, 애플리케이션을 다시 실행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/bundle install
 {%endace%}
 
 `juqery.turbolinks`는 `application.js` 파일에서 추가하는 위치가 중요한다. 즉, 상단의 `//= require jquery` 바로 아래에 추가해 주어야 하고, `//= require turbolinks`는 제일 아래로 위치시키야 한다. 그리고 기타 다른 자바스크립트들은 그 사이에 두어야 한다.
 
-{%ace edit=false, lang='javascript'%}
+{%ace edit=false, lang='javascript', theme='monokai'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
@@ -37,7 +37,7 @@ $ bin/bundle install
 
 따라서 `app/assets/javascripts/application.js` 파일을 열고 아래와 같은 순서로 변경한다.
 
-{%ace edit=false, lang='javascript'%}
+{%ace edit=false, lang='javascript', theme='monokai'%}
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs

@@ -6,7 +6,7 @@
 
 이를 위해서 우선 `_post.html.erb`이라는 파셜 템플릿 파일을 `app/views/posts/` 디렉토리에 생성하고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div class='post'>
   <div class='title'>
     <h2>
@@ -41,7 +41,7 @@
 
 그리고 `index.html.erb` 파일을 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div id='posts'>
   <%= render @posts %>
 </div>
@@ -49,7 +49,7 @@
 
 그러나 처음에는 작성된 글이 없기 때문에 이를 위한 안내 문구를 표시하는 것도 나쁘지 않다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div id='posts'>
   <% if @posts.size > 0 %>
     <%= render @posts %>
@@ -61,7 +61,7 @@
 
 그리고 `posts.scss` 파일에 `h3#no_posts` CSS를 추가해 준다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 #posts {
   margin-bottom: 4em;
   h3#no_posts {
@@ -77,7 +77,7 @@
 
 `config/routes.rb` 파일을 열어 루트 라우트를 `posts#index`로 변경하고 지금까지 추가된 내용을 보면 아래와 같다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 Rails.application.routes.draw do
 
   root 'posts#index'
@@ -99,7 +99,7 @@ end
 
 우선 `custom.scss` 파일을 열어 아래와 같이 `#blog_banner`와 `#footer`의 `margin` 값을 변경한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 #blog-banner {
   margin-bottom: 2em;
 }
@@ -115,7 +115,7 @@ end
 
 그리고 `views/posts/new.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>New post</h2>
 <%= render 'form' %>
 <hr>
@@ -126,7 +126,7 @@ end
 
 이를 위해서 레일스 콘솔을 열고 아래와 같이 `:user` 권한을 삭제하고 `:author` 권한을 추가한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> user = User.first
@@ -148,7 +148,7 @@ irb(main):005:0> user.roles.map(&:name)
 
 2번은 사실 여기서 보여 줄 필요가 없다. 이 글을 작성하는 사람의 정보, 즉, `@post.user_id` 값을 굳이 여기서 입력 받은 필요는 없다. 입력하더라도 `posts` 컨트롤러의 `create` 액션에서 하면 된다. 더 생각해 보면 이렇게 까지도 할 필요가 없는 것이다. `User` 모델과 `Post` 모델은 `has_many` 관계로 연결되어 있다. 즉, 아래와 같은 관계선언이 이미 설정되어 있다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
 end
@@ -162,7 +162,7 @@ end
 
 자, 이제 `posts` 컨트롤러의 `create` 액션 코드를 보자.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def create
   @post = Post.new(post_params)
 
@@ -173,7 +173,7 @@ end
 
 이 상태에서 `@post.user`에 `current_user`를 할당해 줘야 하는데, 즉, 아래와 같이 작성하면
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def create
   @post = Post.new(post_params)
   @post.user = current_user
@@ -185,7 +185,7 @@ end
 
 문제없이 데이터가 저장될 것이다. 그러나, `current_user`를 이용하면 아래와 같이 한 줄로 정리할 수도 있다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def create
   @post = current_user.posts.new(post_params)
 
@@ -202,7 +202,7 @@ end
 
 그러나 여기서 놀랍지 않을 수 없는 것은 위의 화면을 구성하는 `ERB` 코드가 아래와 같이 너무도 간단하고 깔끔하다는 것이다. 과연 `simple`한 폼이다~.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <%= simple_form_for(@post) do |f| %>
   <%= f.error_notification %>
 
@@ -233,7 +233,7 @@ end
 
 이제 `posts#show` 뷰 템블릿은 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div class='post'>
   <div class='category'>
     <strong>Category:</strong>
@@ -261,7 +261,7 @@ end
 
 그리고 불린(boolean) 속성을 아이콘으로 표시하기 위해서 `application_helper.rb` 파일에 `published_icon`이라는 헬퍼 메소드를 하나 추가하자.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def published_icon(boolean)
   if boolean
     "<i class='fi-check'></i> 작성완료".html_safe
@@ -277,7 +277,7 @@ end
 
 그리고 `posts.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .post {
   margin-bottom:2em;
   .category {
@@ -315,7 +315,7 @@ end
 
 이제 방금 작성한 글을 수정하기 위해서 아래에 있는 `Edit` 버튼을 클릭한다. `posts#edit` 뷰 템플릿 파일에서도 하단에 있는 `Show`와 `Back` 링크에 아래와 같이 클래스를 추가하면 아래와 같이 보일 것이다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>Editing post</h2>
 <%= render 'form' %>
 <hr>
@@ -334,7 +334,7 @@ end
 
 예를 들면,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Post < ActiveRecord::Base
   scope :published_posts, -> { where( published: true ).order( created_at: :desc ) }
   ...
@@ -349,7 +349,7 @@ end
 
 우선, `current_user`의 `post` 객체만을 가져오기 위해서 `Post` 모델 클래스에 `mypost`라는 `scope`을 하나 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Post < ActiveRecord::Base
   ...
 
@@ -361,7 +361,7 @@ end
 
 그리고 `posts` 컨트롤러에는 `myposts`라는 액션을 하나 만든다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class PostsController < ApplicationController
   ...
 
@@ -376,7 +376,7 @@ end
 
 다음은 `app/views/posts/list_my.html.erb` 뷰 템플릿 파일을 아래와 같이 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>My Posts</h2>
 
 <table width='100%'>
@@ -415,7 +415,7 @@ end
 
 `custom.scss`에 아래와 같이 `action` 클래스를 추가한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .action {
   a {
         color: $white !important;
@@ -426,7 +426,7 @@ end
 
 그리고 `app/helpers/application_helper.rb` 파일에 `icon()` 헬퍼메소드를 아래와 같이 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def icon(shape)
   content_tag( :i, '', class: "fi-#{shape}")
 end
@@ -434,7 +434,7 @@ end
 
 `posts` 컨틀로러의 `restful` 액션을 추가하기 위해서 `config/routes.rb` 파일을 열어 아래와 같이 `posts` 리소스 라우팅에 컬렉션 라우트를 등록한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 resources :posts do
   get 'list_my', on: :collection
   resources :comments
@@ -443,7 +443,7 @@ end
 
 자, 이 상태에서 라우팅 테이블을 보자.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake routes CONTROLLER=posts
        Prefix Verb   URI Pattern               Controller#Action
          root GET    /                         posts#index
@@ -462,7 +462,7 @@ list_my_posts GET    /posts/list_my(.:format)  posts#list_my
 
 이제 `app/views/layouts/general_layout.html.erb` 파일을 열고 아래와 같이 `My Posts` 링크를 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <!-- 내가 작성한 글목록 -->
 <% if user_signed_in? %>
   <p><%= link_to "My Posts <small>( #{Post.myposts(current_user).size} )</small>".html_safe, list_my_posts_path %></p>
@@ -473,7 +473,7 @@ list_my_posts GET    /posts/list_my(.:format)  posts#list_my
 
 위의 화면에서 `1`번에 표시된 시간대(타임존)을 보면 `UTC`로 지정되어 있는 것을 알 수 있다. 이것은 레일스의 디폴트 타임존에 의하여 시간이 표시되기 때문이다. 여기는 대한민국! 시간대를 `서울`로 맞추기 위해서는 `config/application.rb` 파일을 열고 아래와 같이 변경한다. 즉, `config.time_zone = 'Seoul'`를 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 module FoundBlog
   class Application < Rails::Application
     # config.time_zone = 'Central Time (US & Canada)'
@@ -495,13 +495,13 @@ end
 
 `2`번의 표시 상태는 이미 헬퍼메소드로 정의해 놓은 `published_icon()`을 사용하였다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <td><%= published_icon post.published %></td>
 {%endace%}
 
 `3`번의 `Actions` 표시 부분도 아래와 같이 `icon_button()` 헬퍼메소드를 정의하여 사용했고, 버튼같이 보이게 하기 위해서 `<span></span>` 태그로 감쌌다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def icon_button(shape)
   content_tag(:span, class:'badge') do
     content_tag( :i, '', class: "fi-#{shape}")
@@ -511,7 +511,7 @@ end
 
 아래에서 사용한 `title` 속성은 해당 액션에 마우스 오버하면 보이는 문자를 지정한 것이다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <span class='secondary radius label' title='show'>
   <%= link_to icon_button('eye'), post %>
 </span>
@@ -521,7 +521,7 @@ end
 
 `5`번의 `Recent Posts:` 부분은 오른쪽 `sidebar`에 항상 보여야 하는데, 현재 컨트롤러와 액션에 무관하게 항상 값을 가지고 있어야 한다. 따라서 해당 섹션 부분에 `ERB` 코드로 `@recent_posts = Post.recent`과 같이 작성해 주고, `Post` 모델에는 `recent`라는 `scope`를, 이미 정의되어 있는 `scope`인 `published_posts`를 사용해서 10개만 불러오도록, 정의한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Post < ActiveRecord::Base
   ...
   scope :recent, -> { published_posts.limit(10) }
@@ -531,7 +531,7 @@ end
 
 이와 같이 `scope`를 정의할 때 다른 `scope`를 불러다 쓸 수 있어서 매우 편리한다. 뷰 파일(`app/views/layouts/general_layout.html.erb`)에서는 기존의,
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% if @posts.nil? %>
   <% @posts = Post.all %>
 <% end %>
@@ -539,13 +539,13 @@ end
 
 를 아래와 같이 변경하고,
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% @recent_posts = Post.recent %>
 {%endace%}
 
 실제로 `Recent Posts`를 표시하는 곳에서도 아래와 같이 `@recent_posts`로 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <!-- 최근 글목록 -->
 <p>Recent Posts :</p>
 <ul>

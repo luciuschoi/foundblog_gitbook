@@ -1,4 +1,11 @@
 img {
   border: 1px solid #ccc !important;
   border-radius:5px;
+  margin-top:1em;
+}
+
+.ace {
+  border: 7px solid #202020;
+  border-radius: 5px;
+  background-color: #202020;
 }

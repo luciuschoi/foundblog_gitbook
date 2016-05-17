@@ -8,7 +8,7 @@
 
 우선 아래와 같이 `devise` 젬을 인스톨한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g devise:install
 Running via Spring preloader in process 93749
       create  config/initializers/devise.rb
@@ -58,7 +58,7 @@ Some setup you must do manually if you haven't yet:
 
 **[1번 조치사항]** `config/environments/development.rb` 파일을 열고 아래와 같이 `default_url_options`을 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 config.action_mailer.default_url_options = { host: 'localhost:3000' }
 {%endace%}
 
@@ -75,7 +75,7 @@ config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
 **[2번 조치사항]** `home` 컨트롤러 및 `index` 액션을 추가해 주어야 하며 아래와 같이 실행한 후,
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g controller home index
 Running via Spring preloader in process 93974
       create  app/controllers/home_controller.rb
@@ -97,7 +97,7 @@ Running via Spring preloader in process 93974
 
 `config/routes.rb` 파일에 `root`를 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 Rails.application.routes.draw do
   root 'home#index'
   # get 'home/index'
@@ -109,7 +109,7 @@ end
 
 **[3번 조치사항]** `flash` 메시지를 애플리케이션 레이아웃 파일에 추가하기 위해서 `app/views/layouts/application.html.erb` 파일을 열고 `<body></body>` 태그 사이에 아래와 같이 임시로 작성해 둔다. 이것은 나중에 다시 구체적으로 작업을 할 예정이다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <body>
 
   <p class="notice"><%= notice %></p>
@@ -122,13 +122,13 @@ end
 
 **[4번 조치사항]** 4번째 조치사항은 레일스 3.2 프로젝트를 허로쿠에 배포할 경우에만 국한 된 사항이므로 여기서는 적용을 하지 않을 것이다. 그러나, 필요한 상황에서는 `config/application.rb` 파일을 열고 아래와 같이 옵션을 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 config.assets.initialize_on_precompile = false
 {%endace%}
 
 **[5번 조치사항]**  5번 조치사항은 `devise`에서 제공해는 다양한 폼을 개발자의 의도에 맞게 수정하기 위해서 `app/views/` 디렉토리에 `devise`라는 하위디렉토리를 생성하고 관련 폼 뷰 템플릿 파일들을 생성한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g devise:views                                                                     
 Running via Spring preloader in process 94426
       invoke  Devise::Generators::SharedViewsGenerator
@@ -159,7 +159,7 @@ Running via Spring preloader in process 94426
 
 이제 `devise` 제너레이터를 이용하여 `User` 모델 리소스를 생성한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g devise User  
 Running via Spring preloader in process 94459
       invoke  active_record
@@ -176,7 +176,7 @@ Running via Spring preloader in process 94459
 
 이를 위해서 `app/models/user.rb` 파일을 열고 아래와 같이 코멘트 처리되어 있는 `:confirmable`을 `devise` 메소드의 인수로 추가해 준다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
@@ -188,7 +188,7 @@ end
 
 그리고 `db/migrate/20140609040948_devise_create_users.rb` 파일을 열고 `##Confirmable` 아래 4개의 코드라인과 하단의 `:confirmable_token` 속성에 대한 `add_index` 메소드 코드라인의 코멘트 문자를 제거한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 
 ## Confirmable
  t.string   :confirmation_token
@@ -202,7 +202,7 @@ end
 
 이제 마이그레이션 작업을 한다. 먼저 데이터베이스를 생성해 주어야 한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:create                                                                            
 Running via Spring preloader in process 94740
 {%endace%}
@@ -213,7 +213,7 @@ Running via Spring preloader in process 94740
 
 그리고 `db:migrate` 작업을 실행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:migrate                                                                           
 Running via Spring preloader in process 94767
 == 20160513064912 DeviseCreateUsers: migrating ================================

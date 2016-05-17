@@ -3,7 +3,7 @@
 `posts.scss` 파일에 아래와 같이 추가한다.
 
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 // devise 모든 뷰 파일에 포함되는 _links.erb 파일의 <a>를 블럭으로 표시함.
 .devise-links {
   a {
@@ -63,7 +63,7 @@ a.close {
 
 그리고 `custom.scss` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .button {
   @include button;
   background-color: white;
@@ -96,7 +96,7 @@ a.close {
 
 방근 전에 작성한 `posts.scss`와 `custom.scss` 파일을  `application.scss` 파일에 임포트하고 아래와 같이 `media query` 부분을 추가한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 @import 'foundation_and_overrides';
 @import 'custom';
 @import 'posts';

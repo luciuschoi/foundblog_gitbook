@@ -8,19 +8,19 @@
 
 `Gemfile`에 아래와 같이 젬을 추가하고,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'acts-as-taggable-on'
 {%endace%}
 
-번들 인스톨한다.
+번들 인스톨한다. 
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/bundle install
 {%endace%}
 
 관련 마이그레이션 파일을 생성하기 위해 아래와 같이 명령을 실행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ rake acts_as_taggable_on_engine:install:migrations
 Copied migration 20140619084755_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
 Copied migration 20140619084756_add_missing_unique_indices.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
@@ -29,7 +29,7 @@ Copied migration 20140619084757_add_taggings_counter_cache_to_tags.acts_as_tagga
 
 3개의 마이그레이션 파일이 생성되었다. 이제 마이그레이션 작업을 아래와 같이 한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:migrate
 Running via Spring preloader in process 49230
 == 20160517073753 ActsAsTaggableOnMigration: migrating ========================
@@ -74,7 +74,7 @@ Running via Spring preloader in process 49230
 
 이 장에서 변경할 `app/assets/styleseets/posts.scss` 파일의 `.post` 클래스는 아래와 같다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .post {
   margin-bottom:2em;
   .category {
@@ -116,7 +116,7 @@ Running via Spring preloader in process 49230
 
 이제 태그를 입력받기 위해서 `app/views/posts/_form.html.erb` 파일을 열고 아래와 같이 속성을 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <%= f.input :tag_list %>
 ...
@@ -128,7 +128,7 @@ Running via Spring preloader in process 49230
 
 그리고 `app/controllers/posts_controller.rb` 파일을 열고 하단의 `post_params` 메소드에서 `strong parameter`에 `tag_list` 속성을 등록하기 위해서 `.permit()` 목록에 추가해 준다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def post_params
   params.require(:post).permit(:category_id, :user_id, :title, :content, :published, :tag_list)
 end
@@ -136,7 +136,7 @@ end
 
 `Post` 모델 클래스에는 `acts-as-taggable` 모듈을 추가해 준다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Post < ActiveRecord::Base
   ...
   acts_as_taggable
@@ -153,7 +153,7 @@ end
 
 위의 캡쳐화면에서 `1`번 위치에 태그들이 보이게 될 것이다. 이 `tag` 각각에에 링크를 추가하기 위해서는 `<a>` 링크 태그를 사용하면 되는데, 아래와 같이 헬퍼 메소드를 작성하여 사용하면 편리하다. 아래의 메소드를 `app/helpers/application_helper.rb` 파일에 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def icon_tags(tags_array)
   label_tags = ""
   tags_array.each do |tag|
@@ -167,7 +167,7 @@ end
 
 이제 `app/views/posts/_post.html.erb` 파일을 열고 해당 위치에 아래와 같이 `ERB` 코드를 추가한다. 이 때 카테고리 항목도 추가해 준다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <div class='category'>
   <%= icon('folder') + ' ' + post_category(post) %>
@@ -182,7 +182,7 @@ end
 
 이제, 각 태그를 클릭하면 아래와 같이 해당 태그가 상단에 표시되는데, `app/views/posts/index.html.erb` 파일을 열고 아래와 같이 추가한다
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% if params[:tag] %>
   <%= icon('pricetag-multiple') %> <span class='alert round label'><strong><%= params[:tag] %></strong></span> <small>( <%= @posts.size %> )</small>
 <% end %>
@@ -193,7 +193,7 @@ end
 
 `app/views/posts/show.html.erb` 파일을 열과 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div class='post'>
   <div class='title'>
     <H3><%= @post.title %></H3>
@@ -222,7 +222,7 @@ end
 
 그리고 위에서 사용한 `post_category()` 헬퍼 메소드를 정의한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 Module PostsHelper
 
   def post_category(post)
@@ -239,7 +239,7 @@ end
 
 `app/controllers/posts_controller.rb` 파일을 열고,`posts#index` 액션에서 파라미터로 `:tag` 항목이 넘어올 경우 해당 태그로 검색을 하도록 하는 코드를 아래와 같이 추가해 준다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def index
   if @category
     @posts = @category.posts.published_posts
@@ -259,7 +259,7 @@ end
 
 그리고 아래와 같이 `Tag Cloud` 만을 표시할 액션을 추가하면 필요시 이 액션에 대한 뷰 템플릿 파일을 생성하면 바로 사용할 수 있다. 이것은 전체 레이아웃에서 사용할 것이기 때문에 `tag_cloud` 액션을 `app/controllers/application_controller.rb` 파일 하단에 추가하고, 상단에 `before_action` 필터로 등록한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -290,7 +290,7 @@ end
 
 `Tag cloud`는 현재 사용되고 있는 태그들을 보여주고 각 태그의 빈도를 글자의 크기로 표시해 준다. `acts-as-taggable-on` 젬을 사용할 때 태그를 달고자 하는 모델 클래스에 `acts_as_taggable`을 선언해 주면 해당 모델 클래스에 대해서 `tag_counts_on(:tags)` 클래스 메소드를 사용할 수 있다. 레일스 콘솔에서 이 메소드의 실행결과를 확인할 수 있다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> tags = Post.tag_counts_on :tags
@@ -309,7 +309,7 @@ irb(main):001:0> tags = Post.tag_counts_on :tags
 
 즉, 태그별로 사용된 빈도수 정보를 담고 있는 개체 배열을 반환한다. `acts-as-taggable-on` 젬에서 제공해 주는  `ActsAsTaggableOn::TagsHelper` 모듈을 헬퍼 파일(여기서는 `app/helpers/posts_helper.rb` 파일에 인크루드하면 `tag_cloud`라는 모듈 메소드를 사용하여 이러한 `Tag Cloud` 기능을 쉽게 구현할 수 있다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 module PostsHelper
   include ActsAsTaggableOn::TagsHelper
 
@@ -321,7 +321,7 @@ end
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_08-56-48_zps3c8fa344.png)
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% @tags = Post.tag_counts_on(:tags) if @tags.blank? %>
 ...
 
@@ -333,7 +333,7 @@ end
 
 설명한 바와 같이 태그의 빈도수를 글자크기로 표시하기 위해서 이 젬이 내부적으로 사용하는 CSS 클래스들을 정의해 주어야 한다. `app/assets/stylesheets/posts.scss` 파일을 열고 아래와 같이 추가해 준다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .css1 { font-size: .6em; }
 .css2 { font-size: .8em; }
 .css3 { font-size: 1.0em; }
@@ -342,7 +342,7 @@ end
 
 그러나 위의 캡쳐화면에서 보는 바와 같이 태그명에 박스를 표시하고 배경을 회색으로 처리하기 위해서 아래와 같이 수정해서 사용하였다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .css1 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: .6em; }
 .css2 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: .8em; }
 .css3 { border:1px solid #eaeaea;border-radius:5px;padding:0 3px;background-color: #eaeaea;line-height:1.4em;font-size: 1.0em; }

@@ -4,7 +4,7 @@
 
 셋업을 하기 위해서는 `config/environments/development.rb` 파일을 열고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 config.action_mailer.delivery_method = :letter_opener
 {%endace%}
 

@@ -4,19 +4,19 @@
 
 `Gemfile`에 아래와 같이 추가하고,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'foundation-icons-sass-rails'
 {%endace%}
 
 번들 인스톨한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/bundle install
 {%endace%}
 
 `app/assets/stylesheets/application.scss` 파일을 열고 아래와 같이 추가해 준다.
 
-{%ace edit=false, lang='css'%}
+{%ace edit=false, lang='css', theme='monokai'%}
 @import 'foundation-icons';
 {%endace%}
 

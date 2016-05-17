@@ -6,7 +6,7 @@
 
 아래는 `CommentAuthorizer` 클래스의 코드를 보여주며, `deletable_by` 인스턴스 메소드를 추가한다. 이 메소드는 본인이 작성한 댓글만을 삭제할 수 있는 권한을 부여한다. 물론 `:admin` 권한을 가진 사용자는 모든 댓글을 삭제할 수 있다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class CommentAuthorizer < ApplicationAuthorizer
 
   # :user, :author, :admin 권한이 있는 사용자만 댓글을 작성할 수 있음.
@@ -24,7 +24,7 @@ end
 
 이미 앞서 `Comment` 모델을 작성하였기 때문에 `:body` 속성을 필수항목으로 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Comment < ActiveRecord::Base
   resourcify
   include Authority::Abilities
@@ -39,7 +39,7 @@ end
 
 이제 `app/controllers/comments_controller.rb` 파일을 열고 `create`와 `destroy` 액션을 작성한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
@@ -84,7 +84,7 @@ end
 
 `app/views/posts/_post.html.erb` 파일을 열고 댓글의 갯수만 표시하도록 하자. 이것은 `posts#index` 액션의 뷰 페이지에서 보여줄 파셜 템플릿 파일이다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <% if post.comments.count > 0 %>
   <div class='comments'>
@@ -96,13 +96,13 @@ end
 
 `app/views/posts/show.html.erb` 파일을 열고 하단에 아래와 같이 댓글 표시할 부분으로 파셜 뷰 템플릿을 렌더링하도록 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <%= render partial: 'comments/comments', locals: { post: @post } %>
 {%endace%}
 
 이제 `app/views/comments/_comments.html.erb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% comment = post.comments.new %>
 <div id="comments_<%=post.id%>" class='post_comments'>
   <h4>Comments <small>( <%= post.comments.count %> )</small></h4>
@@ -119,7 +119,7 @@ end
 
 실제로 댓글을 표시할 파셜 템플릿 파일을 작성하기 위해서 `app/views/comments/_comment.html.erb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% if comment.body.present? %>
 <li id="comment_<%=comment.id%>" class="comment">
   <%= simple_format comment.body %>
@@ -139,7 +139,7 @@ end
 
 `app/views/comments/_form.html.erb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <%= simple_form_for [comment.post, comment], remote: true do | f | %>
   <%= f.input :body, placeholder: 'Add a comment', label: false, input_html: { class: "form-control", rows: 5 } %>
   <div style='text-align:right;'>
@@ -152,7 +152,7 @@ end
 
 이상의 것을 정리하면, 댓글 생성할 때 `create` 액션 결과로  `app/views/comments/create.js.erb` 파일이 렌더링되어 클라이언트로 응답하고,
 
-{%ace edit=false, lang='rjs'%}
+{%ace edit=false, lang='rjs', theme='monokai'%}
 <% if @comment.errors.size == 0 %>
   $('<%=j render @comment %>').appendTo($("#list_of_comments_<%=@post.id %> ul")).hide().fadeIn('fast');
   $("#form_of_comments_<%=@post.id %> form")[0].reset();
@@ -163,13 +163,13 @@ end
 
 댓글 삭제시는 `destroy` 액션의 응답으로 `app/views/comments/destroy.js.erb` 파일을 렌더링하여 클라이언트로 응답하게 된다.
 
-{%ace edit=false, lang='javascript'%}
+{%ace edit=false, lang='javascript', theme='monokai'%}
 $("#comment_<%=@comment.id %>").slideUp('fast');
 {%endace%}
 
 댓글 관련 `CSS`를 정리하여  `app/assets/stylesheets/comments.scss` 파일에 아래와 같이  추가하고,
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 ul.comments {
   li.comment {
     list-style: none;
@@ -189,7 +189,7 @@ ul.comments {
 
 이 파일을 `application.scss` 파일에 임포트한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 ...
 @import 'comments';
 ...
@@ -197,7 +197,7 @@ ul.comments {
 
 `_post.html.erb` 파일에서 사용할 `CSS`를 수정하기 위해 `app/assets/posts/posts.scss` 파일을 열고 아래와 같이 수정한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 ...
 .comments {
   font-size: .8em;
@@ -211,7 +211,7 @@ ul.comments {
 
 `app/views/posts/show.html.erb` 파일을 열고 아래와 같이 수정한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div class='post'>
   <div class='title'>
     <H3><%= @post.title %></H3>

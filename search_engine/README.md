@@ -15,19 +15,19 @@
 
 이를 위해서 우선 `Gemfile`을 열고 아래와 같이 젬을 추가하고,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'search_cop'
 {%endace%}
 
 번들 인스톨한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/bundle install
 {%endace%}
 
 `Post` 모델 파일을 열고 아래와 같이 검색을 위한 모듈을 추가하고 검색할 속성을 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Post < ActiveRecord::Base
   ...
   include SearchCop
@@ -43,7 +43,7 @@ end
 
 `posts#index` 액션에 검색기능을 추가하기 위해서 `app/controllers/posts_controller.rb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 ...
 def index
   if params[:search]
@@ -67,7 +67,7 @@ end
 
 그리고 `app/views/layouts/general_layout.html.erb` 파일을 열고 해당 위치에 아래와 같이 검색을 위한 파셜을 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <div class='medium-3 columns' style="margin-top: 1em">
 
@@ -83,7 +83,7 @@ end
 
 그리고 `app/views/layouts/_search.html.erb` 파셜 파일을 생성하고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <%= form_tag posts_path, :method => :get do %>
 <div class="row">
   <div class="large-12 columns">

@@ -1,20 +1,20 @@
 # 허로쿠에 배포하기
 
-이제 지금까지 작업한 내용을 [허로쿠](https://www.heroku.com/)로 배포할 것이다.
+지금까지 작업한 내용을 [허로쿠](https://www.heroku.com/)로 배포할 것이다.
 
-배포 전에 한가지 해야 할 것이 있다. `devise` 젬의 `confirmable` 기능을 사용할 경우, 사용자 등록시 확인 이메일을 발송한다. 이를 위해서 이메일 발송을 위한 셋팅을 해야 한다.
+배포 전에 해야 할 것들이 있다. `devise` 젬의 `confirmable` 기능을 사용할 경우, 사용자 등록시 확인 이메일을 발송한다. 이를 위해서 이메일 발송을 위한 셋팅을 해야 한다.
 
-여기서는 [`Mailgun`](https://mailgun.com/)을 사용해서 메일을 발송한다.
+여기서는 [`Mailgun`](https://mailgun.com/)을 사용해서 메일을 발송할 것이다.
 
 우선, `mailgun_rails` 젬을 추가하고 번들 인스톨한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'mailgun_rails'
 {%endace%}
 
 `config/environments/production.rb` 파일을 열고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 config.action_mailer.delivery_method = :mailgun
 config.action_mailer.mailgun_settings = {
   api_key: Rails.application.secrets.mailgun_api_key,
@@ -26,7 +26,7 @@ config.action_mailer.raise_delivery_errors = true
 
 `config/secrests.yml` 파일을 열고 아래와 같이  `mailgun_api_key` 키를 등록한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 production:
   secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
   mailgun_api_key: <%= ENV["MAILGUN_API_KEY"] %>
@@ -34,27 +34,27 @@ production:
 
 실제 키값을 `MAILGUN_API_KEY` 환경변수로 허로쿠에 등록한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku config:set MAILGUN_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 {%endace%}
 
 허로쿠 배포를 위해서는 `Gemfile`에 아래의 두개 젬을 필수로 추가하고 번들 인스톨한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'pg', group: :production
 gem 'rails_12factor', group: :production
 {%endace%}
 
 아직 `github`로 `git push` 하지 않았다면 `github`에서 저장소를 만들고 푸시한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ git remote add origin https://github.com/[github-account]/foundblog_app.git
 $ git push -u origin master
 {%endace%}
 
 이제 [허로쿠 툴벨트](https://toolbelt.heroku.com)를 설치하고, 허로쿠 `login`한 후 애플리케이션을 생성한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku login
 $ heroku create
 Heroku CLI submits usage information back to Heroku. If you would like to disable this, set `skip_analytics: true` in /Users/[your-account]/.heroku/config.json
@@ -66,7 +66,7 @@ https://obscure-cove-70618.herokuapp.com/ | https://git.heroku.com/obscure-cove-
 >
 > `heroku create` 명령 실행시 애플리케이션 이름을 지정할 수 있다. 그러나 중복된 이름을 지정하면 아래와 같이 에러 메시지 표시된다. 위와 같이 애플리케이션 이름을 지정하지 않으면 허로쿠가 알아서 임의로 지정한다.
 >
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku create foundblog                                                                                        
 Creating ⬢ foundblog... !!!
  ▸    Name is already taken
@@ -75,7 +75,7 @@ Creating ⬢ foundblog... !!!
 
 허로쿠 애플리케이션 이름을 `foundblog6`로 변경한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku apps:rename foundblog6                        
 Renaming obscure-cove-70618 to foundblog6... done
 https://foundblog6.herokuapp.com/ | https://git.heroku.com/foundblog6.git
@@ -85,13 +85,13 @@ Git remote heroku updated
 
 그리고, 변경된 도메인 주소를 `config/routes.rb` 파일에서 `default_url_options[:host]`로 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 Rails.application.routes.default_url_options[:host] = 'foundblog6.herokuapp.com'
 {%endace%}
 
 다음은 `heroku-postgresql`을 아래와 같이 추가하고,
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku addons:create heroku-postgresql
 Creating postgresql-rigid-15787... done, (free)
 Adding postgresql-rigid-15787 to obscure-cove-70618... done
@@ -104,7 +104,7 @@ Use `heroku addons:docs heroku-postgresql` to view documentation.
 
 다음과 같이 허로쿠로 배포한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ git push heroku master
 Counting objects: 384, done.
 Delta compression using up to 8 threads.
@@ -264,7 +264,7 @@ To https://git.heroku.com/obscure-cove-70618.git
 위의 배포 로그 중에서 2개의 경고문을 주의해서 봐야 한다.
 우선, `Gemfile` 상단에 루비 버전을 명시해 주어야 한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 source 'https://rubygems.org'
 ruby '2.3.0'
 # Added for this project
@@ -277,7 +277,7 @@ gem 'rolify'
 
 두번째는 프로젝트 디렉토리에 `Procfile`을 작성해야 한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ vi Procfile
 web: bundle exec rackup config.ru -p $PORT
 {%endace%}
@@ -285,7 +285,7 @@ web: bundle exec rackup config.ru -p $PORT
 
 이제 방금 변경한 내용을 커밋한 후 `git push heroku master` 명령을 실행하면 아래와 같이 경고문 없이 배포되어야 한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 ...
 ...
 remote:        Bundle complete! 24 Gemfile dependencies, 72 gems now installed.
@@ -318,7 +318,7 @@ To https://git.heroku.com/obscure-cove-70618.git
 
 이제, 아래와 같이 데이터베이스 마이그레이션을 해 주면 배포가 완성된다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku run rake db:migrate                                                                                     master
 Running rake db:migrate on obscure-cove-70618... up, run.3533
    (8.9ms)  CREATE TABLE "schema_migrations" ("version" character varying NOT NULL)
@@ -490,7 +490,7 @@ Migrating to ChangeCollationForTagNames (20160517073757)
 
 허로쿠의 로그 상태를 모니터링하고자 할 때는 아래와 같은 명령을 실행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ heroku logs --tail
 {%endace%}
 

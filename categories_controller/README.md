@@ -13,7 +13,7 @@
 
 또한 `create` 액션에는 현재 로그인 사용자의 `id`가 자동으로 입력되도록 하기 위해 `Category.new`를 `current_user.categories.new`로 변경한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_category, only: [:show, :edit, :update, :destroy]
@@ -30,7 +30,7 @@ end
 
 `app/views/categories/_form.html.erb` 파일을 열고 불필요한 `user_id` 속성에 대한 입력부분을 삭제한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <%= simple_form_for(@category) do |f| %>
   <%= f.error_notification %>
 
@@ -46,7 +46,7 @@ end
 
 `app/views/categories/edit.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>Editing category</h2>
 
 <%= render 'form' %>
@@ -59,7 +59,7 @@ end
 
 `app/views/categories/new.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>New category</h2>
 
 <%= render 'form' %>
@@ -71,7 +71,7 @@ end
 
 `app/views/categories/index.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 
 <h2>Listing categories</h2>
 
@@ -105,7 +105,7 @@ end
 
 `app/views/categories/show.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>Preview of Category</h2>
 
 <p>
@@ -126,7 +126,7 @@ end
 
 다음은 위의 캡쳐된 화면에서와 같이 `sidebar`에 `1`번 `Category` 부분을 표시하기 위해서 `app/layoutes/general_layout.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <p>Category : <small><%= link_to "Admin", categories_path if user_signed_in? && current_user.has_role?(:admin) %></small></p>
 <ul>
@@ -148,7 +148,7 @@ end
 
 브라우저에서 확인하기 위해서는 새로운 사용자를 등록하고 레일스 콘솔에서 `:admin` 권한을 추가한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> admin_user = User.create! email: 'admin@email.com', password: '12345678', confirmed_at: Time.now
@@ -162,7 +162,7 @@ irb(main):004:0> admin_user.roles.map(&:name)
 
 그리고 `Post` 모델 클래스에서 미분류 카테고리에 대한 `scope`를 추가로 작성한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 ...
 scope :uncategorized_posts, -> {
 published_posts.where(category_id: nil) }
@@ -173,7 +173,7 @@ published_posts.where(category_id: nil) }
 
 각 카테고리에는 해당 카테고리의 `posts`들을 보여주기 위한 링크가 연결되어 있다. 이를 위한 중첩된 리소스 라우팅을 위해서는 `config/routes.rb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 Rails.application.routes.draw do
 
   root 'posts#index'
@@ -200,7 +200,7 @@ end
 
 이를 위해서 `app/views/posts/index.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <% unless @category_name.blank? %>
 <div class='category'>
   <strong>Category:</strong>
@@ -218,7 +218,7 @@ end
 
 상단에서 사용한 `@category_name`은 `posts#index` 액션에서 인스턴스 변수로 선언한 것이다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 @category_name = params[:category_id] == '0' ? "Uncategorized" : (@category ? @category.name : "")
 {%endace%}
 
@@ -226,7 +226,7 @@ end
 
 `Category` 별로 `posts`를 보기 위해서는 `posts` 컨트롤러를 아래와 같이 수정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_category
@@ -333,7 +333,7 @@ end
 
 마지막으로 `app/views/posts/show.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <div class='post'>
   <div class='category'>
     <strong>Category:</strong>

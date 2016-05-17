@@ -2,7 +2,7 @@
 
 먼저 `Category` 리소스를 생성하고 다음에 생성할 `Post` 모델과는 `has_many`, `belongs_to` 메소드로 관계선언한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g scaffold Category user:references name
 Running via Spring preloader in process 97019
       invoke  active_record
@@ -41,7 +41,7 @@ Running via Spring preloader in process 97019
 
 그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class CreateCategories < ActiveRecord::Migration
   def change
     create_table :categories do |t|
@@ -57,7 +57,7 @@ end
 
 이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 생성한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g scaffold Post category:references user:references title content:text published:boolean
 Running via Spring preloader in process 96447
       invoke  active_record
@@ -96,7 +96,7 @@ Running via Spring preloader in process 96447
 
 여기서 `Post` 모델은 카테고리별로 분류할 수 있어야 한다. 따라서 `category:references` 옵션을 추가한다. `published:boolean`은 작성한 글을 다른 사람들이 보지 못하게 할 목적으로 추가한다. 그리고 디폴트 값은 `false`로 지정하고, `title`과 `content` 속성은 `null: false`로 옵션을 추가하여 필수항목으로 지정하기 위해서 `db/migrate/20160513085038_create_posts.rb` 파일을 열어서 아래와 같이 변경한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
@@ -114,7 +114,7 @@ end
 
 다음으로, 글에 대한 댓글을 달기 위해서 `Comment` 리소스를 생성한다. 이때는 `resource` 제너레이터를 사용한다. `scaffold` 제너레이터와의 차이점은 뷰 관련 리소스(뷰 템플릿 파일과 관련 레이아웃과 css 파일)을 생성하지 않는다는 것이다. 이에 대한 자세한 내용은 [`여기`](http://www.question-defense.com/2009/12/29/rails-resource-vs-rails-scaffold)를 참고하기 바란다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g resource Comment user:references post:references body:text
 Running via Spring preloader in process 96900
       invoke  active_record
@@ -145,7 +145,7 @@ Running via Spring preloader in process 96900
 
 이제 지금까지 생성한 모델에서 대해서 마이그레이션 작업을 수행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:migrate
 == 20140609052247 CreatePosts: migrating ======================================
 -- create_table(:posts)
@@ -160,7 +160,7 @@ $ bin/rake db:migrate
 
 `Category` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class Category < ActiveRecord::Base
   belongs_to :user
   has_many :posts, dependent: :nullify
@@ -169,7 +169,7 @@ end
 
 `User` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 has_many :categories, dependent: :nullify
 has_many :posts, dependent: :destroy
 {%endace%}
@@ -181,7 +181,7 @@ has_many :posts, dependent: :destroy
 
 `posts_controller.rb` 파일의 상단에 아래와 같이 추가한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 ...

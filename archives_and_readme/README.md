@@ -4,7 +4,7 @@
 
 이를 위해서 우선 `posts` 컨트롤러(`app/controllers/posts_controller.rb`)에 아래와 같이 `archive` 액션을 추가하고,
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 def archive
   @posts = Post.published_posts
 end
@@ -12,7 +12,7 @@ end
 
 `routes.rb` 파일에서 `resources :posts`에 `:collection`으로 등록한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 resources :posts do
   get 'archive', on: :collection
   get 'list_my', on: :collection
@@ -24,7 +24,7 @@ end
 
 이제 이 액션에 대한 뷰 템플릿 파일(`app/views/posts/archive.html.erb`)을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>Archives</h2>
 <table id='archives'>
   <% archive_year_month = "" %>
@@ -50,7 +50,7 @@ end
 
 그리고 여기서 사용한 `CSS` 클래스를 작성하기 위해 `app/assets/posts.scss` 파일에 아래와 같이 추가한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 table#archives {
   margin-bottom:1em;
   width:100%;
@@ -79,7 +79,7 @@ table#archives {
 
 자, 이제 상단 메뉴에 있는 `Readme` 항목의 뷰 파일을 만들기 위해서 `welcome` 컨트롤러와 `readme` 액션을 생성한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g controller welcome readme
       create  app/controllers/welcome_controller.rb
        route  get 'welcome/readme'
@@ -101,7 +101,7 @@ $ bin/rails g controller welcome readme
 
 그리고 `readme` 액션에서는 특별한 작업이 필요없기 때문에 이 액션에 대한 뷰 파일(`app/views/welcome/readme.html.erb`)을 열고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 <h2>Readme</h2>
 <br />
 
@@ -122,7 +122,7 @@ $ bin/rails g controller welcome readme
 
 이제 관련 `CSS`를 추가하기 위해 `app/assets/stylesheets/welcome.scss` 파일을 열고 아래와 같이 추가한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 .emblem {
   float:left;
   width:25%;
@@ -140,7 +140,7 @@ blockquote.code {
 
 그리고, `app/assets/stylesheets/application.scss` 파일을 열고 추가한다.
 
-{%ace edit=false, lang='scss'%}
+{%ace edit=false, lang='scss', theme='monokai'%}
 ...
 @import "welcome";
 ...
@@ -148,7 +148,7 @@ blockquote.code {
 
 `config/routes.rb` 파일을 열고, `welcome#readme` 액션에 대한 라우트를 아래와 같이 업데이트한다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 ...
 get 'welcome/readme', as: :readme
 ...
@@ -159,7 +159,7 @@ get 'welcome/readme', as: :readme
 
 마지막으로 `app/views/layouts/application.html.erb` 파일을 열고, 상단 메뉴에 링크를 추가해 준다.
 
-{%ace edit=false, lang='rhtml'%}
+{%ace edit=false, lang='rhtml', theme='monokai'%}
 ...
 <div class="top-bar" id="example-menu">
   <div class="top-bar-left">

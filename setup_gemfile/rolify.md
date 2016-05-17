@@ -4,7 +4,7 @@
 
 우선 `Role`이라는 모델을 아래와 같이 생성한다. 이 때 `User` 모델이 이미 생성되어 있는 것으로 간주한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g rolify Role                                                                       
 Running via Spring preloader in process 94799
       invoke  active_record
@@ -42,7 +42,7 @@ is user.rb), rolify method has been inserted to provide rolify methods.
 
 이제 아래와 같이 마이그레이션 작업을 진행한다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:migrate                                                                           
 Running via Spring preloader in process 94895
 == 20160513065619 RolifyCreateRoles: migrating ================================
@@ -69,7 +69,7 @@ Running via Spring preloader in process 94895
 
 회원가입시 인증 절차가 완료되면 해당 사용자에 대해서 `:user` 라는 `Role`을 지정해야 한다. 이를 위해서는 `confirm` 인스턴스 메소드를 오버라이드하면 된다.
 
-{%ace edit=false, lang='ruby'%}
+{%ace edit=false, lang='ruby', theme='monokai'%}
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
      :recoverable, :rememberable, :trackable, :validatable, :confirmable
@@ -85,7 +85,7 @@ end
 
 애플리케이션을 시작하고(`rails s`), 레일스 콘솔을 아래와 같이 열어둔다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails console -s
 Running via Spring preloader in process 95548
 Loading development environment in sandbox (Rails 4.2.6)
@@ -102,7 +102,7 @@ irb(main):001:0>
 
 이제 콘솔에서 아래와 같이 사용자를 추가하면,
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 irb(main):001:0> User.create! email: "user1@email.com", password: "12345678"
 {%endace%}
 
@@ -121,7 +121,7 @@ irb(main):001:0> User.create! email: "user1@email.com", password: "12345678"
 
 이 때 위에서 `User` 모델 클래스에서 오버라이드했던 `confirm` 메소드가 실행될 때 `add_role :user`가 실행된 것을 콘솔에서도 확인할 수 있다.
 
-{%ace edit=false, lang='sh'%}
+{%ace edit=false, lang='sh', theme='monokai'%}
 ...
 
 SQL (0.2ms)  INSERT INTO "roles" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-06-12 01:39:21.166149"], ["name", "user"], ["updated_at", "2014-06-12 01:39:21.166149"]]
@@ -132,7 +132,7 @@ SQL (0.2ms)  INSERT INTO "roles" ("created_at", "name", "updated_at") VALUES (?,
 > #### Caution::주의
 >
 > 레일스 4.2.6에서는 `role` 추가시 `ArgumentError: Unknown key: :optional.` 에러가 발생할 수 있다. 이 때는 아래와 같이 `:optional => true` 코드라인을 삭제한다.
-> {%ace edit=false, lang='ruby'%}
+> {%ace edit=false, lang='ruby', theme='monokai'%}
 class Role < ActiveRecord::Base
   has_and_belongs_to_many :users, :join_table => :users_roles
 >
