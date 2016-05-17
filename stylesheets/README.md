@@ -3,7 +3,7 @@
 `posts.scss` 파일에 아래와 같이 추가한다.
 
 
-{%ace edit=true, lang='css'%}
+{%ace edit=false, lang='scss'%}
 // devise 모든 뷰 파일에 포함되는 _links.erb 파일의 <a>를 블럭으로 표시함.
 .devise-links {
   a {
@@ -63,7 +63,7 @@ a.close {
 
 그리고 `custom.scss` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=true, lang='css'%}
+{%ace edit=false, lang='scss'%}
 .button {
   @include button;
   background-color: white;
@@ -96,7 +96,7 @@ a.close {
 
 방근 전에 작성한 `posts.scss`와 `custom.scss` 파일을  `application.scss` 파일에 임포트하고 아래와 같이 `media query` 부분을 추가한다.
 
-{%ace edit=true, lang='css'%}
+{%ace edit=false, lang='scss'%}
 @import 'foundation_and_overrides';
 @import 'custom';
 @import 'posts';
@@ -113,7 +113,7 @@ a.close {
 }
 {%endace%}
 
-이제 이전보다 훨씬 깔끔하게 보이게 되었다. 화면의 크기변화에 따라 responsive하게 페이지가 변화는 것을 확인해 보자.
+이제 이전보다 훨씬 깔끔하게 보일 것이다. 화면의 크기변화에 따라 페이지 레이아웃이 변화는 것을 확인한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_12-42-31_zps8ba9ec66.png)
 

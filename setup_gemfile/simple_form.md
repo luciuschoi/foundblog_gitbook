@@ -4,7 +4,7 @@
 
 아래와 같이 `simple_form` 젬을 인스톨할 때 옵션도 함께 지정하는 것을 기억하기 바란다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g simple_form:install --foundation
 Running via Spring preloader in process 93551
       create  config/initializers/simple_form.rb
@@ -14,17 +14,17 @@ Running via Spring preloader in process 93551
       create  lib/templates/erb/scaffold/_form.html.erb
 {%endace%}
 
-마지막에 생성된 `_form.html.erb` 파일을 에디터로 열어 `f.button`에 아래와 같이 클래스를 추가해서, 레일스의 `scaffold` 제너레이터로  폼 파일을 생성할 때 디폴트로 적용되도록 한다.
+마지막에 생성된 `_form.html.erb` 파일을 에디터로 열어 `f.button`에 아래와 같이 클래스를 추가한다. 이것은 레일스의 `scaffold` 제너레이터로  폼 파일을 생성할 때 디폴트로 적용된다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <div class="form-actions">
-  <%%= f.button :submit, class: 'button small radius' %>
+  <%%= f.button :submit, class: 'button small' %>
 </div>
 {%endace%}
 
 ---
 
-> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.2장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02장4절
 
 ---
 

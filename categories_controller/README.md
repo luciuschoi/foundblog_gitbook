@@ -1,19 +1,19 @@
 # categories 컨트롤러의 뷰 템블릿 파일
 
-블로그의 글들은 적절하게 분류해서 방문자들이 보다 편리하게 원하는 글들을 모아 볼 수 있도록 해야 한다.
+블로그의 글들은 적절하게 분류해서 방문자들이 보다 편리하게 모아 볼 수 있도록 해야 한다.
 
 현재, 글을 작성할 때 카테고리를 선택할 수 있도록 구현해 놓은 상태이기 때문에, 카테고리에서 사용할 데이터를 관리하는 부분을 구현해야 한다. 이 작업은 `:admin` 과 `:author` 권한을 가진 사용자만 할 수 있도록 하자. 글을 작성할 때 적절할 카테고리가 없을 경우 새로운 카테고리를 추가할 수 있어야 한다.
 
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-19_15-00-03_zpsd34d10c8.png)
 
-`categories` 컨트롤러 파일을 열고 상단에 로그인 상태를 점검하기 위해 `before_action :authenticate_user!`를 추가한다.
+`categories` 컨트롤러 파일을 열고 상단에 로그인 상태(인증)를 점검하기 위해 `before_action :authenticate_user!`를 추가한다.
 
-그리고, `:admin` 권한을 가지 사용자만 이 컨트롤러에 접근할 수 있도록 `authorize_actions_for Category`를 추가한다.
+그리고, `:admin` 권한을 가진 사용자만 이 컨트롤러에 접근할 수 있도록 `authorize_actions_for Category`를 추가한다.
 
 또한 `create` 액션에는 현재 로그인 사용자의 `id`가 자동으로 입력되도록 하기 위해 `Category.new`를 `current_user.categories.new`로 변경한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_category, only: [:show, :edit, :update, :destroy]
@@ -30,7 +30,7 @@ end
 
 `app/views/categories/_form.html.erb` 파일을 열고 불필요한 `user_id` 속성에 대한 입력부분을 삭제한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <%= simple_form_for(@category) do |f| %>
   <%= f.error_notification %>
 
@@ -46,32 +46,32 @@ end
 
 `app/views/categories/edit.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <h2>Editing category</h2>
 
 <%= render 'form' %>
 
 <hr>
 
-<%= link_to 'Show', @category, class: 'button small radius' %>
-<%= link_to 'Back', categories_path, class: 'button small radius' %>
+<%= link_to 'Show', @category, class: 'button small' %>
+<%= link_to 'Back', categories_path, class: 'button small' %>
 {%endace%}
 
 `app/views/categories/new.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <h2>New category</h2>
 
 <%= render 'form' %>
 
 <hr>
 
-<%= link_to 'Back', categories_path, class: 'button small radius' %>
+<%= link_to 'Back', categories_path, class: 'button small' %>
 {%endace%}
 
 `app/views/categories/index.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 
 <h2>Listing categories</h2>
 
@@ -100,12 +100,12 @@ end
 
 <br>
 
-<%= link_to 'New Category', new_category_path, class: 'button small radius' %>
+<%= link_to 'New Category', new_category_path, class: 'button small' %>
 {%endace%}
 
 `app/views/categories/show.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <h2>Preview of Category</h2>
 
 <p>
@@ -120,13 +120,13 @@ end
 
 <hr>
 
-<%= link_to 'Edit', edit_category_path(@category), class: 'button small radius' %>
-<%= link_to 'Back', categories_path, class: 'button small radius' %>
+<%= link_to 'Edit', edit_category_path(@category), class: 'button small' %>
+<%= link_to 'Back', categories_path, class: 'button small' %>
 {%endace%}
 
 다음은 위의 캡쳐된 화면에서와 같이 `sidebar`에 `1`번 `Category` 부분을 표시하기 위해서 `app/layoutes/general_layout.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 ...
 <p>Category : <small><%= link_to "Admin", categories_path if user_signed_in? && current_user.has_role?(:admin) %></small></p>
 <ul>
@@ -148,7 +148,7 @@ end
 
 브라우저에서 확인하기 위해서는 새로운 사용자를 등록하고 레일스 콘솔에서 `:admin` 권한을 추가한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails c
 Loading development environment (Rails 4.1.1)
 irb(main):001:0> admin_user = User.create! email: 'admin@email.com', password: '12345678', confirmed_at: Time.now
@@ -162,18 +162,18 @@ irb(main):004:0> admin_user.roles.map(&:name)
 
 그리고 `Post` 모델 클래스에서 미분류 카테고리에 대한 `scope`를 추가로 작성한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 ...
 scope :uncategorized_posts, -> {
 published_posts.where(category_id: nil) }
 ...
 {%endace%}
 
-이제 `admin@email.com`으로 로그인한 후 위에서 작업한 내용이 제대로 반영되었는지 확인하자.
+이제 `admin@email.com`으로 로그인한 후 위에서 작업한 내용이 제대로 반영되었는지 확인한다.
 
 각 카테고리에는 해당 카테고리의 `posts`들을 보여주기 위한 링크가 연결되어 있다. 이를 위한 중첩된 리소스 라우팅을 위해서는 `config/routes.rb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 Rails.application.routes.draw do
 
   root 'posts#index'
@@ -194,13 +194,13 @@ end
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-19_16-25-11_zps173ca076.png)
 
-`Category` 우측에 있는 `Admin` 링크를 클릭하여 데모를 위한 카테고리를 몇개 추가하자.
+`Category` 우측에 있는 `Admin` 링크를 클릭하여 데모를 위한 카테고리를 몇개 추가한다.
 
-이제 위 캡쳐화면에서 `1`번 카테고리 링크를 클릭하여 왼쪽에 해당 카테고리의 `posts`들이 보이게 되는데, `2`과 같이 카테고리 이름을 표시하도록 하자.
+이제 위 캡쳐화면에서 `1`번 카테고리 링크를 클릭하여 왼쪽에 해당 카테고리의 `posts`들이 보이게 되는데, `2`과 같이 카테고리 이름을 표시하도록 한다.
 
 이를 위해서 `app/views/posts/index.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <% unless @category_name.blank? %>
 <div class='category'>
   <strong>Category:</strong>
@@ -218,15 +218,15 @@ end
 
 상단에서 사용한 `@category_name`은 `posts#index` 액션에서 인스턴스 변수로 선언한 것이다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 @category_name = params[:category_id] == '0' ? "Uncategorized" : (@category ? @category.name : "")
 {%endace%}
 
-위의 코드에서 보는 바와 같이, 미분류된 `post`들, 즉, `category_id` 값이 없는 `post` 객체들을 보기 위한 링크(`Uncategorized`)를 작성할 때 사용한 `posts_path()` 경로 헬퍼메소드에는 `category_id: 0`와 같이 파라메터를 지정해서 `posts#index` 액션에서 이를 위한 구분을 할 수 있도록 했다.
+위의 코드에서 보는 바와 같이, 미분류된 `post`들, 즉, `category_id` 값이 없는 `post` 객체들을 보기 위한 링크(`Uncategorized`)를 작성할 때 사용한 `posts_path()` 경로 헬퍼메소드에는 `category_id: 0`와 같이 파라메터를 지정해서 `posts#index` 액션에서 이를 위한 구분을 할 수 있도록 한다.
 
-`Category` 별로 `posts`를 보기 위해서는 `posts` 컨트롤러를 아래와 같이 수정해야 한다.
+`Category` 별로 `posts`를 보기 위해서는 `posts` 컨트롤러를 아래와 같이 수정한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_category
@@ -333,7 +333,7 @@ end
 
 마지막으로 `app/views/posts/show.html.erb` 파일을 열고 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <div class='post'>
   <div class='category'>
     <strong>Category:</strong>

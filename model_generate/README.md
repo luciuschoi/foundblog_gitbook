@@ -1,8 +1,8 @@
 # Category/Post/Comment 모델의 생성
 
-먼저 `Category` 리소스를 생성하고 다음에 생성할 `Post` 모델과는 `has_many`, `belongs_to` 메소드로 관계선언을 할 것이다.
+먼저 `Category` 리소스를 생성하고 다음에 생성할 `Post` 모델과는 `has_many`, `belongs_to` 메소드로 관계선언한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g scaffold Category user:references name
 Running via Spring preloader in process 97019
       invoke  active_record
@@ -41,7 +41,7 @@ Running via Spring preloader in process 97019
 
 그리고 `db/migrate/20160513085505_create_categories.rb` 파일을 열고 `:name` 속성에 `null: false` 옵션을 추가하여 필수항목으로 지정한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class CreateCategories < ActiveRecord::Migration
   def change
     create_table :categories do |t|
@@ -55,9 +55,9 @@ end
 {%endace%}
 
 
-이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 만들도록 하자.
+이제 블로그의 게시물 내용을 저장할 `Post` 리소스를 생성한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g scaffold Post category:references user:references title content:text published:boolean
 Running via Spring preloader in process 96447
       invoke  active_record
@@ -94,9 +94,9 @@ Running via Spring preloader in process 96447
       create    app/assets/stylesheets/scaffolds.scss
 {%endace%}
 
-여기서 `Post` 모델은 카테고리별로 분류할 수 있어야 한다. 따라서 `category:referenes` 파라미터를 추가했다. `published:boolean`은 작성한 글을 다른 사람들이 보지 못하게 할 목적으로 추가했다. 그리고 디폴트 값은 `false`로 지정하고, `title`과 `content` 속성은 `null: false`로 옵션을 추가하여 필수항목으로 지정하기 위해서 `db/migrate/20160513085038_create_posts.rb` 파일을 열어서 아래와 같이 변경한다.
+여기서 `Post` 모델은 카테고리별로 분류할 수 있어야 한다. 따라서 `category:references` 옵션을 추가한다. `published:boolean`은 작성한 글을 다른 사람들이 보지 못하게 할 목적으로 추가한다. 그리고 디폴트 값은 `false`로 지정하고, `title`과 `content` 속성은 `null: false`로 옵션을 추가하여 필수항목으로 지정하기 위해서 `db/migrate/20160513085038_create_posts.rb` 파일을 열어서 아래와 같이 변경한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
@@ -112,9 +112,9 @@ class CreatePosts < ActiveRecord::Migration
 end
 {%endace%}
 
-다음으로, 글에 대한 댓글을 달기 위해서 `Comment` 리소스를 생성한다. 이때는 `resource` 제너레이터를 사용한다. `scaffold` 제너레이터와의 차이점은 뷰 템플릿 파일과 관련 레이아웃과 css 파일을 생성하지 않는다는 것이다. 이에 대한 자세한 내용은 [`여기`](http://www.question-defense.com/2009/12/29/rails-resource-vs-rails-scaffold)를 참고하기 바란다.
+다음으로, 글에 대한 댓글을 달기 위해서 `Comment` 리소스를 생성한다. 이때는 `resource` 제너레이터를 사용한다. `scaffold` 제너레이터와의 차이점은 뷰 관련 리소스(뷰 템플릿 파일과 관련 레이아웃과 css 파일)을 생성하지 않는다는 것이다. 이에 대한 자세한 내용은 [`여기`](http://www.question-defense.com/2009/12/29/rails-resource-vs-rails-scaffold)를 참고하기 바란다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g resource Comment user:references post:references body:text
 Running via Spring preloader in process 96900
       invoke  active_record
@@ -145,7 +145,7 @@ Running via Spring preloader in process 96900
 
 이제 지금까지 생성한 모델에서 대해서 마이그레이션 작업을 수행한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rake db:migrate
 == 20140609052247 CreatePosts: migrating ======================================
 -- create_table(:posts)
@@ -158,37 +158,37 @@ $ bin/rake db:migrate
 == 20140609053323 CreateCategories: migrated (0.0012s) ========================
 {%endace%}
 
-`Categroy` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가해 준다.
+`Category` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class Category < ActiveRecord::Base
   belongs_to :user
   has_many :posts, dependent: :nullify
 end
 {%endace%}
 
-`User` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가해 준다.
+`User` 모델 클래스 파일을 열고 아래와 같이 `has_many` 메소드를 추가한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 has_many :categories, dependent: :nullify
 has_many :posts, dependent: :destroy
 {%endace%}
 
-이 메소드에서 사용한 `:dependent` 옵션으로 `:nullify` 값을 지정하면, 부모 클래스 객체가 삭제될 때 자식 클래스 모델도 함께 삭제(`:destroy`)하지 않고 단지 자식 모델의 `foreign key`를 `null` 값으로 지정하게 된다.
+이 메소드에서 사용한 `:dependent` 옵션에 `:nullify` 값을 지정하면, 부모 클래스 객체가 삭제될 때 자식 클래스 모델도 함께 삭제(`:destroy`)하지 않고 단지 자식 모델의 `foreign key`를 `null` 값으로 지정하게 된다.
 
 다음은 로그인이 필요한 컨트롤러의 액션을 생각해 보자.
-`posts` 컨트롤러의 모든 액션에 대해서는 우선 인증이 필요하다고 선언하고 예외적인 상황을 고려하는 것이 이 컨텍스 상에서 적합한 로직(black-list 방식)이 된다. 만약, 새로운 액션을 하나 추가만 했을 경우 이 상황에서는 기본적으로는 인증이 필요한 상태로 된다. 따라서 나중에 이 액션이 인증이 필요없다고 판단할 때 예외적인 상황으로 등록하면 되는 것이다.
+`posts` 컨트롤러의 모든 액션에 대해서 인증이 필요하다고 선언한 후, 예외적인 상황을 고려하는 것이 적합한 로직(black-list 방식)이 된다. 만약, 새로운 액션을 하나 추가만 했을 경우에는 기본적으로는 인증을 필요로 하는 상태가 된다. 따라서 나중에 이 액션이 인증이 필요없다고 판단할 때 예외적인 상황으로 등록하면 되는 것이다.
 
 `posts_controller.rb` 파일의 상단에 아래와 같이 추가한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 ...
 {%endace%}
 
-여기서 사용한 `authentiate_user!` 메소드는 `User` 모델을 `devise` 제너레이터로 생성하면 디폴트로 제공되는 인증 메소드이다.
+여기서 사용한 `authentiate_user!` 메소드는 `User` 모델을 `devise` 제너레이터로 생성할 때 디폴트로 제공되는 인증 메소드다.
 
 ---
 
-> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.5장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제03장

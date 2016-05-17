@@ -8,7 +8,7 @@
 
 이제 `Foundation 6`를 프로젝트에 추가하는 작업이 필요한다. 이것은 레일스의 `asset pipeline`에서 사용할 수 있도록 하는 조치이며 아래와 같은 명령으로 인스톨한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g foundation:install
 Running via Spring preloader in process 92906
       insert  app/assets/javascripts/application.js
@@ -20,12 +20,12 @@ Running via Spring preloader in process 92906
 Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb? (enter "h" for help) [Ynaqdh] Y
        force  app/views/layouts/application.html.erb
    identical  app/assets/stylesheets/foundation_and_overrides.scss
-   identical  app/assets/stylesheets/_settings.scss
+   identical  app/assets/stylesheets/_settings.scss   
 {%endace%}
 
-[기존의 디폴트 어플리케이션 레이아웃 파일]
+[기존의 디폴트 애플리케이션 레이아웃 파일]
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,9 +42,9 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 </html>
 {%endace%}
 
-[Foundation 인스톨이 적용된 어플리케이션 레아이웃 파일]
+[Foundation 인스톨이 적용된 애플리케이션 레아이웃 파일]
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -66,9 +66,9 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 </html>
 {%endace%}
 
-그러나 디폴트 어플리케이션 레이아웃 파일의 중요한 부분들이 `Foundation`용 레이아웃으로 덮어 쓰여진 파일에서 빠진 것을 알 수 있다. 따라서 이 두개의 레이아웃을 합쳐서 아래와 같이 변경한다.
+그러나 디폴트 애플리케이션 레이아웃 파일의 중요한 부분들이 `Foundation`용 레이아웃으로 덮어 쓰여진 파일에서 빠진 것을 알 수 있다. 따라서 이 두개의 레이아웃을 합쳐서 아래와 같이 변경한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,29 +90,30 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 </html>
 {%endace%}
 
-`Motion UI`은 `UI` 트랜지션과 애니메이션을 만들어주는 Sass 라이브러인데, 이를 사용할 경우에는 `foundation_and_overrides.scss` 파일에서 아래의 코드라인을 찾아 코멘트 문자를 제거해 준다.
 
-{%ace edit=true, lang='scss'%}
+레일스에서는 디폴트로 `SCSS`를 사용하므로 추가적인 작업이 필요한다. 즉, 다른 `.scss` 파일에서도 `Foundation 6`의 클래스, mixin, 변수들을 사용할 수 있도록 하기 위해서는 `application.css` 파일을 `application.scss`로 이름을 변경하고 아래와 같이 설치시 생성된 `foundation_and_overrides.scss` 파일을 임포트한다.
+
+{%ace edit=false, lang='rhtml'%}
+@import 'foundation_and_overrides';
+{%endace%}
+
+`Motion UI`은 `UI` 트랜지션과 애니메이션을 만들어주는 Sass 라이브러리인데, 이를 사용할 경우에는 `foundation_and_overrides.scss` 파일에서 아래의 코드라인을 찾아 코멘트 문자를 제거해 준다.
+
+{%ace edit=false, lang='scss'%}
 // @import 'motion-ui/motion-ui';
 // @include motion-ui-transitions;
 // @include motion-ui-animations;
 {%endace%}
 
-레일스에서는 디폴트로 `Sass`를 사용하므로 추가적인 작업이 필요한다. 즉, 다른 `.scss` 파일에서도 `Foundation 6`의 클래스, mixin, 변수들을 사용할 수 있도록 하기 위해서는 `application.css` 파일을 `application.scss`로 이름을 변경하고 아래와 같이 설치시 생성된 `foundation_and_overrides.scss` 파일을 임포트한다.
-
-{%ace edit=true, lang='rhtml'%}
-@import 'foundation_and_overrides';
-{%endace%}
-
 이제부터는 추가로 작성하는 `.scss` 파일은 이 파일에 `@import` 해 주어야 한다. 예를 들어 `posts.scss`파일에 내용을 추가한 후 반영하기 위해서는 아래와 같이 임포트해 주어야 한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 @import 'foundation_and_overrides';
 {%endace%}
 
 ---
 
-> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.1장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02장2절
 
 ---
 

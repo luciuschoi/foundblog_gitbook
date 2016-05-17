@@ -1,12 +1,12 @@
 # Post에 Comment 붙이기
 
-이 프로젝트에서는 `Post` 모델에 대해서만 댓글기능을 추가하면 되기 때문에 굳이 `Comment` 모델을 `Post` 모델에 대해서 `polymorphic` 관계선언할 필요가 없다.
+이 프로젝트에서는 `Post` 모델에 대해서만 댓글기능을 추가하면 되기 때문에 굳이 `Post` 모델에 대한 `Comment` 모델의 관계선언을 `polymorphic`으로 할 필요가 없다.
 
-우선 댓글을 달기 위해서는 로그인상태이어야 한다. 또한 `:user`, `:author`, `:admin` 권한을 가지면 모두 댓글을 달 수 있다. 물론 본인이 작성한 댓글에 대해서만 삭제 권한을 가질 수 있고 댓글은 수정할 수 없도록 하자.
+우선 댓글을 달기 위해서는 로그인 상태여야 한다. 또한 `:user`, `:author`, `:admin` 권한을 가지면 댓글을 달 수 있다. 물론 본인이 작성한 댓글에 대해서만 삭제 권한을 가질 수 있고 댓글은 수정할 수 없도록 하자.
 
-아래는 `CommentAuthorizer` 클래스의 코드를 보여주며, `deletable_by` 인스턴스 메소드를 추가하였다. 삭제할 경우는 권한제한에 무관하게 본인이 작성한 것만 삭제할 수 있으면 된다. 물론 `:admin` 권한을 가진 사용자는 모든 댓글을 삭제할 수 있다.
+아래는 `CommentAuthorizer` 클래스의 코드를 보여주며, `deletable_by` 인스턴스 메소드를 추가한다. 이 메소드는 본인이 작성한 댓글만을 삭제할 수 있는 권한을 부여한다. 물론 `:admin` 권한을 가진 사용자는 모든 댓글을 삭제할 수 있다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class CommentAuthorizer < ApplicationAuthorizer
 
   # :user, :author, :admin 권한이 있는 사용자만 댓글을 작성할 수 있음.
@@ -24,7 +24,7 @@ end
 
 이미 앞서 `Comment` 모델을 작성하였기 때문에 `:body` 속성을 필수항목으로 지정한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class Comment < ActiveRecord::Base
   resourcify
   include Authority::Abilities
@@ -37,9 +37,9 @@ class Comment < ActiveRecord::Base
 end
 {%endace%}
 
-이제 `app/controllers/comments_controller.rb` 파일을 열고 `create`와 `destroy` 액션을 작성하자.
+이제 `app/controllers/comments_controller.rb` 파일을 열고 `create`와 `destroy` 액션을 작성한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
@@ -80,11 +80,11 @@ class CommentsController < ApplicationController
 end
 {%endace%}
 
-여기서는 `ajax`로 댓글을 생성하고 삭제하도록 하자. 이렇게 하는 이유는 `post` 뷰 페이지에서 페이지의 이동없이 바로 댓글을 추가하고 삭제하기 위해서이다.
+여기서는 `ajax`로 댓글을 생성하고 삭제한다. 이유는 `post` 뷰 페이지에서 페이지의 이동없이 바로 댓글을 추가하고 삭제하기 위함이다.
 
-`app/views/posts/_post.html.erb` 파일을 열고 댓글의 갯수만 표시하도록 하자. 이것은 `posts#index` 액션의 뷰 페이지에서 보여줄 `partial` 템플릿 파일이다.
+`app/views/posts/_post.html.erb` 파일을 열고 댓글의 갯수만 표시하도록 하자. 이것은 `posts#index` 액션의 뷰 페이지에서 보여줄 파셜 템플릿 파일이다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 ...
 <% if post.comments.count > 0 %>
   <div class='comments'>
@@ -94,15 +94,15 @@ end
 ...
 {%endace%}
 
-`app/views/posts/show.html.erb` 파일을 열고 하단에 아래와 같이 댓글 표시할 부분으로 `partial` 뷰 템플릿을 렌더링하도록 작성한다.
+`app/views/posts/show.html.erb` 파일을 열고 하단에 아래와 같이 댓글 표시할 부분으로 파셜 뷰 템플릿을 렌더링하도록 작성한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <%= render partial: 'comments/comments', locals: { post: @post } %>
 {%endace%}
 
 이제 `app/views/comments/_comments.html.erb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <% comment = post.comments.new %>
 <div id="comments_<%=post.id%>" class='post_comments'>
   <h4>Comments <small>( <%= post.comments.count %> )</small></h4>
@@ -117,9 +117,9 @@ end
 </div>
 {%endace%}
 
-실제로 댓글을 표시할 `partial` 템플릿 파일을 작성하기 위해서 `app/views/comments/_comment.html.erb` 파일을 생성하고 아래와 같이 작성한다.
+실제로 댓글을 표시할 파셜 템플릿 파일을 작성하기 위해서 `app/views/comments/_comment.html.erb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <% if comment.body.present? %>
 <li id="comment_<%=comment.id%>" class="comment">
   <%= simple_format comment.body %>
@@ -133,11 +133,13 @@ end
 <% end %>
 {%endace%}
 
-여기시 주목할 것은 하단에 있는 댓글 삭제 링크다. `link_to` 메소드의 옵션으로 `remote: true`를 지정했다. 이로써 삭제 링크를 클릭했을 때 `HTTP DELETE` 메소드를 이용하여 `posts/:post_id/comments/:id` URI로 `ajax` 요청을 하게 된다. 결과적으로 `comments#destroy` 액션이 동작하게 되고 `destroy.js.erb`을 렌더링하여 응답하게 된다.
+여기시 주목할 것은 하단에 위치한 댓글 삭제용 링크다. `link_to` 메소드 옵션으로 `remote: true`를 지정한다. 이로써 삭제 링크를 클릭했을 때 `HTTP DELETE` 메소드를 이용하여 `posts/:post_id/comments/:id` URI로 `ajax` 요청을 하게 된다. 결과적으로 `comments#destroy` 액션이 동작하게 되고 `destroy.js.erb`을 렌더링하여 응답하게 된다.
 
-위에서 댓글 입력을 위해서 사용하게 되는 `Comment` 모델의 폼 `partial` 파일을 작성하자. `app/views/comments/_form.html.erb` 파일을 생성하고 아래와 같이 작성한다.
+위에서 댓글 입력을 위해서 사용할 `Comment` 모델의 폼 파셜 파일을 작성한다.
 
-{%ace edit=true, lang='rhtml'%}
+`app/views/comments/_form.html.erb` 파일을 생성하고 아래와 같이 작성한다.
+
+{%ace edit=false, lang='rhtml'%}
 <%= simple_form_for [comment.post, comment], remote: true do | f | %>
   <%= f.input :body, placeholder: 'Add a comment', label: false, input_html: { class: "form-control", rows: 5 } %>
   <div style='text-align:right;'>
@@ -146,11 +148,11 @@ end
 <% end %>
 {%endace%}
 
-여기서는 주목할 것은 `simple_form_for` 헬퍼 메소드의 옵션으로 `remote: true`를 지정했다는 것이다. 이로써 `HTTP POST` 메소드를 이용하여 `/posts/:post_id/comments` URI를 `ajax`로 요청하게 되고 서버에서는 `comments#create` 액션이 호출된 후 결과로써 `create.js.erb`가 렌더링된 후 사용자의 브라우저로 보내지게 된다.
+여기서 주목할 것은 `simple_form_for` 헬퍼 메소드 옵션으로 `remote: true`를 지정했다는 것이다. 이로써 `HTTP POST` 메소드를 이용하여 `/posts/:post_id/comments` URI를 `ajax`로 요청하게 되고 서버에서는 `comments#create` 액션이 호출된 후 결과로써 `create.js.erb`가 렌더링된 후 사용자의 브라우저로 보내지게 된다.
 
 이상의 것을 정리하면, 댓글 생성할 때 `create` 액션 결과로  `app/views/comments/create.js.erb` 파일이 렌더링되어 클라이언트로 응답하고,
 
-{%ace edit=true, lang='javascript'%}
+{%ace edit=false, lang='rjs'%}
 <% if @comment.errors.size == 0 %>
   $('<%=j render @comment %>').appendTo($("#list_of_comments_<%=@post.id %> ul")).hide().fadeIn('fast');
   $("#form_of_comments_<%=@post.id %> form")[0].reset();
@@ -161,13 +163,13 @@ end
 
 댓글 삭제시는 `destroy` 액션의 응답으로 `app/views/comments/destroy.js.erb` 파일을 렌더링하여 클라이언트로 응답하게 된다.
 
-{%ace edit=true, lang='javascript'%}
+{%ace edit=false, lang='javascript'%}
 $("#comment_<%=@comment.id %>").slideUp('fast');
 {%endace%}
 
-댓글 관련 `CSS`를 정리하여  `app/assets/stylesheets/comments.css.scss` 파일로 아래와 같이  추가하고,
+댓글 관련 `CSS`를 정리하여  `app/assets/stylesheets/comments.scss` 파일에 아래와 같이  추가하고,
 
-{%ace edit=true, lang='scss'%}
+{%ace edit=false, lang='scss'%}
 ul.comments {
   li.comment {
     list-style: none;
@@ -187,15 +189,15 @@ ul.comments {
 
 이 파일을 `application.scss` 파일에 임포트한다.
 
-{%ace edit=true, lang='scss'%}
+{%ace edit=false, lang='scss'%}
 ...
 @import 'comments';
 ...
 {%endace%}
 
-`_post.html.erb` 파일에서 사용할 `CSS`를 수정하기 위해 `app/assets/posts/posts.css.scss` 파일을 열고 아래와 같이 수정한다.
+`_post.html.erb` 파일에서 사용할 `CSS`를 수정하기 위해 `app/assets/posts/posts.scss` 파일을 열고 아래와 같이 수정한다.
 
-{%ace edit=true, lang='scss'%}
+{%ace edit=false, lang='scss'%}
 ...
 .comments {
   font-size: .8em;
@@ -207,9 +209,9 @@ ul.comments {
 ...
 {%endace%}
 
-`app/views/posts/show.html.erb` 파일을 열고 약간의 아래와 같이 약간의 수정을 한다.
+`app/views/posts/show.html.erb` 파일을 열고 아래와 같이 수정한다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <div class='post'>
   <div class='title'>
     <H3><%= @post.title %></H3>
@@ -242,9 +244,9 @@ ul.comments {
 <%= render partial: 'comments/comments', locals: { post: @post } %>
 {%endace%}
 
-이상에서 작업을 내용을 요약하면, `posts#index` 액션으로 뷰 페이지를 볼 때는 댓글의 갯수만 보이도록 하고 `posts#show` 액션으로 댓글을 하나씩 볼 때 댓글의 상세한 내용을 볼 수 있게 하였다.
+이상의 작업 내용을 요약하면, `posts#index` 액션으로 뷰 페이지를 볼 때는 댓글의 갯수만 보이도록 하고 `posts#show` 액션으로 댓글을 하나씩 볼 때는 댓글의 상세한 내용을 볼 수 있게 한다.
 
-자 이제, 마직막으로 검색 기능을 추가해 보자.
+자 이제, 다음 장에서 검색 기능을 추가해 보자.
 
 ---
 

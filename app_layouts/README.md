@@ -1,12 +1,12 @@
 # 다이나믹 레이아웃의 작성
 
-레일스는 디폴트 상태에서 특정 컨트롤러의 액션이 호출될 때, 해당 액션의 뷰 템플릿에 대한 렌더링 결과를 어플리케이션 레이아웃 파일(`application.html.erb`)에 삽입(`<%= yield %>`)하여 응답결과로 사용자의 브라우저로 보낸다. 
+레일스는 디폴트 상태에서 특정 컨트롤러의 액션이 호출될 때, 해당 액션의 뷰 템플릿에 대한 렌더링 결과를 애플리케이션 레이아웃 파일(`application.html.erb`)에 삽입(`<%= yield %>`)하여 사용자의 브라우저로 보낸다.
 
-그러나, `app/views/layouts/` 디렉토리에 특정 컨트롤러에 해당하는 레이아웃 파일이 존재(컨트롤러 이름에 `.html.erb` 확장자를 붙인 파일)할 경우, 액션의 렌더링 결과를 컨트롤러용 레이아웃 파일에 삽입하여 응답결과로 보내게 된다.
+그러나, `app/views/layouts/` 디렉토리에 특정 컨트롤러에 해당하는 레이아웃 파일이 존재(컨트롤러 이름에 `.html.erb` 확장자를 붙인 파일)할 때는, 렌더링 결과를 컨트롤러용 레이아웃 파일에 삽입하여 응답결과로 보내게 된다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts1001_zpsf5ab6d22.jpg)
 
-이 프로젝트에서는 `<body></body>` 사이에 레이아웃의 구성을 `header`, `trunk`, `footer` 3개의 구역으로 구분하였다. 따라서 `trunk` 구역에 `<%= yield %>` 결과가 삽입되는 것이다.
+이 프로젝트에서는 `<body></body>` 사이에 레이아웃의 구성을 `header`, `trunk`, `footer` 3개의 구역으로 구분한다. 그리고 `trunk` 구역에 `<%= yield %>` 결과를 삽입한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts001_zpsb5d385ca.jpg)
 
@@ -14,11 +14,11 @@
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts002_zps05876dd8.jpg)
 
-두개의 컨트롤러(`devise` 컨트롤러 및 `posts` 컨트롤러) 각각에 대해서 컨트롤러 전용 레이아웃 파일을 생성하기로 한다. 이 때 중첩 레이아웃 기법을 이용한다. 즉, 특정 컨트롤러 전용 레이아웃에 삽입할 내용을 `content_for` 메소드로 작성하여 어플리케이션 레이아웃에 추가한다. 결과적으로 어플리케이션 레이아웃에 `<%= content_for?(:devise) ? content_for(:devise) : content_for(:general) %>`와 같은 `ERB` 표현식 실행된 결과가 삽입된다.
+두개의 컨트롤러(`devise` 컨트롤러 및 `posts` 컨트롤러) 각각에 대해서 컨트롤러 전용 레이아웃 파일을 생성 한다. 이 때 중첩 레이아웃 기법을 사용한다. 즉, 특정 컨트롤러 레이아웃에 삽입할 내용을 `content_for` 메소드로 작성하여 애플리케이션 레이아웃에 추가한다. 결과적으로 애플리케이션 레이아웃에 `<%= content_for?(:devise) ? content_for(:devise) : content_for(:general) %>`와 같은 `ERB` 표현식의 실행 결과가 삽입된다.
 
 [devise 컨트롤러 전용 레이아웃] (`app/views/layouts/devise_layout.html.erb`)
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!-- Section for Devise layouts -->
 <%= content_for :devise do %>
 <div class='row'>
@@ -39,7 +39,7 @@
 
 [devise를 제외한 모든 컨트롤러를 위한 레이아웃] (`app/views/layouts/general_layout.html.erb`)
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!-- Section for General layouts -->
 <% if @posts.nil? %>
   <% @posts = Post.all %>
@@ -84,11 +84,11 @@
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundblog_layouts004_zps4b30e862.jpg)
 
 
-위에서 사용한 이미지 파일은 [`여기`](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)에서 다운로드 받으면 된다.
+위에서 사용한 이미지 파일은 [`여기`](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)에서 다운로드 받는다.
 
-[어플리케이션 레이아웃]
+[애플리케이션 레이아웃]
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -154,26 +154,28 @@
 </html>
 {%endace%}
 
-이와 같이 컨트롤러 전용 레이아웃을 작성할 때 중첩 레이아웃 기법을 이용하면 어플리케이션 레이아웃을 포함하면서 컨트롤러별 레이아웃을 중첩해서 작성할 수 있게 된다.
+이와 같이 컨트롤러 전용 레이아웃을 작성할 때 중첩 레이아웃 기법을 이용하면 애플리케이션 레이아웃을 포함하면서 컨트롤러별 레이아웃을 중첩해서 작성할 수 있게 된다.
 
 레이아웃에 사용할 이미지는 아래의 이미지를 다운로드 받아 `app/assets/images/` 디렉토리에 `blog_header.png` 파일명으로 저장하면 된다. [![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/blog_header_zpsee5e8b80.png)
 
 아래의 예를 보자. `devise` 컨트롤러를 사용할 때는 하나의 컬럼으로 레이아웃를 구성할 것이고, 나머지 모든 컨트롤러에 대해서는 `sidebar` 컬럼을 추가해서 2개의 컬럼을 가지도록 디자인할 때,  `app/views/layouts/` 디렉토리에 `devise_layout.html.erb` 파일과 `general_layout.html.erb` 파일을 생성하여 각각 아래와 같이 작성한다.
 
-`devise_layout.html.erb`와 `general_layout.html.erb`에서와 같이 `flash` 메시지를 표시하기 위해 `app/helpers/application_helper.rb` 파일을 열고 아래와 같이 헬퍼 메소드를 추가한다. 레일스는 이러한 헬퍼 메소드를 작성해서 뷰 파일을 리팩토링할 수 있도록 지원한다. 전체 어플리케이션내의 모든 뷰 파일에서 사용하고자 할 때는 헬퍼 메소드를 `app/helpers/application_helper.rb` 파일에 정의해 두면 된다
+`devise_layout.html.erb`와 `general_layout.html.erb`에서와 같이 `flash` 메시지를 표시하기 위해 `app/helpers/application_helper.rb` 파일을 열고 아래와 같이 헬퍼 메소드를 추가한다. 레일스는 이와 같이 헬퍼 메소드를 작성해서 뷰 파일을 리팩토링할 수 있도록 지원한다. 전체 애플리케이션내의 모든 뷰 파일에서 사용하고자 할 때는 헬퍼 메소드를 `app/helpers/application_helper.rb` 파일에 정의해 두면 된다
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 module ApplicationHelper
   def bootstrap_class_for(flash_type)
+    # Foundation 6 : Color symbol
+    # 'primary', 'secondary', 'success', 'alert', and 'warning'
     case flash_type
       when "success"
-        "success"   # Green
+        "success"       # Green
       when "error"
-        "danger"    # Red
+        "warning"       # Yellow
       when "alert"
-        "alert"   # Yellow
+        "alert"         # Red
       when "notice"
-        "info"      # Blue
+        "primary"       # Blue
       else
         flash_type.to_s
     end
@@ -193,22 +195,22 @@ module ApplicationHelper
 end
 {%endace%}
 
-그리고 `app/views/shared/` 디렉토리에 `partial` 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다. 이 때 `Foundation`의 커스텀 data 속성(data-alert)과 클래스(alert-box radius...)를 사용한다.
+그리고 `app/views/shared/` 디렉토리에 파셜 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다. 이 때 `Foundation`의 커스텀 data 속성(data-alert)과 클래스(alert-box radius...)를 사용한다.
 
-{%ace edit=true, lang='rhtml'%}
-<div class='row'>
-  <% flash.each do |type, message| %>
-    <div data-alert class="alert-box radius <%= bootstrap_class_for(type) %>">
-      <%= message %>
-      <a href="#" class="close">&times;</a>
-    </div>
-  <% end %>
-</div>
+{%ace edit=false, lang='rhtml'%}
+<% flash.each do |type, message| %>
+  <div class="<%= bootstrap_class_for(type) %> callout" data-closable>
+    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p><%= message %></p>
+  </div>
+<% end %>
 {%endace%}
 
 이제 컨트롤러에 따라 레이아웃을 변경하기 위해서 `application_controller.rb` 파일에 아래와 같이 `layout` 메소드를 추가한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -239,4 +241,4 @@ end
 ---
 
 
-> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제03장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제04장

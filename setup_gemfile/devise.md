@@ -2,17 +2,21 @@
 
 > #### Note::노트
 >
-> 사용자 인증과 권한 설정에 대해서는 [`Devise젬 파헤치기`](https://www.gitbook.io/book/luciuschoi/exploring_devise) 온라인 책을 참고하면 도움이 된다.
+> 사용자 인증과 권한 설정에 대해서는 [`Devise젬 파헤치기`](https://luciuschoi.gitbooks.io/exploring_devise/content/) 온라인 책을 참고하면 도움이 된다.
 
 `devise` 젬은 사용자의 인증 서비스를 쉽게 구현할 수 있도록 도와준다.
 
 우선 아래와 같이 `devise` 젬을 인스톨한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g devise:install
 Running via Spring preloader in process 93749
       create  config/initializers/devise.rb
       create  config/locales/devise.en.yml
+
+{%endace%}
+
+```     
 ===============================================================================
 
 Some setup you must do manually if you haven't yet:
@@ -48,32 +52,31 @@ Some setup you must do manually if you haven't yet:
        rails g devise:views
 
 ===============================================================================
-{%endace%}
+```
 
 실행 결과 안내문에서 5가지의 추가조치 사항을 알려주는데, 이중에서 1, 2, 5번 내용을 반영하도록 한다.
 
 **[1번 조치사항]** `config/environments/development.rb` 파일을 열고 아래와 같이 `default_url_options`을 지정한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 config.action_mailer.default_url_options = { host: 'localhost:3000' }
 {%endace%}
 
-아래에서 보게 될 것이지만, 사용자 가입 후 확인을 위한 이메일을 발송하게 될 것이기 때문에 실제로 이메일을 발송하도록 환경을 준비할 필요가 있다. 이에 대한 자세한 내용을 레일스 가이드의  [`Action Mailer Configuration`](http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration)을 참고하기 바란다. 그러나, 개발시에는 이메일을 실제로 보내는 것 보다는 브라우저에서 이메일 내용을 확인할 수 있으면 편리하다. 즉, `letter_opener` 젬을 이용하여 이와 같은 환경을 만들 수 있는데 이에 대해서는 [`여기`](/setup_gemfile/letter_opener.html)를 미리 참고하여 설정을 해 두도록 한다. 결국 아래와 같이 config 옵션을 지정하면 된다.
+사용자 가입 후 확인 이메일을 발송하게 될 것이기 때문에 실제로 이메일이 발송되도록 액션 메일러를 준비할 필요가 있다. 이에 대한 자세한 내용은 레일스 가이드의  [`Action Mailer Configuration`](http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration)을 참고하기 바란다.
 
-{%ace edit=true, lang='ruby'%}
-config.action_mailer.default_url_options = { host: 'localhost:3000' }
-config.action_mailer.delivery_method = :letter_opener
-{%endace%}
+그러나, 개발시에는 이메일을 실제로 보내는 것 보다는 브라우저에서 발송된 이메일을 확인할 수 있으면 편리할 것이다.
+
+이런 맥락에서 `letter_opener` 젬을 이용할 수 있으며 이에 대해서는 다음 장에서 설명한다.
 
 > #### Caution::주의
 >
-> `production` 환경(`production.rb`)에서는 어플리케이션의 실제 호스트의 이름으로 `:host`를 변경해 주어야 한다.
+> `production` 환경(`production.rb`)에서는 애플리케이션의 실제 호스트의 이름으로 `:host`를 변경해 주어야 한다.
 
 
 **[2번 조치사항]** `home` 컨트롤러 및 `index` 액션을 추가해 주어야 하며 아래와 같이 실행한 후,
 
-{%ace edit=true, lang='sh'%}
-$ bin/rails g controller home index                                                                             master
+{%ace edit=false, lang='sh'%}
+$ bin/rails g controller home index
 Running via Spring preloader in process 93974
       create  app/controllers/home_controller.rb
        route  get 'home/index'
@@ -94,7 +97,7 @@ Running via Spring preloader in process 93974
 
 `config/routes.rb` 파일에 `root`를 지정한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 Rails.application.routes.draw do
   root 'home#index'
   # get 'home/index'
@@ -104,9 +107,9 @@ end
 사실 `home` 컨트롤러는 나중에 필요없게 된다. 블로그의 루트는 결국 `posts#index` 액션으로 지정할 것이기 때문이다. 따라서 이부분은 생략할 수 있다.
 
 
-**[3번 조치사항]** `flash` 메시지를 어플리케이션 레이아웃 파일에 추가하기 위해서 `app/views/layouts/application.html.erb` 파일을 열고 `<body></body>` 태그 사이에 아래와 같이 임시로 작성해 둔다. 이것은 나중에 다시 구체적으로 작업을 할 예정이다.
+**[3번 조치사항]** `flash` 메시지를 애플리케이션 레이아웃 파일에 추가하기 위해서 `app/views/layouts/application.html.erb` 파일을 열고 `<body></body>` 태그 사이에 아래와 같이 임시로 작성해 둔다. 이것은 나중에 다시 구체적으로 작업을 할 예정이다.
 
-{%ace edit=true, lang='rhtml'%}
+{%ace edit=false, lang='rhtml'%}
 <body>
 
   <p class="notice"><%= notice %></p>
@@ -117,15 +120,15 @@ end
 </body>
 {%endace%}
 
-**[4번 조치사항]** 사실 4번째 조치사항은 레일스 3.2 프로젝트를 허로쿠에 배포할 경우에만 국한 된 사항이므로 여기서는 적용을 하지 않을 것이다. 그러나, 필요한 상황에서는 `config/application.rb` 파일을 열고 아래와 같이 옵션을 추가한다.
+**[4번 조치사항]** 4번째 조치사항은 레일스 3.2 프로젝트를 허로쿠에 배포할 경우에만 국한 된 사항이므로 여기서는 적용을 하지 않을 것이다. 그러나, 필요한 상황에서는 `config/application.rb` 파일을 열고 아래와 같이 옵션을 추가한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 config.assets.initialize_on_precompile = false
 {%endace%}
 
 **[5번 조치사항]**  5번 조치사항은 `devise`에서 제공해는 다양한 폼을 개발자의 의도에 맞게 수정하기 위해서 `app/views/` 디렉토리에 `devise`라는 하위디렉토리를 생성하고 관련 폼 뷰 템플릿 파일들을 생성한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g devise:views                                                                     
 Running via Spring preloader in process 94426
       invoke  Devise::Generators::SharedViewsGenerator
@@ -154,9 +157,9 @@ Running via Spring preloader in process 94426
 
 이상으로 `devise` 젬을 설치한 후 필요한 조치에 대해서 설명을 했다.
 
-다음으로는 `devise` 제너레이터를 이용하여 `User` 모델 리소스를 생성한다.
+이제 `devise` 제너레이터를 이용하여 `User` 모델 리소스를 생성한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rails g devise User  
 Running via Spring preloader in process 94459
       invoke  active_record
@@ -173,7 +176,7 @@ Running via Spring preloader in process 94459
 
 이를 위해서 `app/models/user.rb` 파일을 열고 아래와 같이 코멘트 처리되어 있는 `:confirmable`을 `devise` 메소드의 인수로 추가해 준다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
@@ -185,7 +188,7 @@ end
 
 그리고 `db/migrate/20140609040948_devise_create_users.rb` 파일을 열고 `##Confirmable` 아래 4개의 코드라인과 하단의 `:confirmable_token` 속성에 대한 `add_index` 메소드 코드라인의 코멘트 문자를 제거한다.
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 
 ## Confirmable
  t.string   :confirmation_token
@@ -197,17 +200,20 @@ end
 ---
 {%endace%}
 
-이제 마이그레이션 작업을 한다.
+이제 마이그레이션 작업을 한다. 먼저 데이터베이스를 생성해 주어야 한다.
 
-먼저 데이터베이스를 먼저 생성해 주어야 한다.
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rake db:create                                                                            
 Running via Spring preloader in process 94740
 {%endace%}
 
+> #### Caution::주의
+>
+> `sqlite`를 사용할 경우에는 이 과정이 필요 없다. 로컬 데이터베이스이기 때문에 별도의 데이터베이스 생성 과정이 필요없는 것이다. 
+
 그리고 `db:migrate` 작업을 실행한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/rake db:migrate                                                                           
 Running via Spring preloader in process 94767
 == 20160513064912 DeviseCreateUsers: migrating ================================
@@ -222,7 +228,7 @@ Running via Spring preloader in process 94767
 == 20160513064912 DeviseCreateUsers: migrated (0.0624s) =======================
 {%endace%}
 
-이제 어플리케이션내의 모든 컨트롤러와 뷰 파일에서 아래의 헬퍼 메소드를 사용할 수 있게 된다.
+이제 애플리케이션내의 모든 컨트롤러와 뷰 파일에서 아래의 헬퍼 메소드를 사용할 수 있게 된다.
 
 * `authenticate_user!`
 * `current_user`
@@ -231,7 +237,7 @@ Running via Spring preloader in process 94767
 
 ---
 
-> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02.3장
+> **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제02장5절
 
 ---
 

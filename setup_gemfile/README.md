@@ -2,7 +2,7 @@
 
 이 프로젝트에서 추가할 젬은 아래와 같다. `Gemfile`에 추가하고,
 
-{%ace edit=true, lang='ruby'%}
+{%ace edit=false, lang='ruby'%}
 # Added for this project
 gem 'jquery-turbolinks'
 gem 'foundation-rails'
@@ -16,7 +16,7 @@ gem "letter_opener", :group => :development
 
 번들 인스톨한다.
 
-{%ace edit=true, lang='sh'%}
+{%ace edit=false, lang='sh'%}
 $ bin/bundle install
 {%endace%}
 
