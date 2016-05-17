@@ -20,9 +20,11 @@ config.action_mailer.mailgun_settings = {
   api_key: Rails.application.secrets.mailgun_api_key,
   domain: 'rorlab.org'
 }
-config.action_mailer.raise_delivery_errors = true
 {%endace%}
 
+> ####Note::노트
+>
+> `domain` 값은 `Mailgun` 설정시에 사용한 도메인명을 지정한다.
 
 `config/secrests.yml` 파일을 열고 아래와 같이  `mailgun_api_key` 키를 등록한다.
 
@@ -38,7 +40,7 @@ production:
 $ heroku config:set MAILGUN_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 {%endace%}
 
-허로쿠 배포를 위해서는 `Gemfile`에 아래의 두개 젬을 필수로 추가하고 번들 인스톨한다.
+허로쿠 배포를 위해서는 `Gemfile`에 아래의 두 젬을 필수로 추가하고 번들 인스톨한다.
 
 {%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'pg', group: :production
