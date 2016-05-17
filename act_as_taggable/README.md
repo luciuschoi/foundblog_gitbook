@@ -124,7 +124,7 @@ Running via Spring preloader in process 49230
 
 > ####Note::노트
 >
-> 콤마로 구분하여 여러 개의 태그를 입력할 수 있다. 
+> 콤마로 구분하여 여러 개의 태그를 입력할 수 있다.
 
 그리고 `app/controllers/posts_controller.rb` 파일을 열고 하단의 `post_params` 메소드에서 `strong parameter`에 `tag_list` 속성을 등록하기 위해서 `.permit()` 목록에 추가해 준다.
 
@@ -226,7 +226,8 @@ end
 Module PostsHelper
 
   def post_category(post)
-    post&.category&.name || "Uncategorized"
+    post.try(:category).try(:name) || "Uncategorized"
+    # 또는 post&.category&.name || "Uncategorized" (루비 2.3.0+)
   end  
 
 end
