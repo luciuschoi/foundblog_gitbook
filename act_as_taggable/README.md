@@ -122,6 +122,10 @@ Running via Spring preloader in process 49230
 ...
 {%endace%}
 
+> ####Note::노트
+>
+> 콤마로 구분하여 여러 개의 태그를 입력할 수 있다. 
+
 그리고 `app/controllers/posts_controller.rb` 파일을 열고 하단의 `post_params` 메소드에서 `strong parameter`에 `tag_list` 속성을 등록하기 위해서 `.permit()` 목록에 추가해 준다.
 
 {%ace edit=false, lang='ruby'%}
@@ -153,7 +157,7 @@ end
 def icon_tags(tags_array)
   label_tags = ""
   tags_array.each do |tag|
-    label_tags += "<a href='/posts?tag=#{CGI::escape(tag)}'><span class='round label'>#{tag}</span></a> "
+    label_tags += "<a href='/posts?tag=#{CGI::escape(tag)}'><span class='label'>#{tag}</span></a> "
   end
   icon('pricetag-multiple') + ' ' + label_tags.html_safe unless tags_array.blank?
 end
@@ -166,7 +170,7 @@ end
 {%ace edit=false, lang='rhtml'%}
 ...
 <div class='category'>
-  <%= icon('folder') + ' ' + post.category.name %>
+  <%= icon('folder') + ' ' + post_category(post) %>
 </div>
 <div class='tags'>
   <%= icon_tags(post.tag_list) %>
@@ -201,7 +205,7 @@ end
     <%= simple_format @post.content %>
   </div>
   <div class='category'>
-     <%= icon('folder') + ' ' + @post.category.name %>
+     <%= icon('folder') + ' ' + post_category(@post) %>
   </div>
   <div class='tags'>
      <%= icon_tags(@post.tag_list) %>
@@ -215,6 +219,22 @@ end
 <%= link_to 'Edit', edit_post_path(@post), class: 'button small' %>
 <%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
+
+그리고 위에서 사용한 `post_category()` 헬퍼 메소드를 정의한다.
+
+{%ace edit=false, lang='ruby'%}
+Module PostsHelper
+
+  def post_category(post)
+    post&.category&.name || "Uncategorized"
+  end  
+
+end
+{%endace%}
+
+> ####Note::노트
+>
+> (&.) 연산자에 대해서는 [The Safe Navigation Operator (&.) in Ruby](http://mitrev.net/ruby/2015/11/13/the-operator-in-ruby/)를 참고한다.
 
 `app/controllers/posts_controller.rb` 파일을 열고,`posts#index` 액션에서 파라미터로 `:tag` 항목이 넘어올 경우 해당 태그로 검색을 하도록 하는 코드를 아래와 같이 추가해 준다.
 
@@ -234,11 +254,34 @@ def index
 end
 {%endace%}
 
-그리고 아래와 같이 `Tag Cloud` 만을 표시할 액션을 추가하면 필요시 이 액션에 대한 뷰 템플릿 파일을 생성하면 바로 사용할 수 있다.
+
+
+그리고 아래와 같이 `Tag Cloud` 만을 표시할 액션을 추가하면 필요시 이 액션에 대한 뷰 템플릿 파일을 생성하면 바로 사용할 수 있다. 이것은 전체 레이아웃에서 사용할 것이기 때문에 `tag_cloud` 액션을 `app/controllers/application_controller.rb` 파일 하단에 추가하고, 상단에 `before_action` 필터로 등록한다.
 
 {%ace edit=false, lang='ruby'%}
-def tag_cloud
-  @tags = Post.tag_counts_on(:tags)
+class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+
+  before_action :tag_cloud
+
+  layout :dynamic_layout
+
+  def authority_forbidden(error)
+    Authority.logger.warn(error.message)
+    redirect_to request.referrer.presence || root_path, :alert => 'You are not authorized to complete that action.'
+  end
+
+  private
+  def dynamic_layout
+    devise_controller? ? 'devise_layout' : 'general_layout'
+  end
+
+  def tag_cloud
+    @tags = Post.tag_counts_on(:tags)
+  end
+
 end
 {%endace%}
 
@@ -268,6 +311,8 @@ irb(main):001:0> tags = Post.tag_counts_on :tags
 {%ace edit=false, lang='ruby'%}
 module PostsHelper
   include ActsAsTaggableOn::TagsHelper
+
+  ...
 end
 {%endace%}
 

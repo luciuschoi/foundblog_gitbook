@@ -52,28 +52,24 @@ end
 
 {%ace edit=false, lang='scss'%}
 table#archives {
-  color:#d9d9d9;
   margin-bottom:1em;
   width:100%;
-  border:0;
-  td {
-    background-color: white;
-  }
   td.year_month {
-    font-size:1.5em;
-    color:#c8c8c8;
+    border: 2px solid white;
+    font-size:1.2em;
+    color:#aaa;
     font-weight:bold;
     font-style:italic;
-    padding-top:1em;
-    padding-left:0;
+    padding-left: 0;
   }
   td.day {
+    border: 2px solid white;
     text-align:center;
-    border:1px solid #eaeaea;
     padding:5px;
     background-color: #d5ebef;
   }
   td.post {
+    border: 2px solid white;
     background-color: #f7f7f7;
   }
 }
@@ -109,15 +105,17 @@ $ bin/rails g controller welcome readme
 <h2>Readme</h2>
 <br />
 
-<%= image_tag "foundation_blog_emblem.png", class: 'emblem'  %>
+<%= image_tag "foundation_blog_emblem.png", class: 'emblem' %>
 
-<p>이 애플리케이션은 <code>Foundation 5</code>를 이용하여 레일스로 만든 블로그입니다. </p>
+<p>이 애플리케이션은 <code>Foundation 6</code>를 이용하여 레일스로 만든 블로그입니다. </p>
 <p>"FoundBlog 따라하기"라는 Gitbook 책에서 데모로 작성한 블로그 프로젝트를 허로쿠로 배포하여 책의 내용을 이해하는데 도움을 주고자 하였습니다.</p>
-<p>소스코드의 github 주소는 <code>https://github.com/LuciusChoi/foundblog</code>이며, 소스코드를 크론하기 위해서는 아래와 같이 터미널에서 실행하면 됩니다. </p>
+<p>소스코드의 github 주소는 <code><a href='https://github.com/luciuschoi/foundblog_app' target="_blank">https://github.com/luciuschoi/foundblog_app</a></code>이며, 소스코드를 크론하기 위해서는 아래와 같이 터미널에서 실행하면 됩니다. </p>
 
-<blockquote>
-  $ git clone https://github.com/LuciusChoi/foundblog.git
-</blockquote>
+<div style="clear:both;">
+  <blockquote class='code'>
+    $ git clone https://github.com/luciuschoi/foundblog_app.git
+  </blockquote>
+</div>
 {%endace%}
 
 물론 이 뷰 파일의 내용은 각자 원하는 내용으로 변경할 수 있다.
@@ -127,12 +125,55 @@ $ bin/rails g controller welcome readme
 {%ace edit=false, lang='scss'%}
 .emblem {
   float:left;
-  width:30%;
+  width:25%;
   margin-right:1em;
+  margin-bottom:1em;
+}
+
+blockquote.code {
+  border-left: 3px solid #cacaca;
+  padding: .5rem 1rem;
+  background-color: #eaeaea;
+  font-family: 'courier';
 }
 {%endace%}
 
+그리고, `app/assets/stylesheets/application.scss` 파일을 열고 추가한다.
+
+{%ace edit=false, lang='scss'%}
+...
+@import "welcome";
+...
+{%endace%}
+
+`config/routes.rb` 파일을 열고, `welcome#readme` 액션에 대한 라우트를 아래와 같이 업데이트한다.
+
+{%ace edit=false, lang='ruby'%}
+...
+get 'welcome/readme', as: :readme
+...
+{%endace%}
+
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-26_19-16-58_zps96d40a36.png)
+
+
+마지막으로 `app/views/layouts/application.html.erb` 파일을 열고, 상단 메뉴에 링크를 추가해 준다.
+
+{%ace edit=false, lang='rhtml'%}
+...
+<div class="top-bar" id="example-menu">
+  <div class="top-bar-left">
+    <ul class="vertical medium-horizontal menu">
+      <li class="menu-text">Found<i>Blog</i>
+      </li>
+      <li>
+          <a href="/">HOME</a>
+      </li>
+      <li><%= link_to "Archives", archive_posts_path %></li>
+      <li><%= link_to "Readme", readme_path %></li>
+    </ul>
+...    
+{%endace%}
 
 
 ---
