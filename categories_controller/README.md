@@ -39,7 +39,7 @@ end
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, class: 'button small radius' %>
+    <%= f.button :submit, class: 'button small' %>
   </div>
 <% end %>
 {%endace%}

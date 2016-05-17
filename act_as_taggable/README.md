@@ -31,32 +31,43 @@ Copied migration 20140619084757_add_taggings_counter_cache_to_tags.acts_as_tagga
 
 {%ace edit=false, lang='sh'%}
 $ bin/rake db:migrate
-== 20140619084755 ActsAsTaggableOnMigration: migrating ========================
+Running via Spring preloader in process 49230
+== 20160517073753 ActsAsTaggableOnMigration: migrating ========================
 -- create_table(:tags)
-   -> 0.0051s
+   -> 0.0463s
 -- create_table(:taggings)
-   -> 0.0004s
+   -> 0.0080s
 -- add_index(:taggings, :tag_id)
-   -> 0.0004s
+   -> 0.0179s
 -- add_index(:taggings, [:taggable_id, :taggable_type, :context])
-   -> 0.0005s
-== 20140619084755 ActsAsTaggableOnMigration: migrated (0.0065s) ===============
+   -> 0.0156s
+== 20160517073753 ActsAsTaggableOnMigration: migrated (0.0882s) ===============
 
-== 20140619084756 AddMissingUniqueIndices: migrating ==========================
+== 20160517073754 AddMissingUniqueIndices: migrating ==========================
 -- add_index(:tags, :name, {:unique=>true})
-   -> 0.0004s
+   -> 0.0243s
 -- remove_index(:taggings, :tag_id)
-   -> 0.0013s
+   -> 0.0071s
 -- remove_index(:taggings, [:taggable_id, :taggable_type, :context])
-   -> 0.0004s
+   -> 0.0063s
 -- add_index(:taggings, [:tag_id, :taggable_id, :taggable_type, :context, :tagger_id, :tagger_type], {:unique=>true, :name=>"taggings_idx"})
-   -> 0.0003s
-== 20140619084756 AddMissingUniqueIndices: migrated (0.0025s) =================
+   -> 0.0107s
+== 20160517073754 AddMissingUniqueIndices: migrated (0.0487s) =================
 
-== 20140619084757 AddTaggingsCounterCacheToTags: migrating ====================
+== 20160517073755 AddTaggingsCounterCacheToTags: migrating ====================
 -- add_column(:tags, :taggings_count, :integer, {:default=>0})
-   -> 0.0017s
-== 20140619084757 AddTaggingsCounterCacheToTags: migrated (0.0048s) ===========
+   -> 0.0192s
+== 20160517073755 AddTaggingsCounterCacheToTags: migrated (0.0430s) ===========
+
+== 20160517073756 AddMissingTaggableIndex: migrating ==========================
+-- add_index(:taggings, [:taggable_id, :taggable_type, :context])
+   -> 0.0141s
+== 20160517073756 AddMissingTaggableIndex: migrated (0.0142s) =================
+
+== 20160517073757 ChangeCollationForTagNames: migrating =======================
+-- execute("ALTER TABLE tags MODIFY name varchar(255) CHARACTER SET utf8 COLLATE utf8_bin;")
+   -> 0.0395s
+== 20160517073757 ChangeCollationForTagNames: migrated (0.0404s) ==============
 {%endace%}
 
 두개의 테이블이 생성된 이후 인덱스 파일들이 추가 삭제되고 `:taggings_count` 속성이 추가되었다.
@@ -150,7 +161,7 @@ end
 
 여기서 주목할 것은 `tag` 값을 URL 파라미터로 넘길 때 `CGI::escape()` 메소드를 이용하여 값을 `escaping`해야 한다. 예를 들어 `'C#'`와 같이 특수문자가 들어 있는 태그명일 경우 `'C'` 값만 파라미터로 넘겨지기 때문이다.
 
-이제 `app/views/posts/_post.html.erb` 파일을 열고 해당 위치에 아래와 같이 `erb` 코드를 추가한다. 이 때 카테고리 항목도 추가해 준다.
+이제 `app/views/posts/_post.html.erb` 파일을 열고 해당 위치에 아래와 같이 `ERB` 코드를 추가한다. 이 때 카테고리 항목도 추가해 준다.
 
 {%ace edit=false, lang='rhtml'%}
 ...
@@ -201,8 +212,8 @@ end
 </div>
 <hr>
 
-<%= link_to 'Edit', edit_post_path(@post), class: 'button small radius' %>
-<%= link_to 'Back', posts_path, class: 'button small radius' %>
+<%= link_to 'Edit', edit_post_path(@post), class: 'button small' %>
+<%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
 
 `app/controllers/posts_controller.rb` 파일을 열고,`posts#index` 액션에서 파라미터로 `:tag` 항목이 넘어올 경우 해당 태그로 검색을 하도록 하는 코드를 아래와 같이 추가해 준다.
@@ -260,7 +271,7 @@ module PostsHelper
 end
 {%endace%}
 
-아래 캡쳐화면의 `1`번과 같이 `Tag Cloud` 표시하기 위해서는 `general_layout.html.erb` 파일을 열고 해당 위치에 아래와 같이 `erb` 코드를 삽입한다.
+아래 캡쳐화면의 `1`번과 같이 `Tag Cloud` 표시하기 위해서는 `general_layout.html.erb` 파일을 열고 해당 위치에 아래와 같이 `ERB` 코드를 삽입한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_08-56-48_zps3c8fa344.png)
 
