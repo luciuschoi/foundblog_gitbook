@@ -4,42 +4,55 @@
 
 배포 전에 한가지 해야 할 것이 있다. `devise` 젬의 `confirmable` 기능을 사용할 경우, 사용자 등록시 확인 이메일을 발송한다. 이를 위해서 이메일 발송을 위한 셋팅을 해야 한다.
 
-`config/environments/production.rb` 파일을 열고 아래와 같이 추가해 준다.
+여기서는 [`Mailgun`](https://mailgun.com/)을 사용해서 메일을 발송한다.
+
+우선, `mailgun_rails` 젬을 추가하고 번들 인스톨한다.
 
 {%ace edit=false, lang='ruby'%}
-config.action_mailer.delivery_method = :smtp
-config.action_mailer.smtp_settings = {
-  address: ENV['SMTP_ADDRESS'],
-  port: ENV['SMTP_PORT'],
-  authentication: "plain",
-  user_name: ENV['SMTP_USERNAME'],
-  password: ENV['SMTP_PASSWORD'],
-  enable_starttls_auto: false
+gem 'mailgun_rails'
+{%endace%}
+
+`config/environments/production.rb` 파일을 열고 아래와 같이 추가한다.
+
+{%ace edit=false, lang='ruby'%}
+config.action_mailer.delivery_method = :mailgun
+config.action_mailer.mailgun_settings = {
+  api_key: Rails.application.secrets.mailgun_api_key,
+  domain: 'rorlab.org'
 }
 config.action_mailer.raise_delivery_errors = true
 {%endace%}
 
-이를 위해서 `Gemfile`에 두개의 젬을 추가하고
+
+`config/secrests.yml` 파일을 열고 아래와 같이  `mailgun_api_key` 키를 등록한다.
+
+{%ace edit=false, lang='ruby'%}
+production:
+  secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+  mailgun_api_key: <%= ENV["MAILGUN_API_KEY"] %>
+{%endace%}
+
+실제 키값을 `MAILGUN_API_KEY` 환경변수로 허로쿠에 등록한다.
+
+{%ace edit=false, lang='sh'%}
+$ heroku config:set MAILGUN_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+{%endace%}
+
+허로쿠 배포를 위해서는 `Gemfile`에 아래의 두개 젬을 필수로 추가하고 번들 인스톨한다.
 
 {%ace edit=false, lang='ruby'%}
 gem 'pg', group: :production
 gem 'rails_12factor', group: :production
 {%endace%}
 
-번들 인스톨한다.
-
-{%ace edit=false, lang='sh'%}
-$ bin/bundle install
-{%endace%}
-
-아직 `github`로 `git push` 하지 않았다면 `github`에서 저장소를 만들고 아래와 같이 작업한다.
+아직 `github`로 `git push` 하지 않았다면 `github`에서 저장소를 만들고 푸시한다.
 
 {%ace edit=false, lang='sh'%}
 $ git remote add origin https://github.com/[github-account]/foundblog_app.git
 $ git push -u origin master
 {%endace%}
 
-이제 [허로쿠 툴벨트](https://toolbelt.heroku.com)를 설치하고, 허로쿠 `login`한 후 `app`를 생성한다.
+이제 [허로쿠 툴벨트](https://toolbelt.heroku.com)를 설치하고, 허로쿠 `login`한 후 애플리케이션을 생성한다.
 
 {%ace edit=false, lang='sh'%}
 $ heroku login
@@ -59,6 +72,23 @@ Creating ⬢ foundblog... !!!
  ▸    Name is already taken
 {%endace%}
 
+
+허로쿠 애플리케이션 이름을 `foundblog6`로 변경한다.
+
+{%ace edit=false, lang='sh'%}
+$ heroku apps:rename foundblog6                        
+Renaming obscure-cove-70618 to foundblog6... done
+https://foundblog6.herokuapp.com/ | https://git.heroku.com/foundblog6.git
+Git remote heroku updated
+ ▸    Don't forget to update git remotes for all other local checkouts of the app.
+{%endace%}
+
+그리고, 변경된 도메인 주소를 `config/routes.rb` 파일에서 `default_url_options[:host]`로 지정한다.
+
+{%ace edit=false, lang='ruby'%}
+Rails.application.routes.default_url_options[:host] = 'foundblog6.herokuapp.com'
+{%endace%}
+
 다음은 `heroku-postgresql`을 아래와 같이 추가하고,
 
 {%ace edit=false, lang='sh'%}
@@ -72,7 +102,7 @@ Database has been created and is available
 Use `heroku addons:docs heroku-postgresql` to view documentation.
 {%endace%}
 
-다음과 같이 허로쿠로 배포한 후,
+다음과 같이 허로쿠로 배포한다.
 
 {%ace edit=false, lang='sh'%}
 $ git push heroku master
@@ -231,12 +261,12 @@ To https://git.heroku.com/obscure-cove-70618.git
  * [new branch]      master -> master
 {%endace%}
 
-2개의 경고문을 주의해서 봐야 한다.
+위의 배포 로그 중에서 2개의 경고문을 주의해서 봐야 한다.
 우선, `Gemfile` 상단에 루비 버전을 명시해 주어야 한다.
 
 {%ace edit=false, lang='ruby'%}
 source 'https://rubygems.org'
-ruby '2.2.4'
+ruby '2.3.0'
 # Added for this project
 gem 'foundation-rails'
 gem 'simple_form'
@@ -249,13 +279,13 @@ gem 'rolify'
 
 {%ace edit=false, lang='sh'%}
 $ vi Procfile
-web: bundle exec ruby web.rb -p $PORT
+web: bundle exec rackup config.ru -p $PORT
 {%endace%}
 
 
 이제 방금 변경한 내용을 커밋한 후 `git push heroku master` 명령을 실행하면 아래와 같이 경고문 없이 배포되어야 한다.
 
-```
+{%ace edit=false, lang='sh'%}
 ...
 ...
 remote:        Bundle complete! 24 Gemfile dependencies, 72 gems now installed.
@@ -283,7 +313,7 @@ remote:
 remote: Verifying deploy... done.
 To https://git.heroku.com/obscure-cove-70618.git
    4b60169..7871b93  master -> master   
-```
+{%endace%}
 
 
 이제, 아래와 같이 데이터베이스 마이그레이션을 해 주면 배포가 완성된다.
@@ -458,22 +488,12 @@ Migrating to ChangeCollationForTagNames (20160517073757)
    (1.9ms)  COMMIT
 {%endace%}
 
-다음 이메일 발송을 위한 환경변수를 허로쿠로 등록해야 한다.
-
-{%ace edit=false, lang='sh'%}
-$ heroku config:set SMTP_ADDRESS=[mail_domain_name]
-$ heroku config:set SMTP_PORT=[port_number]
-$ heroku config:set SMTP_USERNAME=[username]
-$ heroku config:set SMTP_PASSWORD=[password]
-{%endace%}
-
-`[]` 안에 각자의 계정에 맞는 값을 입력한다.
-
 허로쿠의 로그 상태를 모니터링하고자 할 때는 아래와 같은 명령을 실행한다.
 
 {%ace edit=false, lang='sh'%}
 $ heroku logs --tail
 {%endace%}
+
 
 ---
 
