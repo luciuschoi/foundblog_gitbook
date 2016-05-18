@@ -102,6 +102,15 @@ end
 
 이제 로컬 서버를 다시 실행하고 브라우저에서 확인한다.
 
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제10장 : 블로그에 검색기능 추가하기"
+$ git tag "제10장"
+{%endace%}
+
+
 ---
 
 > **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제10장

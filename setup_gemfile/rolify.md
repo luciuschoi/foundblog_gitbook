@@ -2,6 +2,12 @@
 
 [`rolify`](https://github.com/EppO/rolify) 젬을 사용하면 사용자별로 복수개의 모델에 대해서 권한을 쉽게 지정할 수 있도록 다양한 메소드를 자동으로 만들어 준다.
 
+처음부터 작업을 따라 해온 경우라면 이미 `Gemfile` 파일에 아래와 같이 젬을 추가한 후 번들 인스톨한 상태다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+gem "rolify"
+{%endace%}
+
 우선 `Role`이라는 모델을 아래와 같이 생성한다. 이 때 `User` 모델이 이미 생성되어 있는 것으로 간주한다.
 
 {%ace edit=false, lang='sh', theme='monokai'%}
@@ -114,6 +120,25 @@ irb(main):001:0> User.create! email: "user1@email.com", password: "12345678"
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_10-20-44_zpsd5c3b835.png)
 
+> #### Caution::주의
+>
+> 레일스 4.2.6에서는 `role` 추가시 `ArgumentError: Unknown key: :optional.` 에러가 발생할 수 있다. 이 때는 아래와 같이 `:optional => true` 코드라인을 삭제한다.
+> {%ace edit=false, lang='ruby', theme='monokai'%}
+class Role < ActiveRecord::Base
+ has_and_belongs_to_many :users, :join_table => :users_roles
+>
+ belongs_to :resource,
+            :polymorphic => true
+>             
+ validates :resource_type,
+           :inclusion => { :in => Rolify.resource_types },
+           :allow_nil => true
+>
+ scopify
+end
+{%endace%}
+
+
 아래와 같은 로그인 화면으로 이동하게 된다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_10-43-18_zpsc0c2fff1.png)
@@ -129,25 +154,16 @@ SQL (0.2ms)  INSERT INTO "roles" ("created_at", "name", "updated_at") VALUES (?,
 
 {%endace%}
 
-> #### Caution::주의
->
-> 레일스 4.2.6에서는 `role` 추가시 `ArgumentError: Unknown key: :optional.` 에러가 발생할 수 있다. 이 때는 아래와 같이 `:optional => true` 코드라인을 삭제한다.
-> {%ace edit=false, lang='ruby', theme='monokai'%}
-class Role < ActiveRecord::Base
-  has_and_belongs_to_many :users, :join_table => :users_roles
->
-  belongs_to :resource,
-             :polymorphic => true
->             
-  validates :resource_type,
-            :inclusion => { :in => Rolify.resource_types },
-            :allow_nil => true
->
-  scopify
-end
-{%endace%}
 
 이제 방금전에 가입했던 이메일로 로그인하면 `Home#index` 뷰 페이지가 브라우저 상에 보여야 한다.
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 7절 : rolify 젬"
+$ git tag "제02장7절"
+{%endace%}
 
 ---
 

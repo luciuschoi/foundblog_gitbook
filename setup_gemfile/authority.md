@@ -2,7 +2,13 @@
 
 [`authority`](https://github.com/nathanl/authority) 젬은 특정 리소스에 대한 모델과 컨트롤러 액션들에 대한 접근권한을 제한하기 위해 사용한다.
 
-이 젬을 인스톨하기 위해서 아래와 같이 명령을 실행한다.
+처음부터 작업을 따라 해온 경우라면 이미 `Gemfile` 파일에 아래와 같이 젬을 추가한 후 번들 인스톨한 상태다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+gem "authority"
+{%endace%}
+
+이 젬을 셋업하기 위해서 아래와 같이 명령을 실행한다.
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g authority:install
@@ -71,156 +77,15 @@ class ApplicationAuthorizer < Authority::Authorizer
 end
 {%endace%}
 
-`Post` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/post_authorizer.rb` 파일을 생성하고 아래와 같이 작성한다.
 
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class PostAuthorizer < ApplicationAuthorizer
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
 
-  # :author, :admin 권한이 있는 사용자만 글을 작성할 수 있음.
-  def self.creatable_by?(user)
-    user.has_role?(:author) || user.has_role?(:admin)
-  end
-
-end
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 8절 : authority 젬"
+$ git tag "제02장8절"
 {%endace%}
 
-`Comment` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/comment_authorizer.rb` 파일을 생성하고 아래와 같이 작성한다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class CommentAuthorizer < ApplicationAuthorizer
-
-  # :user, :author, :admin 권한이 있는 사용자만 댓글을 작성할 수 있음.
-  def self.creatable_by?(user)
-    user.has_role?(:admin) || user.has_role?(:author) || user.has_role?(:user)
-  end
-
-end
-{%endace%}
-
-`Category` 리소스에 대한 권한 로직을 구현하기 위해서 `app/authorizers/category_authroizer.rb` 파일을 생성하고 아래와 같이 작성한다. `Category` 모델은 `admin` 권한이 있는 경우에만 객체를 생성/수정/삭제할 수 있도록 한다. 그러나 이미 디폴트 상태에서 `admin` 권한만이 모든 모델에 대한 권한을 가지기 때문에 별도로 권한을 지정할 필요는 없다. 따라서 `CategoryAuthroizer` 클래스는 작성하지 않아도 된다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class CategoryAuthorizer < ApplicationAuthorizer
-
-  # :admin 권한이 있는 사용자만 카테고리를 작성/수정/삭제할 수 있음.
-  # def self.default(adjective, user)
-  #  user.has_role?(:admin)
-  # end
-
-end
-{%endace%}
-
-이와 관련하여 `User` 모델에는 `Authority::UserAbilities` 모듈을 인클루드해야 하고, 나머지 권한설정을 적용하려는 모든 모델에는 `Authority::Abilities` 모듈을 인클루드해야 한다. 그리고 `rolify` 젬의 용도에 따라 `User` 모델에는 `rolify` 매크로를 지정해 주어야 하고 나머지 `Role`을 적용할 모든 모델에는 `resourcify` 매크로를 지정해 주어야 한다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class User < ActiveRecord::Base
-  rolify
-  include Authority::UserAbilities
-  ...
-end
-
-class Category < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
-  ...
-end
-
-class Post < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
-  ...
-end
-
-class Comment < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
-  ...
-end
-{%endace%}
-
-이제는 컨트롤러 내에서 권한체크를 하는 방법에 대해서 알아 보자.
-
-먼저, `posts` 컨트롤러의 액션들에 대해서 권한 설정을 구체적으로 해 보자.
-
-이미 `posts` 컨트롤러에 대해서 사용자 인증을 위해  `authenticate_user! except: [ :index, :show ]`와 같이 선언한 바 있다. 나머지 액션들, 즉, `:new`, `:create`, `:edit`, `:update`, `:destroy` 액션들은 반드시 인증이 된 상태(로그인 상태)에서만 접근할 수 있게 되는데, 위에서 가정한 권한로직에 따라 `:edit`, `:update`, `:destroy` 액션에 대해서는 본인이 작성한 글에 대해서만 권한을 가져야 하기 때문에, `Authoriy` 젬에서 컨트롤러에 대해서 제공하는 `authorize_action_for` 메소드를 아래와 같이 이들 액션에 대해서 추가한다. 그리고 `:new`와 `:create` 액션에 대해서는 `Post` 클래스에 대한 권한 체크를 해야 하므로 `posts` 컨트롤러 클래스에 선언해 준다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class PostsController < ApplicationController
-  ...
-  authorize_actions_for Post, only: [ :new, :create ]
-
-  def edit
-    authorize_action_for @post
-  end
-
-  def update
-    authorize_action_for @post
-    ...
-  end
-
-  def destroy
-    authorize_action_for @post
-    ...
-  end
-  ...
-
-end
-{%endace%}
-
-따라서 현재 로그인한 사용자가 이들 액션에 접근할 때 `authorize_action_for @post`는 `PostAuthorizer` 클래스에서 해당 액션과 연결되는 권한체크 메소드를 호출하게 되는 것이다. 이와 같이 액션과 연결되는 권한체크 메소들의 매핑 정보는 `config/initializers/authority.rb` 파일에 디폴트로 정의되어 있다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-# Defaults are as follows:
-#
-# config.controller_action_map = {
-#   :index   => 'read',
-#   :show    => 'read',
-#   :new     => 'create',
-#   :create  => 'create',
-#   :edit    => 'update',
-#   :update  => 'update',
-#   :destroy => 'delete'
-# }
-{%endace%}
-
-이와 같은 `controller_action_map`의 정의에 따라 `current_user`는 `can_read?`, `can_create?`, `can_update?`, `can_delete?`와 같은 동사형 권한체크 메소드를 사용할 수 있게 된다
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-# ABILITIES
-# =========
-# Teach Authority how to understand the verbs and adjectives in your system. Perhaps you
-# need {:microwave => 'microwavable'}. I'm not saying you do, of course. Stop looking at
-# me like that.
-#
-# Defaults are as follows:
-#
-# config.abilities =  {
-#   :create => 'creatable',
-#   :read   => 'readable',
-#   :update => 'updatable',
-#   :delete => 'deletable'
-# }
-{%endace%}
-
-또한 `abilities`의 정의에 따라 동사와 형용사형의 메소드를 연결시키도록 해 준다.
-
-뷰 템블릿에서 이러한 동사형 또는 형용사형의 권한체크 메소드를 `if` 조건절에서 사용하면 `boolean` 값을 반환한다. 그러나 컨트롤러에서 `authorize_action_for` 메소드를 사용할 때 권한이 없는 경우 `403, Security Error` 예외를 발생키시고 `publinc/403.html` 웹페이지를 보여주게 된다. 그러나 이러한 접근에러 페이지 대신에 `flash` 메시지로 보여주면 한결 전체적인 흐름이 부드러워 질 수 있다. 이를 위해서 `application_controller.rb` 파일에 아래와 같이 추가한다.
-
-{%ace edit=false, lang='ruby', theme='monokai'%}
-class ApplcationController < ActionController::Base
-  ...
-
-  def authority_forbidden(error)
-    Authority.logger.warn(error.message)
-    redirect_to request.referrer.presence || root_path, :alert => 'You are not authorized to complete that action.'
-  end
-
-  ...
-
-end
-{%endace%}
-
-아직 보안위반에 대한 `flash` 메시지를 제대로 볼 수 없다. 나중에 `flash` 메시지를 보이기 위한 헬퍼 메소드를 작성할 때 함께 다루도록 하겠다.
 
 ---
 

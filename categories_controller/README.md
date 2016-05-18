@@ -1,8 +1,8 @@
-# categories 컨트롤러의 뷰 템블릿 파일
+# categories 컨트롤러 뷰 템블릿 파일
 
 블로그의 글들은 적절하게 분류해서 방문자들이 보다 편리하게 모아 볼 수 있도록 해야 한다.
 
-현재, 글을 작성할 때 카테고리를 선택할 수 있도록 구현해 놓은 상태이기 때문에, 카테고리에서 사용할 데이터를 관리하는 부분을 구현해야 한다. 이 작업은 `:admin` 과 `:author` 권한을 가진 사용자만 할 수 있도록 하자. 글을 작성할 때 적절할 카테고리가 없을 경우 새로운 카테고리를 추가할 수 있어야 한다.
+현재, 글을 작성할 때 카테고리를 선택할 수 있도록 구현해 놓은 상태이기 때문에, 카테고리에서 사용할 데이터를 관리하는 기능을 구현해야 한다. 이 기능은 `:admin` 과 `:author` 권한을 가진 유저만 사용할 수 있도록 하자. 글을 작성할 때 적절할 카테고리가 없을 경우 새로운 카테고리를 추가할 수 있어야 한다.
 
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-19_15-00-03_zpsd34d10c8.png)
@@ -164,12 +164,9 @@ irb(main):004:0> admin_user.roles.map(&:name)
 
 {%ace edit=false, lang='ruby', theme='monokai'%}
 ...
-scope :uncategorized_posts, -> {
-published_posts.where(category_id: nil) }
+scope :uncategorized_posts, -> { published_posts.where(category_id: nil) }
 ...
 {%endace%}
-
-이제 `admin@email.com`으로 로그인한 후 위에서 작업한 내용이 제대로 반영되었는지 확인한다.
 
 각 카테고리에는 해당 카테고리의 `posts`들을 보여주기 위한 링크가 연결되어 있다. 이를 위한 중첩된 리소스 라우팅을 위해서는 `config/routes.rb` 파일을 열고 아래와 같이 변경한다.
 
@@ -191,6 +188,8 @@ Rails.application.routes.draw do
 
 end
 {%endace%}
+
+이제 `admin@email.com`으로 로그인한 후 위에서 작업한 내용이 제대로 반영되었는지 확인한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-19_16-25-11_zps173ca076.png)
 
@@ -345,6 +344,15 @@ end
 {%endace%}
 
 이상으로 카테고리 부부에 대한 설명을 마치도록 하겠다. 다음은 각 `post` 별로 `tag`를 달 수 있도록 해 보자.
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제07장 : categories 컨트롤러 뷰 템블릿 파일"
+$ git tag "제07장"
+{%endace%}
+
 
 ---
 

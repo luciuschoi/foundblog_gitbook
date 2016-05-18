@@ -6,7 +6,13 @@
 
 `devise` 젬은 사용자의 인증 서비스를 쉽게 구현할 수 있도록 도와준다.
 
-우선 아래와 같이 `devise` 젬을 인스톨한다.
+처음부터 작업을 따라 해온 경우라면 이미 `Gemfile` 파일에 아래와 같이 젬을 추가한 후 번들 인스톨한 상태다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+gem 'devise'
+{%endace%}
+
+우선 아래와 같이 `devise` 젬을 셋업한다.
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rails g devise:install
@@ -209,7 +215,7 @@ Running via Spring preloader in process 94740
 
 > #### Caution::주의
 >
-> `sqlite`를 사용할 경우에는 이 과정이 필요 없다. 로컬 데이터베이스이기 때문에 별도의 데이터베이스 생성 과정이 필요없는 것이다. 
+> `sqlite`를 사용할 경우에는 이 과정이 필요 없다. 로컬 데이터베이스이기 때문에 별도의 데이터베이스 생성 과정이 필요없다.
 
 그리고 `db:migrate` 작업을 실행한다.
 
@@ -234,6 +240,15 @@ Running via Spring preloader in process 94767
 * `current_user`
 * `user_signed_in?`
 * `user_session`
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 5절 : devise 젬"
+$ git tag "제02장5절"
+{%endace%}
+
 
 ---
 

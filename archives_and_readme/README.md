@@ -75,6 +75,8 @@ table#archives {
 }
 {%endace%}
 
+브라우저에서 `http://localhost:3000/posts/archive` 로 접속해서 지금까지 작업한 내용을 확인한다.
+
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-26_19-12-40_zpsfa97002a.png)
 
 자, 이제 상단 메뉴에 있는 `Readme` 항목의 뷰 파일을 만들기 위해서 `welcome` 컨트롤러와 `readme` 액션을 생성한다.
@@ -118,6 +120,8 @@ $ bin/rails g controller welcome readme
 </div>
 {%endace%}
 
+위에서 사용한 이미지 파일: [foundation_blog_emblem.png](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/foundation_blog_emblem_zpsfo2qab0n.png)
+
 물론 이 뷰 파일의 내용은 각자 원하는 내용으로 변경할 수 있다.
 
 이제 관련 `CSS`를 추가하기 위해 `app/assets/stylesheets/welcome.scss` 파일을 열고 아래와 같이 추가한다.
@@ -154,6 +158,8 @@ get 'welcome/readme', as: :readme
 ...
 {%endace%}
 
+브라우저에서 `http://localhost:3000/welcome/readme` 접속해서 작업한 내용을 확인한다.
+
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-26_19-16-58_zps96d40a36.png)
 
 
@@ -173,6 +179,14 @@ get 'welcome/readme', as: :readme
       <li><%= link_to "Readme", readme_path %></li>
     </ul>
 ...    
+{%endace%}
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제11장 : Archives와 Readme 작성"
+$ git tag "제11장"
 {%endace%}
 
 

@@ -497,6 +497,14 @@ $ heroku logs --tail
 {%endace%}
 
 
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제12장 : 허로쿠에 배포하기"
+$ git tag "제12장"
+{%endace%}
+
 ---
 
 > **소스보기** https://github.com/luciuschoi/foundblog_app/tree/제12장

@@ -6,7 +6,7 @@
 # Added for this project
 gem 'jquery-turbolinks'
 gem 'foundation-rails'
-gem 'foundation-icon-fonts-3'
+gem 'foundation-icons-sass-rails'
 gem 'simple_form'
 gem 'devise'
 gem 'rolify'
@@ -23,6 +23,14 @@ $ bin/bundle install
 `bin/bundle` 명령을 사용하면 `spring` 서버에서 관리하는 `bundle` 명령을 사용하게 되고, 그냥 `bundle` 명령을 사용하면 `spring`과 무관하게 실행된다. 따라서 `bin/bundle` 명령을 사용하여 실행속도가 빨라진 것을 체감하기 바란다.
 
 이제 추가된 젬을 하나씩 설치해 보자.
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 : 젬파일의 구성"
+$ git tag "제02장"
+{%endace%}
 
 ---
 

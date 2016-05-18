@@ -67,9 +67,9 @@
           <hr>
           <center>
             <% if user_signed_in? %>
-              <%= link_to 'New Post', new_post_path, class: 'button small radius' %>
+              <%= link_to 'New Post', new_post_path, class: 'button small' %>
             <% else %>
-              <%= link_to 'Sign in', new_user_session_path, class: 'button small radius' %>
+              <%= link_to 'Sign in', new_user_session_path, class: 'button small' %>
             <% end %>
           </center>
         </div>
@@ -94,7 +94,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+  <title><%= content_for?(:title) ? yield(:title) : "FoundBlog v2.0" %></title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= favicon_link_tag 'favicon.ico' %>
@@ -102,12 +102,12 @@
 </head>
 <body>
 
-  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+  <div class="title-bar" data-responsive-toggle="foundblog-menu" data-hide-for="medium">
     <button class="menu-icon" type="button" data-toggle></button>
     <div class="title-bar-title">Menu</div>
   </div>
 
-  <div class="top-bar" id="example-menu">
+  <div class="top-bar" id="foundblog-menu">
     <div class="top-bar-left">
       <ul class="menu">
         <li class="menu-text">Found<i>Blog</i>
@@ -195,7 +195,7 @@ module ApplicationHelper
 end
 {%endace%}
 
-그리고 `app/views/shared/` 디렉토리에 파셜 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다. 이 때 `Foundation`의 커스텀 data 속성(data-alert)과 클래스(alert-box radius...)를 사용한다.
+그리고 `app/views/shared/` 디렉토리에 파셜 템플릿 파일  `_flash_messages.html.erb` 파일을 생성하고 위에서 정의한 `bootstrap_class_for` 헬퍼 메소드를 이용하여 아래와 같이 작성한다.
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
 <% flash.each do |type, message| %>
@@ -236,6 +236,15 @@ end
 지금까지 작업한 내용에 대해서 브라우저에서 확인해 보자. 제대로 보이지 않을 경우 로컬 웹서버를 재시작할 필요가 있다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_12-36-48_zpsdb44e975.png)
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제04장 : 다이나믹 레이아웃의 작성"
+$ git tag "제04장"
+{%endace%}
+
 
 
 ---

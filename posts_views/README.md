@@ -93,9 +93,9 @@ end
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-10_11-42-38_zpsd335caee.png)
 
-이제 글을 작성해 보자. 우선 사용자 가입 후 로그인한 상태에서 홈페이지의 오른쪽에 있는 `New Post` 버튼을 클릭한다.
+이제 글을 작성해 보자.
 
-약간의 변경작업을 하면 아래와 같이 보일 것이다.
+우선 사용자 가입 후 로그인한 상태에서 홈페이지의 오른쪽에 있는 `New Post` 버튼을 클릭하여 글을 작성할 것이다.
 
 우선 `custom.scss` 파일을 열어 아래와 같이 `#blog_banner`와 `#footer`의 `margin` 값을 변경한다.
 
@@ -264,16 +264,12 @@ end
 {%ace edit=false, lang='ruby', theme='monokai'%}
 def published_icon(boolean)
   if boolean
-    "<i class='fi-check'></i> 작성완료".html_safe
+    content_tag( :i, ' ', class: 'fi-check') + '작성완료'
   else
-    "<i class='fi-pencil'></i> 작성중...".html_safe
+    content_tag( :i, ' ', class: 'fi-pencil') + '작성중...'
   end
 end
 {%endace%}
-
-> ####Note::노트
->
-> `published_icon` 헬퍼에서 대해서 [foundation-icon-fonts-3](../setup_gemfile/foundation-icon-fonts-3.md)에서 이미 설명하였다.
 
 그리고 `posts.scss` 파일에는 `.post` 클래스는 정의를 아래와 같이 변경한다.
 
@@ -489,9 +485,9 @@ end
 >
 > 물론, 위에서 보는 바와 같이 `i18n`을 디폴트값인 `:en` 대신에 한국어(`:ko`)로 사용하고자 할 경우는, `config.i18n.default_locale = :ko`와 같이 지정하면 된다. 그러나 현재 상태에서 변경하면 로케일 에러가 발생할 것이다.
 
-![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-13_18-19-44_zpsfdb36985.png)
 
-이제 `+0900`과 같이 제대로 표시됨을 확인할 수 있다.
+브라우저 상의 `4번`으로 표시된 `My Posts` 링크를 클릭하면 에러가 발생할 것이다.
+
 
 `2`번의 표시 상태는 이미 헬퍼메소드로 정의해 놓은 `published_icon()`을 사용하였다.
 
@@ -512,10 +508,16 @@ end
 아래에서 사용한 `title` 속성은 해당 액션에 마우스 오버하면 보이는 문자를 지정한 것이다.
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
-<span class='secondary radius label' title='show'>
-  <%= link_to icon_button('eye'), post %>
-</span>
+<td class='text-center'>
+  <span class='action success badge' title='show'><%= link_to icon_button('eye'), post %></span>
+  <span class='action secondary badge' title='edit'><%= link_to icon_button('pencil'), edit_post_path(post) %></span>
+  <span class='action alert badge' title='destroy'><%= link_to icon_button('trash'), post, method: :delete, data: { confirm: "Are you sure?" } %></span>
+</td>
 {%endace%}
+
+![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-13_18-19-44_zpsfdb36985.png)
+
+이제 `1번`과 같이 `+0900`과 같이 제대로 표시됨을 확인할 수 있다.
 
 `4`번 `My Posts:` 부분은 로그인할 경우만 보이도록 하고, `URI`로 접근할 경우에도 권한을 차단해야 한다. 이를 위해서 아래와 같이 `ERB` 코드로 조건을 걸었고, 이미 `posts` 컨트롤러 클래스에는 `before_action :authenticate_user!, except: [ :index, :show ]`로 선언되어 있기 때문에 새로 추가한 `list_my`라는 어색한 이름의 액션은 자동으로 인증체크에서 걸러지게 된다.
 
@@ -556,6 +558,14 @@ end
 {%endace%}
 
 한가지 `My Posts` 뷰 페이지에서 상단에 체크박스를 하나(작성 중...) 두고 체크시 작성 중인 `post`만 표시할 수 있도록 하면 금상첨화일 것이다. 이것은 독자들에게 숙제로 남겨 둔다.
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제06장 : posts 컨트롤러의 뷰 템블릿 파일"
+$ git tag "제06장"
+{%endace%}
 
 ---
 

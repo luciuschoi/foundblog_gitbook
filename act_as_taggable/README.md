@@ -12,7 +12,7 @@
 gem 'acts-as-taggable-on'
 {%endace%}
 
-번들 인스톨한다. 
+번들 인스톨한다.
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/bundle install
@@ -22,52 +22,55 @@ $ bin/bundle install
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ rake acts_as_taggable_on_engine:install:migrations
-Copied migration 20140619084755_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
-Copied migration 20140619084756_add_missing_unique_indices.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
-Copied migration 20140619084757_add_taggings_counter_cache_to_tags.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
+Running via Spring preloader in process 84997
+Copied migration 20160518091756_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
+Copied migration 20160518091757_add_missing_unique_indices.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
+Copied migration 20160518091758_add_taggings_counter_cache_to_tags.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
+Copied migration 20160518091759_add_missing_taggable_index.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
+Copied migration 20160518091760_change_collation_for_tag_names.acts_as_taggable_on_engine.rb from acts_as_taggable_on_engine
 {%endace%}
 
 3개의 마이그레이션 파일이 생성되었다. 이제 마이그레이션 작업을 아래와 같이 한다.
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ bin/rake db:migrate
-Running via Spring preloader in process 49230
-== 20160517073753 ActsAsTaggableOnMigration: migrating ========================
+Running via Spring preloader in process 85039
+== 20160518091756 ActsAsTaggableOnMigration: migrating ========================
 -- create_table(:tags)
-   -> 0.0463s
+   -> 0.0274s
 -- create_table(:taggings)
-   -> 0.0080s
+   -> 0.0084s
 -- add_index(:taggings, :tag_id)
-   -> 0.0179s
+   -> 0.0109s
 -- add_index(:taggings, [:taggable_id, :taggable_type, :context])
-   -> 0.0156s
-== 20160517073753 ActsAsTaggableOnMigration: migrated (0.0882s) ===============
+   -> 0.0382s
+== 20160518091756 ActsAsTaggableOnMigration: migrated (0.0852s) ===============
 
-== 20160517073754 AddMissingUniqueIndices: migrating ==========================
+== 20160518091757 AddMissingUniqueIndices: migrating ==========================
 -- add_index(:tags, :name, {:unique=>true})
-   -> 0.0243s
+   -> 0.0191s
 -- remove_index(:taggings, :tag_id)
-   -> 0.0071s
+   -> 0.0078s
 -- remove_index(:taggings, [:taggable_id, :taggable_type, :context])
-   -> 0.0063s
+   -> 0.0067s
 -- add_index(:taggings, [:tag_id, :taggable_id, :taggable_type, :context, :tagger_id, :tagger_type], {:unique=>true, :name=>"taggings_idx"})
-   -> 0.0107s
-== 20160517073754 AddMissingUniqueIndices: migrated (0.0487s) =================
+   -> 0.0111s
+== 20160518091757 AddMissingUniqueIndices: migrated (0.0451s) =================
 
-== 20160517073755 AddTaggingsCounterCacheToTags: migrating ====================
+== 20160518091758 AddTaggingsCounterCacheToTags: migrating ====================
 -- add_column(:tags, :taggings_count, :integer, {:default=>0})
-   -> 0.0192s
-== 20160517073755 AddTaggingsCounterCacheToTags: migrated (0.0430s) ===========
+   -> 0.0177s
+== 20160518091758 AddTaggingsCounterCacheToTags: migrated (0.0408s) ===========
 
-== 20160517073756 AddMissingTaggableIndex: migrating ==========================
+== 20160518091759 AddMissingTaggableIndex: migrating ==========================
 -- add_index(:taggings, [:taggable_id, :taggable_type, :context])
-   -> 0.0141s
-== 20160517073756 AddMissingTaggableIndex: migrated (0.0142s) =================
+   -> 0.0113s
+== 20160518091759 AddMissingTaggableIndex: migrated (0.0114s) =================
 
-== 20160517073757 ChangeCollationForTagNames: migrating =======================
+== 20160518091760 ChangeCollationForTagNames: migrating =======================
 -- execute("ALTER TABLE tags MODIFY name varchar(255) CHARACTER SET utf8 COLLATE utf8_bin;")
-   -> 0.0395s
-== 20160517073757 ChangeCollationForTagNames: migrated (0.0404s) ==============
+   -> 0.0353s
+== 20160518091760 ChangeCollationForTagNames: migrated (0.0359s) ==============
 {%endace%}
 
 두개의 테이블이 생성된 이후 인덱스 파일들이 추가 삭제되고 `:taggings_count` 속성이 추가되었다.
@@ -178,13 +181,29 @@ end
 ...
 {%endace%}
 
-이제 태그를 입력하고 저장한 후 작업한 내용이 제대로 반영되었는지 확인한다.
+그리고 위에서 사용한 `post_category()` 헬퍼 메소드를 정의한다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+Module PostsHelper
+
+  def post_category(post)
+    post.try(:category).try(:name) || "Uncategorized"
+    # 또는 post&.category&.name || "Uncategorized" (루비 2.3.0+)
+  end  
+
+end
+{%endace%}
+
+> ####Note::노트
+>
+> (&.) 연산자에 대해서는 [The Safe Navigation Operator (&.) in Ruby](http://mitrev.net/ruby/2015/11/13/the-operator-in-ruby/)를 참고한다.
+
 
 이제, 각 태그를 클릭하면 아래와 같이 해당 태그가 상단에 표시되는데, `app/views/posts/index.html.erb` 파일을 열고 아래와 같이 추가한다
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
 <% if params[:tag] %>
-  <%= icon('pricetag-multiple') %> <span class='alert round label'><strong><%= params[:tag] %></strong></span> <small>( <%= @posts.size %> )</small>
+  <%= icon('pricetag-multiple') %> <span class='alert label'><strong><%= params[:tag] %></strong></span> <small>( <%= @posts.size %> )</small>
 <% end %>
 ...
 {%endace%}
@@ -220,22 +239,34 @@ end
 <%= link_to 'Back', posts_path, class: 'button small' %>
 {%endace%}
 
-그리고 위에서 사용한 `post_category()` 헬퍼 메소드를 정의한다.
+이제 태그를 입력하고 저장한 후 작업한 내용이 제대로 반영되었는지 확인한다.
+
+이상에서 여러개의 태그를 콤마로 구분하여 입력한 후 저장할 때 정상적으로 동작해야 한다. 그러나 콤마로 구분된 태그 리스트를 수정할 때는 여러개의 태그들이 콤마 문자 대신에 공백문자로 구분되어 필드 값으로 넘어 오게 된다.
+
+이 문제를 해결하기 위해서,
+
+우선, `Post` 모델 클래스 파일을 열고 아래의 가상 속성을 정의한다.
 
 {%ace edit=false, lang='ruby', theme='monokai'%}
-Module PostsHelper
-
-  def post_category(post)
-    post.try(:category).try(:name) || "Uncategorized"
-    # 또는 post&.category&.name || "Uncategorized" (루비 2.3.0+)
-  end  
-
+...
+def tag_list
+  self.tags.map(&:name).join(', ')
 end
+...
 {%endace%}
 
-> ####Note::노트
->
-> (&.) 연산자에 대해서는 [The Safe Navigation Operator (&.) in Ruby](http://mitrev.net/ruby/2015/11/13/the-operator-in-ruby/)를 참고한다.
+`application_helper.rb` 파일을 열고 `icon_tags()` 헬퍼를 아래와 같이 수정한다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+def icon_tags(tags_array)
+  label_tags = ""
+  tags_array = tags_array.split(',') if tags_array.is_a? String
+  tags_array.each do |tag|
+    label_tags += "<a href='/posts?tag=#{CGI::escape(tag)}'><span class='label'>#{tag}</span></a> "
+  end
+  icon('pricetag-multiple') + ' ' + label_tags.html_safe unless tags_array.blank?
+end
+{%endace%}
 
 `app/controllers/posts_controller.rb` 파일을 열고,`posts#index` 액션에서 파라미터로 `:tag` 항목이 넘어올 경우 해당 태그로 검색을 하도록 하는 코드를 아래와 같이 추가해 준다.
 
@@ -254,8 +285,6 @@ def index
   @category_name = params[:category_id] == '0' ? "Uncategorized" : (@category ? @category.name : "")
 end
 {%endace%}
-
-
 
 그리고 아래와 같이 `Tag Cloud` 만을 표시할 액션을 추가하면 필요시 이 액션에 대한 뷰 템플릿 파일을 생성하면 바로 사용할 수 있다. 이것은 전체 레이아웃에서 사용할 것이기 때문에 `tag_cloud` 액션을 `app/controllers/application_controller.rb` 파일 하단에 추가하고, 상단에 `before_action` 필터로 등록한다.
 
@@ -322,9 +351,6 @@ end
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-20_08-56-48_zps3c8fa344.png)
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
-<% @tags = Post.tag_counts_on(:tags) if @tags.blank? %>
-...
-
 <p>Tag Cloud :</p>
 <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
   <%= link_to tag.name, posts_path(tag: tag.name), :class => css_class %>
@@ -355,6 +381,15 @@ end
 
 http://railscasts.com/episodes/258-token-fields
 http://railscasts.com/episodes/258-token-fields-revised
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제08장 : Post에 Tag 붙이기"
+$ git tag "제08장"
+{%endace%}
+
 
 ---
 

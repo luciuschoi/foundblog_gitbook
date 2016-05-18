@@ -98,6 +98,7 @@ a.close {
 
 {%ace edit=false, lang='scss', theme='monokai'%}
 @import 'foundation_and_overrides';
+@import 'foundation-icons';
 @import 'custom';
 @import 'posts';
 
@@ -116,6 +117,14 @@ a.close {
 이제 이전보다 훨씬 깔끔하게 보일 것이다. 화면의 크기변화에 따라 페이지 레이아웃이 변화는 것을 확인한다.
 
 ![](http://i1373.photobucket.com/albums/ag392/rorlab/Photobucket%20Desktop%20-%20RORLAB/FoundBlog/2014-06-12_12-42-31_zps8ba9ec66.png)
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제05장 : 스타일시트 작성"
+$ git tag "제05장"
+{%endace%}
 
 ---
 

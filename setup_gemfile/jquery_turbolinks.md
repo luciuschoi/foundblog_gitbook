@@ -11,19 +11,13 @@
 > `jquery.turblinks` 젬을 사용하는 것 외에도 여러가지 해결책이 있지만, 특히, [Brandon Hilkert의 글](http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/)이 도움이 되었다.
 
 
-`Gemfile` 파일에 아래와 같이 젬을 추가하고,
+처음부터 작업을 따라 해온 경우라면 이미 `Gemfile` 파일에 아래와 같이 젬을 추가한 후 번들 인스톨한 상태다.
 
 {%ace edit=false, lang='ruby', theme='monokai'%}
 gem 'jquery-turbolinks'
 {%endace%}
 
-그리고 아래와 같이 번들 인스톨한 후, 애플리케이션을 다시 실행한다.
-
-{%ace edit=false, lang='sh', theme='monokai'%}
-$ bin/bundle install
-{%endace%}
-
-`juqery.turbolinks`는 `application.js` 파일에서 추가하는 위치가 중요한다. 즉, 상단의 `//= require jquery` 바로 아래에 추가해 주어야 하고, `//= require turbolinks`는 제일 아래로 위치시키야 한다. 그리고 기타 다른 자바스크립트들은 그 사이에 두어야 한다.
+`juqery.turbolinks`는 `application.js` 파일에서 추가하는 위치가 중요한다. 즉, 상단의 `//= require jquery` 바로 아래에 추가해 주어야 하고, `//= require turbolinks`는 제일 아래로 위치시키야 한다. 그리고 기타 다른 자바스크립트들은 그 사이에 둔다.
 
 {%ace edit=false, lang='javascript', theme='monokai'%}
 //= require jquery
@@ -44,15 +38,20 @@ $ bin/bundle install
 //= require foundation
 //= require_tree .
 //= require turbolinks
-
-$(function(){ $(document).foundation(); });
 {%endace%}
-
-이제 제대로 동작해야 한다.
 
 > #### Caution::주의
 >
 > 자바스크립트 파일간의 의존성이 문제가 될 때는 `require_tree .` 지시어는 삭제하고 의존성 순서대로 자바스크립트 파일을 일일이 추가해 주어야 한다.
+
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 1절 : Turbolinks 젬의 보완"
+$ git tag "제02장1절"
+{%endace%}
 
 ---
 

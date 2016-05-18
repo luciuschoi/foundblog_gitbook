@@ -75,7 +75,7 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "FoundblogApp" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "FoundBlog v2.0" %></title>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
@@ -109,6 +109,15 @@ Overwrite /Users/hyo/prj/r5/foundblog_app/app/views/layouts/application.html.erb
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
 @import 'foundation_and_overrides';
+@import 'posts';
+{%endace%}
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제02장 2절 : foundation-rails 젬"
+$ git tag "제02장2절"
 {%endace%}
 
 ---

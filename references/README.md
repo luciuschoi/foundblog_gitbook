@@ -21,7 +21,6 @@
 19. [Railscasts : Search with Sunspot](http://railscasts.com/episodes/278-search-with-sunspot)
 20. [Railscasts : Elasticsearch Part 1](http://railscasts.com/episodes/306-elasticsearch-part-1?language=ko&view=asciicast)
 21. [Railscasts : Elasticsearch Part 2](http://railscasts.com/episodes/307-elasticsearch-part-2?language=ko&view=asciicast)
-22. [AttrSearchable : Search-engine like fulltext query support for ActiveRecord](https://github.com/mrkamel/attr_searchable)
+22. [SearchCop : Search-engine like fulltext query support for ActiveRecord](https://github.com/mrkamel/search_cop)
 23. [sunspot 한글 색인 가능하게 하기](https://github.com/sunhohong/planet/wiki/Sunspot-%EC%84%B8%ED%8C%85)
 24. [Sunspot과 Lucene을 이용한 풀 텍스트 검색엔진 구축하기](http://thinkreals.wordpress.com/2011/10/10/lucene%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%83%88%EB%A1%9C%EC%9A%B4-%EA%B2%80%EC%83%89%EB%B0%A9%EB%B2%95/)
-

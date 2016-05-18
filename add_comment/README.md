@@ -37,6 +37,14 @@ class Comment < ActiveRecord::Base
 end
 {%endace%}
 
+`Post` 모델에는 `Comment` 모델에 대해서 `has_many` 메소드를 이용하여 관계선언한다.
+
+{%ace edit=false, lang='ruby', theme='monokai'%}
+...
+  has_many :comments, dependent: :destroy
+...  
+{%endace%}
+
 이제 `app/controllers/comments_controller.rb` 파일을 열고 `create`와 `destroy` 액션을 작성한다.
 
 {%ace edit=false, lang='ruby', theme='monokai'%}
@@ -94,13 +102,7 @@ end
 ...
 {%endace%}
 
-`app/views/posts/show.html.erb` 파일을 열고 하단에 아래와 같이 댓글 표시할 부분으로 파셜 뷰 템플릿을 렌더링하도록 작성한다.
-
-{%ace edit=false, lang='rhtml', theme='monokai'%}
-<%= render partial: 'comments/comments', locals: { post: @post } %>
-{%endace%}
-
-이제 `app/views/comments/_comments.html.erb` 파일을 생성하고 아래와 같이 작성한다.
+이제 `app/views/comments` 디렉토리를 생성하고 `_comments.html.erb` 파일을 아래와 같이 작성한다.
 
 {%ace edit=false, lang='rhtml', theme='monokai'%}
 <% comment = post.comments.new %>
@@ -149,6 +151,12 @@ end
 {%endace%}
 
 여기서 주목할 것은 `simple_form_for` 헬퍼 메소드 옵션으로 `remote: true`를 지정했다는 것이다. 이로써 `HTTP POST` 메소드를 이용하여 `/posts/:post_id/comments` URI를 `ajax`로 요청하게 되고 서버에서는 `comments#create` 액션이 호출된 후 결과로써 `create.js.erb`가 렌더링된 후 사용자의 브라우저로 보내지게 된다.
+
+`app/views/posts/show.html.erb` 파일을 열고 하단에 아래와 같이 댓글 표시할 부분으로 파셜 뷰 템플릿을 렌더링하도록 작성한다.
+
+{%ace edit=false, lang='rhtml', theme='monokai'%}
+<%= render partial: 'comments/comments', locals: { post: @post } %>
+{%endace%}
 
 이상의 것을 정리하면, 댓글 생성할 때 `create` 액션 결과로  `app/views/comments/create.js.erb` 파일이 렌더링되어 클라이언트로 응답하고,
 
@@ -237,8 +245,8 @@ ul.comments {
 <hr>
 
 <div style='text-align:right;'>
-  <%= link_to 'Edit', edit_post_path(@post), class: 'button tiny radius' %>
-  <%= link_to 'Back', posts_path, class: 'button tiny radius' %>
+  <%= link_to 'Edit', edit_post_path(@post), class: 'button tiny' %>
+  <%= link_to 'Back', posts_path, class: 'button tiny' %>
 </div>
 
 <%= render partial: 'comments/comments', locals: { post: @post } %>
@@ -247,6 +255,14 @@ ul.comments {
 이상의 작업 내용을 요약하면, `posts#index` 액션으로 뷰 페이지를 볼 때는 댓글의 갯수만 보이도록 하고 `posts#show` 액션으로 댓글을 하나씩 볼 때는 댓글의 상세한 내용을 볼 수 있게 한다.
 
 자 이제, 다음 장에서 검색 기능을 추가해 보자.
+
+지금까지 작업한 내용을 로컬 저장소로 커밋한다.
+
+{%ace edit=false, lang='sh', theme='monokai'%}
+$ git add .
+$ git commit -m "제09장 : Post에 Comment 붙이기"
+$ git tag "제09장"
+{%endace%}
 
 ---
 
