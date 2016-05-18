@@ -12,7 +12,7 @@
 
 ## 샘플 프로젝트 'FoundBlog'의 생성
 
-이 책에서 설명과 함께 작성할 레일스 프로젝트의 이름은 [`Foundation 5`](http://foundation.zurb.com)를 사용하여 간단한 블로그를 작성할 것이기 때문에 `'FoundBlog'`라고 명명하기로 한다.
+이 책에서 설명과 함께 작성할 레일스 프로젝트의 이름은 [`Foundation 6`](http://foundation.zurb.com)를 사용하여 간단한 블로그를 작성할 것이기 때문에 `'FoundBlog'`라고 명명하기로 한다.
 
 이제 아래와 같이 레일스 프로젝트를 생성하고 프로젝트 디렉토리로 이동한다.
 
