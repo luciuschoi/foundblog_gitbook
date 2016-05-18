@@ -51,7 +51,8 @@ gem 'rails_12factor', group: :production
 
 {%ace edit=false, lang='sh', theme='monokai'%}
 $ git remote add origin https://github.com/[github-account]/foundblog_app.git
-$ git push -u origin master
+$ git push -u origin master    # -u : 업스트림을 지정할 때. 이후부터는 git push!!!
+$ git push --tags   # 태그까지 원격저장소로 푸시할 때
 {%endace%}
 
 이제 [허로쿠 툴벨트](https://toolbelt.heroku.com)를 설치하고, 허로쿠 `login`한 후 애플리케이션을 생성한다.
